@@ -1,8 +1,8 @@
 
 //////////////////////////////////////////////////////////
 // Directional dipole by T. Hachisuka and J. R. Frisvad //
-// Usage: ./dirpole 100000 && xv image.ppm				//
-//              	^^^^^^: number of spp				//
+// Usage: ./dirpole 100000 && xv image.ppm		//
+//              	^^^^^^: number of spp		//
 //////////////////////////////////////////////////////////
 
 
@@ -69,9 +69,9 @@ namespace aux
 
 // Computation type
 typedef float Double;	// naively switch between float/double (do it in ISPC too)
-						// ie. put 'double' here where you see 'float' ...........
-						// change vector class alignment and eventually ..........
-						// change also float3 to double3 for ISPC calling fnc ....
+			// ie. put 'double' here where you see 'float' ...........
+			// change vector class alignment and eventually ..........
+			// change also float3 to double3 for ISPC calling fnc ....
 
 // Compact vector class
 #ifdef _MSC_VER
@@ -544,10 +544,10 @@ int main(int argc, char *argv[])
 	aux::Timer timer(true);
 
 	ispc::raytrace_ispc_tasks(w, h,
-							  reinterpret_cast<const ispc::constants&>(Constants), reinterpret_cast<const ispc::Ray&>(cam), 
-							  reinterpret_cast<const ispc::float3&>(cx), reinterpret_cast<const ispc::float3&>(cy), 
-							  samps, 
-							  reinterpret_cast<ispc::float3*>(stored_pixels));
+				  reinterpret_cast<const ispc::constants&>(Constants), reinterpret_cast<const ispc::Ray&>(cam), 
+				  reinterpret_cast<const ispc::float3&>(cx), reinterpret_cast<const ispc::float3&>(cy), 
+				  samps, 
+				  reinterpret_cast<ispc::float3*>(stored_pixels));
 
 	auto elapsed = timer.Elapsed(); //end time recording
 	std::cout <<  "\ntook: " << std::fixed << elapsed.count() << "ms" << aux::Modifier(aux::FG_DEFAULT) << std::endl;
