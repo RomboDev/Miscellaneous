@@ -246,10 +246,10 @@ static void raytrace_tile(const uniform int x0, const uniform int x1,
 			  const uniform int samples,
 			  uniform Vec pixelbuffer[])
 {
-    foreach_tiled (y = y0 ... y1, x = x0 ... x1)
+	foreach_tiled (y = y0 ... y1, x = x0 ... x1)
 	{
 		const Vec d = cx * ((x + 0.5) / width - 0.5) + cy * (-(y + 0.5) / height + 0.5) + cam.d;
-        Ray ray;
+		Ray ray;
 		ray.o = cam.o+d*140;
 		ray.d = Normalized(d);
 
@@ -257,16 +257,16 @@ static void raytrace_tile(const uniform int x0, const uniform int x1,
 		#pragma ignore warning(perf)
 		pixelbuffer[offset] = trace(ray, offset, samples, Constants);
 		//          ^^^^^^ yep scatter-ed access
-    }
+	}
 }
 
 // task routine
-task void raytrace_tile_task(	const uniform int width, const uniform int height,
-				 const uniform constants &Constants,
-				 const uniform Ray &cam, 
-				 const uniform Vec &cx, const uniform Vec &cy,
-				 const uniform int samples,
-				 uniform Vec pixelbuffer[] )
+task void raytrace_tile_task(const uniform int width, const uniform int height,
+			     const uniform constants &Constants,
+			     const uniform Ray &cam, 
+			     const uniform Vec &cx, const uniform Vec &cy,
+			     const uniform int samples,
+			     uniform Vec pixelbuffer[])
 {
     const uniform int bucketSize = Constants.bucketSize;
     const uniform int xBuckets = (width + (bucketSize-1)) / bucketSize;
