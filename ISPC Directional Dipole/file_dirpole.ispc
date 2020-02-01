@@ -11,7 +11,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 typedef float Double;	// naively switch between float/double (do it also in the C++)
-			// ie. put 'double' where you see 'float' ....................
 
 // Halton sequence with reverse permutation
 const uniform int primes[20]={2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71};
