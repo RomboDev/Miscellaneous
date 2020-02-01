@@ -5,13 +5,13 @@
 // we'll get back a 'file_dirpole.ispc.h' to be used as header to call ISPC stuff from C++       //
 // and an object file to be used at linking time ... see _acompileANDarun.sh script              //
 // --------------------------------------------------------------------------------------------- //
-// Without specifing a target the ISA used will be the one on the compiling machine.			 //
-// Addressing instead if not specified as compilation entry will always be default 32bit		 //
+// Without specifing a target the ISA used will be the one on the compiling machine.	         //
+// Addressing instead if not specified as compilation entry will always be default 32bit         //
 // Eventually download ISPC Compiler Language Extension for Visual Studio Code                   //
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 typedef float Double;	// naively switch between float/double (do it also in the C++)
-						// ie. put 'double' where you see 'float' ....................
+			// ie. put 'double' where you see 'float' ....................
 
 // Halton sequence with reverse permutation
 const uniform int primes[20]={2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71};
@@ -116,9 +116,9 @@ struct constants
 // Directional dipole
 // --------------------------------
 static inline Double Sp_d(const Vec x, const Vec w,
-						  const Double r, const Vec n,
-						  const int j,
-						  const uniform constants &Constants)
+			  const Double r, const Vec n,
+			  const int j,
+			  const uniform constants &Constants)
 {
 	// evaluate the profile
 	const Double s_tr_r = Constants.sigma_tr[j] * r;
@@ -136,10 +136,10 @@ static inline Double Sp_d(const Vec x, const Vec w,
 // BSSRDF routine
 // yep .. 'inline' aggressively, it's good for ISPC !!
 static inline Double bssrdf(const Vec xi, const Vec ni, 
-							const Vec wi, const Vec xo, 
-							const Vec no, const Vec wo, 
-							const int j, 
-						  	const uniform constants &Constants) 
+			    const Vec wi, const Vec xo, 
+			    const Vec no, const Vec wo, 
+			    const int j, 
+			    const uniform constants &Constants) 
 {
 	// distance
 	const Vec xoxi = xo - xi;
@@ -241,13 +241,13 @@ static Vec trace(const Ray &r, const int index, const uniform int num_samps, con
 
 // /////////////////////////////////////////////////////////////////
 static void raytrace_tile(const uniform int x0, const uniform int x1,
-						  const uniform int y0, const uniform int y1,
-						  const uniform int width, const uniform int height,
-						  const uniform constants &Constants,
-						  const uniform Ray &cam, 
-						  const uniform Vec &cx, const uniform Vec &cy,
-						  const uniform int samples,
-						  uniform Vec pixelbuffer[])
+			  const uniform int y0, const uniform int y1,
+			  const uniform int width, const uniform int height,
+			  const uniform constants &Constants,
+			  const uniform Ray &cam, 
+			  const uniform Vec &cx, const uniform Vec &cy,
+			  const uniform int samples,
+			  uniform Vec pixelbuffer[])
 {
     foreach_tiled (y = y0 ... y1, x = x0 ... x1)
 	{
@@ -264,12 +264,12 @@ static void raytrace_tile(const uniform int x0, const uniform int x1,
 }
 
 // task routine
-task void raytrace_tile_task(const uniform int width, const uniform int height,
-							 const uniform constants &Constants,
-							 const uniform Ray &cam, 
-							 const uniform Vec &cx, const uniform Vec &cy,
-							 const uniform int samples,
-							 uniform Vec pixelbuffer[])
+task void raytrace_tile_task(	const uniform int width, const uniform int height,
+				 const uniform constants &Constants,
+				 const uniform Ray &cam, 
+				 const uniform Vec &cx, const uniform Vec &cy,
+				 const uniform int samples,
+				 uniform Vec pixelbuffer[] )
 {
     const uniform int bucketSize = Constants.bucketSize;
     const uniform int xBuckets = (width + (bucketSize-1)) / bucketSize;
@@ -285,11 +285,11 @@ task void raytrace_tile_task(const uniform int width, const uniform int height,
 // ISPC callable routine 
 // (ie. exported as "extern C" in the file_dirpole.ispc.h file )
 export void raytrace_ispc_tasks(const uniform int width, const uniform int height,
-								const uniform constants &Constants,
-								const uniform Ray &cam, 
-								const uniform Vec &cx, const uniform Vec &cy,
-								const uniform int samples,
-								uniform Vec pixelbuffer[])
+				const uniform constants &Constants,
+				const uniform Ray &cam, 
+				const uniform Vec &cx, const uniform Vec &cy,
+				const uniform int samples,
+				uniform Vec pixelbuffer[])
 {
     const uniform int bucketSize = Constants.bucketSize;
     const uniform int xBuckets = (width + (bucketSize-1)) / bucketSize;
