@@ -27,7 +27,7 @@ static inline Double hal(const int b, int j)
 	return h;
 }
 
-// Vector class (no overloading ops in C)
+// Vector class
 typedef Double<3> Vec; //from ISPC
 static inline Vec Cross(const Vec& l, const Vec& r) 
 { const Vec cross = { l.y*r.z - l.z*r.y, l.z*r.x - l.x*r.z, l.x*r.y - l.y*r.x }; return cross; }
@@ -92,7 +92,6 @@ static inline Double min3(const Double x, const Double y, const Double z)
 {
 	const Double r = x < y ? x : y; return r < z ? r : z;
 }
-
 
 /// Apz constants
 struct constants
@@ -238,7 +237,6 @@ static Vec trace(const Ray &r, const int index, const uniform int num_samps, con
 }
 
 
-
 // /////////////////////////////////////////////////////////////////
 static void raytrace_tile(const uniform int x0, const uniform int x1,
 			  const uniform int y0, const uniform int y1,
@@ -298,5 +296,3 @@ export void raytrace_ispc_tasks(const uniform int width, const uniform int heigh
 
     launch[nTasks] raytrace_tile_task(width, height, Constants, cam, cx, cy, samples, pixelbuffer);
 }
-
-//TODO:: CHECK AOS vs SOA
