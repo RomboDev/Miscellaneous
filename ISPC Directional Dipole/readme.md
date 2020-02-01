@@ -1,4 +1,4 @@
-Hachisuka-Directional Dipole implemented with ISPC.
+Hachisuka-Directional Dipole (for Subsurface Scattering) implemented with ISPC.
 
 The ISPC (Intel® SPMD Program Compiler) version is around 5x faster than the plain C++ version.
 One just needs to download the ISPC executable (https://ispc.github.io/downloads.html) and put it in a sys folder path, then run the sh build script to first compile the ISPC producing an .h and an .o files that will be used then by C++ to invoke the ISPC fnc and by the linker to link the binary code.
