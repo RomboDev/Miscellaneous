@@ -1,4 +1,4 @@
-Hachisuka-Directional Dipole ported to ISPC.
+Hachisuka-Directional Dipole implemented with ISPC.
 
 The ISPC version is around 5x faster than the plain C++ version.
 One just needs to download the ispc executable (https://ispc.github.io/downloads.html) and put it in a sys folder path where it can be reached, then run the build sh script to first compile the ispc producing an .h and an .o files that will be used then by C++ to invoke the ispc fnc and by the linker to link the binariy code.
