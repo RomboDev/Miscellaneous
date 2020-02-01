@@ -502,7 +502,6 @@ int main(int argc, char *argv[])
 	// Render with std C++ and OpenMP //
 	// ---------------------------------
 	std::cout << "\033[31mRendering with OpenMP ... \033[31m" << std::endl;
-	//std::cout << "\033[1;31mThis is BOLD !" << std::endl;
 	aux::Timer timer(true);
 
 	#pragma omp parallel for schedule(dynamic, 1)
