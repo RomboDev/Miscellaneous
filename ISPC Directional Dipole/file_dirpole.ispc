@@ -276,7 +276,7 @@ task void raytrace_tile_task(	const uniform int width, const uniform int height,
     const uniform int y1 = min(y0 + bucketSize, height);
 
     raytrace_tile(x0, x1, y0, y1, width, height, Constants, cam, cx, cy, samples, pixelbuffer);
-	print("\r %", taskIndex); //oh well ... :)
+    print("\r %", taskIndex); //oh well ... :)
 }
 
 // ISPC callable routine 
