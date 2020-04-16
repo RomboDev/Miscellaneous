@@ -17,7 +17,7 @@ I've added clocks (C++ version) to time single sqs, average and max time spent p
 On Linux simply run.. _acompileANDarun.sh
 For ISPC simply download the ISPC exec put it in a sys path and then run.. ispc_compileANDarun.sh
 
-All three version of the executable are directly available eventually : 
+All three version of the executable are available eventually : 
 - appcpp_perm
 - appc_perm
 - appispc_perm
