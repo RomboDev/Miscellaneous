@@ -1,6 +1,6 @@
 # Miscellaneous
 For 3D and general CG stuff
-![cover](https://raw.githubusercontent.com/RomboDev/Miscellaneous/master/Docs/geometry-optical-illusion-cubes.webp)
+![cover](https://cdn.imgbin.com/11/20/19/imgbin-penrose-triangle-optical-illusion-geometry-triangle-YR4nvWXPiGm0NHcDBJ35U2Zjv.jpg)
 
 
 On Google Drive .. 
