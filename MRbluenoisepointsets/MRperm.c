@@ -56,7 +56,6 @@ int main()
     // Start permutating //
     for (int g = 0; g < COUNT; g++) 
     {
-        printf("\n%i) %lu, %lu", g, stateA, stateB);
         // store contiguos items into allItems
         int * items = &allItems[g*SIZE];
 
@@ -98,53 +97,49 @@ int main()
                     break;
                 }
             }
+            if(getback_tobigloop) continue;
 
-            //
-            if(!getback_tobigloop) 
-            {
                 
-                //
-                int d = items[0] - items[SIZE - 1];
-                for (int j = 0; j < SIZE; j++) {
-                    if(d == delta[j]) 
-                    {   
-                    /*
-                        // distinct array check
-                        // items[g] vs allItems[0to(g-1)]
-                        for (int i = 0; i < g; i++) {
+            //
+            int d = items[0] - items[SIZE - 1];
+            for (int j = 0; j < SIZE; j++) {
+                if(d == delta[j]) 
+                {   
+                    // distinct array check
+                    // items[g] vs allItems[0to(g-1)]
+                    for (int i = 0; i < g; i++) {
 
-                            bool theyarethesame = true;
-                            // retrive starting array address from allItems
-                            int * itemx = &allItems[(i)*SIZE];
-                            for (int x=0; x<SIZE; x++) {
-                                // check item by item
-                                if(items[x] != itemx[x]) 
-                                {
-                                    theyarethesame = false;
-                                    break;
-                                }
-                            }
-                            if(theyarethesame){
-                                getback_tobigloop = true;
+                        bool theyarethesame = true;
+                        // retrive starting array address from allItems
+                        int * itemx = &allItems[(i)*SIZE];
+                        for (int x=0; x<SIZE; x++) {
+                            // check item by item
+                            if(items[x] != itemx[x]) 
+                            {
+                                theyarethesame = false;
                                 break;
-                            }                
-                        }
-                    */
-                        if(!getback_tobigloop) {
-                            // print out ...
-                            printf("\n%i)", g+1);
-                            printf(" %i",items[0]);
-                            for (int i = 1; i < SIZE; i++) {
-                                printf(", %i",items[i]);
                             }
-                        }else 
+                        }
+                        if(theyarethesame){
+                            getback_tobigloop = true;
                             break;
-                    
-                        // we filled array perm ..
-                        // get back to a new array
-                        bigloop_should_break = true;
-                        break;
+                        }                
                     }
+                
+                    if(!getback_tobigloop) {
+                        // print out ...
+                        printf("\n%i)", g+1);
+                        printf(" %i",items[0]);
+                        for (int i = 1; i < SIZE; i++) {
+                            printf(", %i",items[i]);
+                        }
+                    }else 
+                        break;
+                
+                    // we filled array perm ..
+                    // get back to a new array
+                    bigloop_should_break = true;
+                    break;
                 }
             }
             //here from the break
