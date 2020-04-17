@@ -9,7 +9,7 @@ https://github.com/tommyettinger/sarong/blob/master/src/test/java/sarong/Permuta
 There're three versions of the permutation code:
 - C++11, one can switch between using Lambdas vs goto and between C-arrays vs STD-arrays
 - C version for prototyping the following ISPC code
-- ISPC code based on the C code. It's actually 3x slower as I didn't spend time optimizing it.
+- ISPC code based on the C code. It's actually slower as I didn't spend time optimizing it.
 
 C/C++ code is around 30% faster than the Java implementation. 
 I've added clocks (C++ version) to time single sqs, average and max time spent permutating.
