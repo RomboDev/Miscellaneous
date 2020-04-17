@@ -1,6 +1,6 @@
 # Miscellaneous
 For 3D and general CG stuff
-![cover](https://cdn.imgbin.com/11/20/19/imgbin-penrose-triangle-optical-illusion-geometry-triangle-YR4nvWXPiGm0NHcDBJ35U2Zjv.jpg)
+![cover](https://pbs.twimg.com/media/EMGPclXXkAA055S?format=jpg&name=medium)
 
 
 On Google Drive .. 
