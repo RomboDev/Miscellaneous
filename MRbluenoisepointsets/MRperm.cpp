@@ -16,7 +16,7 @@
 class MRperm
 {
 public:
-    const static unsigned int SIZE {52}, HALF_SIZE {SIZE >> 1}, COUNT{100};
+    const static unsigned int SIZE {32}, HALF_SIZE {SIZE >> 1}, COUNT{100};
 
     MRperm() = default;
     MRperm(loooong state){ stateA = state; }
@@ -52,7 +52,7 @@ public:
     }
 
 private:
-    loooong stateA = UINT64_C(12345678987654321); 
+    loooong stateA = UINT64_C(12345678987654321);
     loooong stateB = UINT64_C(0x1337DEADBEEF);
 
     static void swap(int arr [], int pos1, int pos2) {
@@ -71,7 +71,8 @@ private:
 };
 
 
-//#define LETSUSELAMBDAS
+
+#define LETSUSELAMBDAS
 //#define USESTDARRAYS
 //#define JUSTDEBUGARRAYCOMPARISON
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -255,12 +256,12 @@ int main(int argc, char *argv[])
 
         // store contiguos items into allItems
         int * items = &allItems[g*MRperm::SIZE];
-
         for (int repeat = 0; repeat < LIMIT; repeat++) 
         {
 
             auto doitagain = 
-            [&] {
+            [&items, &delta, &targets, &p] 
+            {
                 for (int i = 0; i < MRperm::HALF_SIZE; i++) {
                     delta[i] = i + 1;
                     delta[i + MRperm::HALF_SIZE] = ~i;
@@ -294,18 +295,10 @@ int main(int argc, char *argv[])
             if(doitagain) continue;
 
 
-            // record time for this very permutation
-            auto elapsed_p = timer_perm.Elapsed(); //end time recording
-            float elapsed_p_secs = (elapsed_p.count()*0.001);
-            std::cout << aux::Modifier(aux::FG_GREEN) << "\nSequences with size "<< MRperm::SIZE 
-                                        << " took: " << elapsed_p_secs << " seconds" << std::endl;
-            store_elapsed_single_perm += elapsed_p_secs; //store for average time and below for max
-            if(elapsed_p_secs > max_elapsed_single_perm) max_elapsed_single_perm = elapsed_p_secs;
-
-
-            //
+            // check sq
             auto sequenceisok = 
-            [&] {
+            [&allItems, &items, &delta, g] 
+            {
                 int d = items[0] - items[MRperm::SIZE - 1];
                 for (int j = 0; j < MRperm::SIZE; j++) 
                 {
@@ -341,15 +334,27 @@ int main(int argc, char *argv[])
                             std::cout << ", " << items[i];
                         }
                         std::cout << std::endl;
-
+                    
                         //sequence is ok ..
                         //let's do one another
                         return true;
                     }
                 }
             }();
-            if(sequenceisok) break;
-            else continue;
+            if(sequenceisok){
+
+                // record time for this very permutation
+                auto elapsed_p = timer_perm.Elapsed(); //end time recording
+                float elapsed_p_secs = (elapsed_p.count()*0.001);
+                std::cout << aux::Modifier(aux::FG_GREEN) << "\nSequences with size "<< MRperm::SIZE 
+                << " took: " << elapsed_p_secs << " seconds" << std::endl;
+                store_elapsed_single_perm += elapsed_p_secs; //store for average time and below for max
+                if(elapsed_p_secs > max_elapsed_single_perm) max_elapsed_single_perm = elapsed_p_secs;
+
+                
+                break;      // break big loop and get new ptr
+            }
+            else continue;  // engage another loop
         }     
         items = nullptr;
     }
