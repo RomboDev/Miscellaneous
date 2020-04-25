@@ -1,0 +1,78 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      2261,         70]
+NotebookOptionsPosition[      1676,         55]
+NotebookOutlinePosition[      2036,         70]
+CellTagsIndexPosition[      1993,         67]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[StyleData[StyleDefinitions -> "ReverseColor.nb"],ExpressionUUID->"e53a6c71-873e-4528-addc-d95aa14b0357"],
+
+Cell[StyleData["Input"],
+ FontFamily->"Source Code Pro",
+ FontSize->13,
+ FontWeight->"Plain",
+ FontSlant->"Plain",
+ FontTracking->"Plain",
+ FontVariations->{"Outline"->False,
+ "Shadow"->False,
+ "StrikeThrough"->False,
+ "Underline"->False},
+ FontColor->RGBColor[
+  0.47058823529411764`, 0.44313725490196076`, 0.43137254901960786`],
+ Background->RGBColor[
+  0.11764705882352941`, 0.11764705882352941`, 0.11764705882352941`],
+ FontVariations->{
+ "Underlight"->None},ExpressionUUID->"8eae5c0a-29ce-4e01-b81a-c30dd3d8478b"],
+
+Cell[StyleData["Output"],
+ FontSize->12,
+ FontWeight->"Plain",
+ FontSlant->"Plain",
+ FontTracking->"Plain",
+ FontVariations->{"Outline"->False,
+ "Shadow"->False,
+ "StrikeThrough"->False,
+ "Underline"->False},
+ FontColor->RGBColor[
+  0.3058823529411765, 0.6549019607843137, 0.5568627450980392],
+ Background->RGBColor[
+  0.16470588235294117`, 0.16470588235294117`, 0.16470588235294117`],
+ FontVariations->{
+ "Underlight"->None},ExpressionUUID->"9c0144fe-afc5-4b06-bc08-3a944db26731"]
+},
+WindowSize->{808, 911},
+WindowMargins->{{437, Automatic}, {90, Automatic}},
+FrontEndVersion->"11.2 for Linux x86 (64-bit) (September 10, 2017)",
+StyleDefinitions->"PrivateStylesheetFormatting.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 109, 0, 41, 54, 0, "StyleData", "StyleDefinitions", "",ExpressionUUID->"e53a6c71-873e-4528-addc-d95aa14b0357"],
+Cell[670, 22, 518, 15, 64, 24, 0, "StyleData", "Input", "All",ExpressionUUID->"8eae5c0a-29ce-4e01-b81a-c30dd3d8478b"],
+Cell[1191, 39, 481, 14, 66, 25, 0, "StyleData", "Output", "All",ExpressionUUID->"9c0144fe-afc5-4b06-bc08-3a944db26731"]
+}
+]
+*)
+
