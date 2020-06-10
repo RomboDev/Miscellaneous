@@ -1,6 +1,5 @@
 #include <stddef.h>
 #include <bitset>
-#include "utils.hpp"
 #include <math.h>
 #include <assert.h>
 
@@ -382,68 +381,10 @@ uint32_t lowBias32Hash(uint32_t x)
 
 
 
-//
-#include <array>
-#include"lutDBN.h"
-typedef std::array<double, 2> Point;
-unsigned mirror[256];
-inline double phix(const unsigned &i)
-{
-  const unsigned ONE = 0x1000000;                                             // 24 bits is considered sufficient
-  const double scl = 1.0 / ONE;
-  return scl * (
-                mirror[(i >> 16) & 255] +
-                (mirror[(i >> 8) & 255] << 8) +
-                (mirror[i & 255] << 16)
-                );
-}
-void initSamplers()
-{
-  for (unsigned i = 0; i < 256; i++) {
-    mirror[i] = (i >> 7) + ((i >> 5) & 2) + ((i >> 3) & 4) + ((i >> 1) & 8)
-    + ((i << 1) & 16) + ((i << 3) & 32) + ((i << 5) & 64) + ((i << 7) & 128);
-  }
-}
-void ldbnBNOT(const unsigned int nbPts,
-              std::vector<Point> &samples)
-{
-  samples.clear();
-  auto n = std::floor(std::sqrt((double)nbPts));
-  Point p;
-
-  double inv = 1.0 / n;
-  unsigned mask = 128 - 1;                                                      // t should be a power of 2.
-  unsigned shift = std::log2(128);
-
-  for (unsigned Y = 0; Y < n; Y++) {
-    for (unsigned X = 0; X < n; X++) {
-      unsigned index = ((Y & mask) << shift) + (X & mask);
-
-      double u = phix( (Y & 0xfffffff0) + (lutLDBN_BNOT[index] & 0xf) );
-      double v = phix( (X & 0xfffffff0) + (lutLDBN_BNOT[index] >> 4) );
-      p[0] = inv * (X + u);
-      p[1] = inv * (Y + v);
-	  
-      samples.push_back(p);
-    }
-  }
-}
-
-
 
 //////////
 int main()
 {
-	/* // test Mathematica forloop vs C/C++
-	aux::Timer timer_whole(true);
-	auto sm = 0;
-	for (int i = 0; i < 1000000; i++)
-	sm+=1;
-	std::cout << sm << std::endl;
-	auto elapsed = timer_whole.Elapsed();
-	std::cout << "\nForLoop took " << (elapsed.count()*0.001) << " seconds" << std::endl;
-	*/
-
 	/*
 	// Correlated Multi-Jitter
 	int x = 10, y = 10;
@@ -462,15 +403,12 @@ int main()
 	//std::cout << halton2(1234) << std::endl; //slow
 	// test halton perm based vs pbrt based
 	/*
-	aux::Timer timer_whole(true);
 	float u1,u2,res;
 	for(int i = 0; i<10000000;i++){
 		//getRandomHalton2D(u1,u2,i);
 		//res+=u1+u2;
 		res += hal(1,i)+hal(2,i);
 	}
-	auto elapsed = timer_whole.Elapsed(); //end time recording
-	std::cout << res << ", " << (elapsed.count()*0.001) << " seconds" << std::endl;
 	*/
 
 	// Jittered R3
