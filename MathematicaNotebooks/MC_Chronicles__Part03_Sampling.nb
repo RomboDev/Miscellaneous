@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[    918005,      17872]
-NotebookOptionsPosition[    894944,      17555]
-NotebookOutlinePosition[    895289,      17570]
-CellTagsIndexPosition[    895246,      17567]
+NotebookDataLength[    918653,      17886]
+NotebookOptionsPosition[    895590,      17569]
+NotebookOutlinePosition[    895935,      17584]
+CellTagsIndexPosition[    895892,      17581]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -17540,17 +17540,31 @@ Cell[BoxData["0.4466308814227161`"], "Output",
 64e7a6f57a3c"]
 }, Open  ]],
 
-Cell["\<\
-
-
-See \[OpenCurlyQuote]Monte Carlo Simulations in Physics\[CloseCurlyQuote] \
-pg16 for more on ImportanceSampling
-
-MultipleImportanceSampling : https://64.github.io/multiple-importance-sampling\
-\>", "Text",
+Cell[TextData[{
+ "\n\nSee \[OpenCurlyQuote]Monte Carlo Simulations in Physics\
+\[CloseCurlyQuote] pg16 for more on ImportanceSampling\n\
+MultipleImportanceSampling : \
+https://64.github.io/multiple-importance-sampling\n\nTODO: \n",
+ StyleBox["\n-> \
+https://bookdown.org/kevin_davisross/probbook/sec-cdf-method.html\n-> \
+https://bookdown.org/kevin_davisross/probbook/law-of-the-unconscious-\
+statistician.html",
+  FontSize->12],
+ "\n\n-> ",
+ StyleBox["https://www.scratchapixel.com/lessons/mathematics-physics-for-\
+computer-graphics/monte-carlo-methods-mathematical-foundations/sampling-\
+distribution\n",
+  FontSize->12],
+ "->",
+ StyleBox[" \
+https://www.scratchapixel.com/lessons/mathematics-physics-for-computer-\
+graphics/monte-carlo-methods-in-practice/monte-carlo-integration",
+  FontSize->12]
+}], "Text",
  CellChangeTimes->{{3.814701450284927*^9, 3.814701451217308*^9}, {
-  3.814701530588662*^9, 
-  3.8147015509483*^9}},ExpressionUUID->"e8f4d4be-b595-49eb-b97b-7e015bb53194"]
+  3.814701530588662*^9, 3.8147015509483*^9}, {3.815060200573723*^9, 
+  3.8150602067130623`*^9}},ExpressionUUID->"e8f4d4be-b595-49eb-b97b-\
+7e015bb53194"]
 }, Open  ]]
 },
 WindowSize->{1242, 1367},
@@ -17684,7 +17698,7 @@ Cell[CellGroupData[{
 Cell[99335, 2472, 1148, 30, 140, "Input",ExpressionUUID->"3f477cb1-a721-4f28-a849-36ae73391656"],
 Cell[100486, 2504, 12841, 218, 254, "Output",ExpressionUUID->"55986121-6fc6-4be2-8be9-62d81721e8f3"]
 }, Open  ]],
-Cell[113342, 2725, 7324, 175, 999, "Text",ExpressionUUID->"6fc80af7-9fdd-478c-8ea4-8a4709683986"],
+Cell[113342, 2725, 7324, 175, 1000, "Text",ExpressionUUID->"6fc80af7-9fdd-478c-8ea4-8a4709683986"],
 Cell[120669, 2902, 1112, 29, 118, "Text",ExpressionUUID->"12a02bf3-9dbe-4cbe-83a2-7dd8e8c2789d"],
 Cell[CellGroupData[{
 Cell[121806, 2935, 851, 21, 110, "Input",ExpressionUUID->"046cd5cb-1e84-450d-a403-4c5fe7e7b6f3"],
@@ -17872,7 +17886,7 @@ Cell[893854, 17523, 221, 4, 50, "Output",ExpressionUUID->"d7e2604f-7ef9-45a7-8e2
 Cell[894078, 17529, 223, 4, 50, "Output",ExpressionUUID->"20978904-87c2-4e34-8039-1593a4b00639"],
 Cell[894304, 17535, 221, 4, 50, "Output",ExpressionUUID->"09faa189-c669-4138-8ebc-64e7a6f57a3c"]
 }, Open  ]],
-Cell[894540, 17542, 388, 10, 117, "Text",ExpressionUUID->"e8f4d4be-b595-49eb-b97b-7e015bb53194"]
+Cell[894540, 17542, 1034, 24, 255, "Text",ExpressionUUID->"e8f4d4be-b595-49eb-b97b-7e015bb53194"]
 }, Open  ]]
 }
 ]
