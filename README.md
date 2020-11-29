@@ -1,8 +1,5 @@
 # Miscellaneous
-For Computer Graphics stuff
-
-![cover](https://pbs.twimg.com/media/EMGPclXXkAA055S?format=jpg&name=medium)
-
+General Computer Graphics stuff
 
 On Google Drive .. 
 
@@ -16,3 +13,4 @@ Material Appearance ::
 https://drive.google.com/drive/folders/1o07mzC2mRYpNyvpW1RHjfFqr2Ku9v0Oj?usp=sharing
 
 
+![cover](https://pbs.twimg.com/media/EMGPclXXkAA055S?format=jpg&name=medium)
