@@ -74,10 +74,48 @@ int main()
 
 
 	// Low discrepancy Blue noise
+	/*
+	// this is how WMathematica LibraryLink may work internally and instead it does not :)
+	// which in turn it means we have to copy data instead to just let it point to 
+	struct st_MDataArray {
+		double prec;
+		int *dims;
+		int rank;
+		int nelems;
+		void *data;
+	};
+
+	// Low discrepancy Blue noise
+	const int nrealslots = 2;
+	const int nsamples = 4*4;
+	const int samplerow = std::floor(std::sqrt((double) nsamples));
+
 	std::vector<Point> samples;
 	initSamplers();
-	ldbnBNOT(2048, samples);
+	ldbnBNOT(samplerow, samples);
 
+	// Point our samples to data
+	st_MDataArray dSamples;
+	dSamples.data = &samples[0];
+
+	// double *hsamples;
+	// hsamples = (double*) &samples[0];
+
+	for (size_t i = 0; i < nsamples*nrealslots; i++){
+		std::cout<< ((double*)(dSamples.data))[i]<<" "<< ((double*)(dSamples.data))[++i]<<std::endl;
+		//std::cout<< hsamples[i]<<" "<< hsamples[++i]<<std::endl;
+	}
+	*/
+
+	const int nrealslots = 2;
+	const int nsamples = 4*4;
+	const int samplerow = std::floor(std::sqrt((double) nsamples));
+
+	std::vector<Point> samples;
+	initSamplers();
+	ldbnBNOT(samplerow, samples);
+
+	std::cout<<"---------"<<std::endl;
 	for(auto &s: samples)
     	std::cout<< s[0]<<" "<< s[1]<<std::endl;
 

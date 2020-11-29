@@ -42,7 +42,11 @@
         "streambuf": "cpp",
         "typeinfo": "cpp",
         "iostream": "cpp",
-        "bitset": "cpp"
+        "bitset": "cpp",
+        "cstring": "cpp",
+        "map": "cpp",
+        "thread": "cpp",
+        "cinttypes": "cpp"
     },
     "files.exclude": {
         "**/.classpath": true,

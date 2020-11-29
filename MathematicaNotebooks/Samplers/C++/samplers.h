@@ -455,7 +455,7 @@ uint32_t lowBias32Hash(uint32_t x)
 
 
 /////////////////////////////////////////
-// BlueNoise                           //
+// LowDiscrepancy BlueNoise            //
 // https://projet.liris.cnrs.fr/ldbn   //
 /////////////////////////////////////////
 #include"BlueNoise/lutDBN.h"
@@ -487,7 +487,8 @@ void ldbnBNOT(const unsigned int nbPts,
 {
   samples.clear();
 
-  auto n = std::floor(std::sqrt((double)nbPts));
+  //auto n = std::floor(std::sqrt((double)nbPts));
+  auto n = nbPts;
   Point p;
 
   double inv = 1.0 / n;
