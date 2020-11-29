@@ -1,5 +1,6 @@
 # Miscellaneous
-For 3D and general CG stuff
+For Computer Graphics stuff
+
 ![cover](https://pbs.twimg.com/media/EMGPclXXkAA055S?format=jpg&name=medium)
 
 
