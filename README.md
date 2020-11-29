@@ -1,7 +1,7 @@
 # Miscellaneous
-General Computer Graphics stuff
+Computer Graphics stuff.
 
-On Google Drive .. 
+Google Drive :
 
 Light Transport Papers :: 
 https://drive.google.com/drive/folders/16A6Yj2esRTk0FP-ALr6XfxkGQvTb_1dD?usp=sharing
