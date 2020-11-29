@@ -114,8 +114,7 @@ int main()
 	std::vector<Point> samples;
 	initSamplers();
 	ldbnBNOT(samplerow, samples);
-
-	std::cout<<"---------"<<std::endl;
+	
 	for(auto &s: samples)
     	std::cout<< s[0]<<" "<< s[1]<<std::endl;
 

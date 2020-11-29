@@ -54,15 +54,10 @@ EXTERN_C DLLEXPORT int RandomRealLDBN(	WolframLibraryData libData,
 		datastartingaddress[i*nrealslots +1] = s[1];
 	}*/
 
-	//[...]
-
 	// Get back to WM
 	MArgument_setMTensor(Res, oT);
 	return err;
 }
-
-/*
-Ok, great. I also removed the question about the data pointer as it's already highlighted here with your comments. Will try LTemplate ! Thanks for all. */
 
 /*
 // this is the same as above but does it with LibraryLink MTensor_setMTensor stuff
