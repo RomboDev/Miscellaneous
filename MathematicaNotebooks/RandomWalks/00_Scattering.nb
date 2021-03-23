@@ -1,0 +1,1020 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     37115,       1012]
+NotebookOptionsPosition[     32750,        952]
+NotebookOutlinePosition[     33125,        968]
+CellTagsIndexPosition[     33082,        965]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"remapVolToScatter", "[", 
+    RowBox[{"albedo_", ",", "radius_"}], "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"a", "=", "albedo"}], ",", " ", 
+       RowBox[{"d", "=", "radius"}]}], "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"\[Alpha]", "=", 
+       RowBox[{"1", "-", 
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"\[Minus]", "5.09406"}], "*", "a"}], "+", 
+          RowBox[{"2.61188", "*", 
+           SuperscriptBox["a", "2"]}], "\[Minus]", 
+          RowBox[{"4.31805", "*", 
+           SuperscriptBox["a", "3"]}]}]]}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"s", "=", 
+       RowBox[{"1.9", "\[Minus]", "a", "+", 
+        RowBox[{"3.5", 
+         SuperscriptBox[
+          RowBox[{"(", 
+           RowBox[{"a", "\[Minus]", "0.8"}], ")"}], "2"]}]}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"\[Sigma]", "=", 
+       RowBox[{"1.0", "/", 
+        RowBox[{"(", 
+         RowBox[{"d", "*", "s"}], ")"}]}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"x", "=", 
+       RowBox[{"\[Sigma]", "*", "\[Alpha]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"\[Sigma]", ",", "x"}], "}"}]}]}], " ", 
+    RowBox[{"(*", 
+     RowBox[{
+      RowBox[{"--", "gives"}], " ", "back", " ", "sigmaT", " ", "and", " ", 
+      RowBox[{"sigmaS", " ", "--"}]}], "*)"}], "\[IndentingNewLine]", "]"}]}],
+   ";"}]], "Input",
+ CellChangeTimes->{{3.811694674668355*^9, 3.811694698226852*^9}, {
+   3.811694839787096*^9, 3.811694849763588*^9}, {3.8116948874806843`*^9, 
+   3.8116949005591173`*^9}, 3.811694941494763*^9, {3.811695004830689*^9, 
+   3.811695072993483*^9}, {3.8116951999763727`*^9, 3.8116952029278517`*^9}, {
+   3.8116952359851637`*^9, 3.811695314026561*^9}, {3.8116954202349358`*^9, 
+   3.811695436623067*^9}, {3.8116954838444653`*^9, 3.811695618465982*^9}, {
+   3.8116956494365396`*^9, 3.81169565328653*^9}, {3.811695685588976*^9, 
+   3.8116956867087708`*^9}, {3.81169574035461*^9, 3.811695750379457*^9}, {
+   3.811695807619618*^9, 3.811695807862767*^9}, {3.8116960327774067`*^9, 
+   3.811696045111294*^9}, {3.811696086439295*^9, 3.811696090511078*^9}, 
+   3.8116961420911713`*^9, {3.8116961757782717`*^9, 3.811696176621829*^9}, {
+   3.811696222865779*^9, 3.81169623302779*^9}, {3.8116963350225887`*^9, 
+   3.8116964107662287`*^9}, {3.811696497388159*^9, 3.8116965233595867`*^9}, {
+   3.8116966140218782`*^9, 3.811696615883389*^9}, {3.8116967006981297`*^9, 
+   3.811696704274246*^9}, {3.811696754499895*^9, 3.811696817877334*^9}, {
+   3.811696938092886*^9, 3.8116969389221497`*^9}, {3.81169699126735*^9, 
+   3.811697061243691*^9}, {3.811697171849263*^9, 3.811697197444873*^9}, {
+   3.811697258250511*^9, 3.811697334725082*^9}, {3.811697365568262*^9, 
+   3.8116974723666983`*^9}, {3.811697570673685*^9, 3.8116975743603067`*^9}, {
+   3.8116976244151993`*^9, 3.811697624848071*^9}, {3.811697700184143*^9, 
+   3.811697745922065*^9}, 3.8116983891877213`*^9, 3.811698760618087*^9, {
+   3.81169910715382*^9, 3.8116991232921743`*^9}, {3.8116992295227547`*^9, 
+   3.811699256324111*^9}, 3.8116994931461267`*^9, {3.811699567666404*^9, 
+   3.811699570829028*^9}},ExpressionUUID->"ced3a0fc-62f0-49e3-9540-\
+ab503c41a3f8"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"remapVolToScatter", "[", 
+  RowBox[{
+   RowBox[{"List", "[", 
+    RowBox[{"0.5", ",", "0.75", ",", "0.3"}], "]"}], ",", 
+   RowBox[{"List", "[", 
+    RowBox[{"1", ",", "0.3", ",", "0.2"}], "]"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.8116978575224447`*^9, 
+  3.81169789008208*^9}},ExpressionUUID->"d39568d0-231b-4e03-a9f4-\
+8d21ba20008d"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+    "0.5830903790087464`", ",", "2.8766630708378282`", ",", 
+     "2.0202020202020203`"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+    "0.5319524768051677`", ",", "2.8323470435390874`", ",", 
+     "1.5268531134188195`"}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.811698840548167*^9, 3.811699127133397*^9, 
+  3.811699715663522*^9},ExpressionUUID->"ccf91b5f-0f7e-4c48-913c-\
+b0196c66b47b"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"remapVolToScatter", "[", 
+  RowBox[{"0.5", ",", "1"}], "]"}]], "Input",
+ CellChangeTimes->{{3.811699038786004*^9, 
+  3.811699044926609*^9}},ExpressionUUID->"1cf57507-12a1-4e41-bbbd-\
+536359ebf843"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"0.5830903790087464`", ",", "0.5319524768051677`"}], 
+  "}"}]], "Output",
+ CellChangeTimes->{3.8116990458602657`*^9, 3.811699157666774*^9, 
+  3.8116992717849073`*^9, 
+  3.811699715678821*^9},ExpressionUUID->"a4d94924-b9bc-47a1-8955-\
+fc0e8b49f6f0"]
+}, Open  ]],
+
+Cell[TextData[{
+ StyleBox["\nradiation in participating media can be described using the ",
+  FontSize->10,
+  FontColor->GrayLevel[0.5]],
+ StyleBox["\nRadiative Transfer Equation",
+  FontSize->24,
+  FontColor->RGBColor[1, 0.5, 0]]
+}], "Text",
+ CellChangeTimes->{{3.8133285397991667`*^9, 3.81332854686451*^9}, {
+   3.8133286792644787`*^9, 3.81332870041459*^9}, 
+   3.813328754795556*^9},ExpressionUUID->"6c5d34d8-c957-4081-9f29-\
+62f60a242ef5"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"[", 
+    RowBox[{
+     FractionBox["\[DifferentialD]", 
+      RowBox[{"\[DifferentialD]", "s"}]], "+", 
+     RowBox[{
+      SubscriptBox["\[Mu]", "t"], 
+      RowBox[{"(", "x", ")"}]}]}], "]"}], "L", 
+   RowBox[{"(", 
+    RowBox[{"x", ",", "\[Omega]"}], ")"}]}], "=", " ", 
+  RowBox[{
+   RowBox[{
+    SuperscriptBox["L", "e"], 
+    RowBox[{"(", 
+     RowBox[{"x", ",", "\[Omega]"}], ")"}]}], "+", 
+   RowBox[{
+    SubscriptBox["\[Mu]", "s"], 
+    RowBox[{"(", "x", ")"}], 
+    RowBox[{
+     SubscriptBox["\[Integral]", 
+      RowBox[{"4", "\[Pi]"}]], 
+     RowBox[{"\[Phi]", 
+      RowBox[{"(", 
+       RowBox[{
+        SuperscriptBox["\[Omega]", "i"], ",", "\[Omega]"}], ")"}], "L", 
+      RowBox[{"(", 
+       RowBox[{"x", ",", 
+        SuperscriptBox["\[Omega]", "'"]}], ")"}], 
+      RowBox[{"\[DifferentialD]", 
+       SuperscriptBox["\[Omega]", "'"]}]}]}]}]}]}]], "Input",
+ CellChangeTimes->{
+  3.81332775844233*^9, {3.8133279096635857`*^9, 3.8133280208659353`*^9}, {
+   3.8133280603426523`*^9, 3.813328088776349*^9}, {3.813328143058614*^9, 
+   3.8133283535121517`*^9}, {3.813329605979682*^9, 
+   3.8133296240982103`*^9}},ExpressionUUID->"aa50138e-4549-4241-8867-\
+4e40b753e6bf"],
+
+Cell[BoxData[
+ RowBox[{"L", 
+  RowBox[{"(", 
+   RowBox[{"x", ",", "\[Omega]"}], ")"}], " ", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"--", " ", "is"}], " ", "the", " ", "radiance", " ", "at", " ", 
+    "position", " ", "x", " ", "that", " ", "flows", " ", "into", " ", 
+    "direction", " ", 
+    RowBox[{"\[Omega]", " ", "--"}]}], "*)"}]}]], "Input",
+ CellChangeTimes->{{3.813328394531251*^9, 3.813328423460723*^9}, {
+  3.813328617484638*^9, 
+  3.8133286213398046`*^9}},ExpressionUUID->"d334d841-b877-45c6-afcd-\
+14d5ca2b2c65"],
+
+Cell[BoxData[
+ RowBox[{
+  SuperscriptBox["L", "e"], 
+  RowBox[{"(", 
+   RowBox[{"x", ",", "\[Omega]"}], ")"}], " ", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"--", " ", "is"}], " ", "the", " ", "emitted", " ", 
+    RowBox[{"radiance", " ", "--"}]}], "*)"}]}]], "Input",
+ CellChangeTimes->{{3.813328433553528*^9, 
+  3.813328443633286*^9}},ExpressionUUID->"a9620614-03d4-4651-a9d0-\
+dd2ec605b3ad"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   SubscriptBox["\[Mu]", "t"], 
+   RowBox[{"(", "x", ")"}]}], " ", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"--", " ", "mu_t"}], " ", "is", " ", "the", " ", "extinction", 
+    " ", 
+    RowBox[{"coefficent", " ", "--"}]}], "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  SubscriptBox["\[Mu]", "s"], 
+  RowBox[{"(", "x", ")"}], " ", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"--", " ", "mu_s"}], " ", "is", " ", "the", " ", "scattering", 
+    " ", 
+    RowBox[{"coefficent", " ", "--"}]}], "*)"}]}]}], "Input",
+ CellChangeTimes->{{3.813328478218295*^9, 3.813328527753397*^9}, {
+  3.813329544527904*^9, 
+  3.813329551828039*^9}},ExpressionUUID->"d9f18831-cf17-487b-af64-\
+8aecfd75dab5"],
+
+Cell[BoxData[
+ RowBox[{"\[Phi]", 
+  RowBox[{"(", 
+   RowBox[{
+    SuperscriptBox["\[Omega]", "i"], ",", "\[Omega]"}], ")"}], " ", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"--", " ", "phi"}], " ", "is", " ", "the", " ", "phase", " ", 
+    RowBox[{"function", " ", "--"}]}], "*)"}]}]], "Input",
+ CellChangeTimes->{{3.8133286562015553`*^9, 3.813328669783828*^9}, {
+  3.813329563704422*^9, 
+  3.8133295642864847`*^9}},ExpressionUUID->"5c3d00dc-5e65-4b1d-98d8-\
+ad218804bd30"],
+
+Cell[TextData[{
+ "The adjoint RTE can be obtained from above by replacing radiance L with \
+importance \[CapitalPsi]\nand emission ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["L", "e"], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "2a0bb32c-d604-41f9-85e6-95d4b87e782b"],
+ " with the detector response function ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["\[CapitalPsi]", "e"], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "2f10ce73-d805-4c8d-a68f-dca9d51ab285"],
+ " (this is because the important event is emerging back from the medium, so \
+the outside acts as a uniform source of importance)."
+}], "Text",
+ CellChangeTimes->{{3.813328771185607*^9, 3.813328796676744*^9}, {
+   3.813328835055668*^9, 3.8133288350561543`*^9}, {3.813329474358232*^9, 
+   3.813329527139382*^9}, 3.813340881758061*^9, {3.813341177292796*^9, 
+   3.813341207359345*^9}, {3.8133418075970697`*^9, 
+   3.813341809593137*^9}},ExpressionUUID->"ded2e552-62f2-445c-9e1f-\
+ca1b5816cb1b"],
+
+Cell[TextData[{
+ "Dwivedi showed that one can construct zero variance random walks by \
+sampling a new position ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["x", "'"], TraditionalForm]],ExpressionUUID->
+  "2d76315e-d389-4dac-9bd1-839576af4f78"],
+ " and direction ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["\[Omega]", "'"], TraditionalForm]],ExpressionUUID->
+  "cbf13ee7-0bd9-406c-95fe-ad9840b7b252"],
+ " proportionally to the product of phase function \[Phi], transmittance \
+\[Tau], and importance \[Psi] :"
+}], "Text",
+ CellChangeTimes->{{3.813329897453171*^9, 3.813329986628234*^9}, {
+   3.813330019219202*^9, 3.8133300214386177`*^9}, {3.813330095026843*^9, 
+   3.8133301044946537`*^9}, {3.813330162257698*^9, 3.813330198771042*^9}, {
+   3.813330406055488*^9, 3.8133304136089277`*^9}, {3.8133373905187197`*^9, 
+   3.81333739927293*^9}, {3.813337477756864*^9, 3.813337621673365*^9}, 
+   3.823878368966467*^9},ExpressionUUID->"d7998e03-367f-4813-a19b-\
+b6103b0486ad"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"p", 
+    RowBox[{"(", 
+     RowBox[{
+      SuperscriptBox["x", "'"], ",", 
+      RowBox[{
+       SuperscriptBox["\[Omega]", "'"], "|", "x"}], ",", "\[Omega]"}], 
+     ")"}]}], "\[Proportional]", " ", 
+   RowBox[{"\[Phi]", 
+    RowBox[{"(", 
+     RowBox[{"\[Omega]", ",", 
+      SuperscriptBox["\[Omega]", "'"]}], ")"}], " ", "\[Tau]", 
+    RowBox[{"(", 
+     RowBox[{"x", ",", 
+      SuperscriptBox["x", "'"]}], ")"}], " ", "\[Psi]", 
+    RowBox[{"(", 
+     RowBox[{
+      SuperscriptBox["x", "'"], ",", 
+      SuperscriptBox["\[Omega]", "'"]}], ")"}]}]}], " ", 
+  RowBox[{"(*", 
+   RowBox[{"--", 
+    RowBox[{",", " ", 
+     RowBox[{"where", " ", "--"}]}]}], "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{"\[Tau]", 
+   RowBox[{"(", 
+    RowBox[{"x", ",", 
+     SuperscriptBox["x", "'"]}], ")"}]}], " ", "=", " ", 
+  RowBox[{"exp", 
+   RowBox[{"(", 
+    RowBox[{"-", 
+     RowBox[{
+      SubsuperscriptBox["\[Integral]", "x", 
+       SuperscriptBox["x", "'"]], 
+      RowBox[{
+       SubscriptBox["\[Mu]", "t"], 
+       RowBox[{"(", 
+        SuperscriptBox["x", "*"], ")"}], 
+       RowBox[{"\[DifferentialD]", 
+        SuperscriptBox["x", "*"]}]}]}]}], ")"}]}]}]}], "Input",
+ CellChangeTimes->{{3.813339550626199*^9, 
+  3.813339583282392*^9}},ExpressionUUID->"31bf4812-c9ea-43e9-9af6-\
+0ffe06106c24"],
+
+Cell[TextData[{
+ "Unfortunately, this require knowledge of the importance function for every \
+position and direction, however Dwivedi showed that such an ",
+ StyleBox["importance function",
+  FontWeight->"Bold",
+  FontVariations->{"Underline"->True}],
+ StyleBox[" can be computed analytically for slab geometry using Singular \
+Eigenfunction Expansions",
+  FontVariations->{"Underline"->True}],
+ ". Singular Eigenfunction Expansions can be seen as representing the general \
+solution to the RTE or the adjoint RTE in a convenient basis. \n\nThis can be \
+done if some assumptions are introduced :\n\n- the geometric setup is assumed \
+to be a semi-infinite slab (aka half-space)\n- only the ",
+ StyleBox["depth in the medium",
+  FontVariations->{"Underline"->True}],
+ " ",
+ StyleBox["z",
+  FontWeight->"Bold",
+  FontColor->RGBColor[1, 0.5, 0.5]],
+ " and the ",
+ StyleBox["cosine of the angle between the ray direction and the surface \
+normal",
+  FontVariations->{"Underline"->True}],
+ ", ",
+ Cell[BoxData[
+  FormBox[
+   StyleBox[
+    SubscriptBox["\[Omega]", "z"],
+    FontWeight->"Bold"], TraditionalForm]],
+  FontColor->RGBColor[1, 0.5, 0.5],ExpressionUUID->
+  "c56d9baf-322b-4d9c-a7dd-0d0e9083d0de"],
+ ", are considered in this type of geometry.\n- the medium is assumed to be \
+homogeneous\n- the ",
+ StyleBox["phase function",
+  FontVariations->{"Underline"->True}],
+ " ",
+ StyleBox["\[Phi]",
+  FontWeight->"Bold",
+  FontColor->RGBColor[1, 0.5, 0.5]],
+ " is assumed to be isotropic and \n- no emission inside the medium is \
+considered\n\nCombined, these assumptions lead to the following ",
+ StyleBox["adjoint RTE",
+  FontColor->RGBColor[1, 0.5, 0]],
+ "."
+}], "Text",
+ CellChangeTimes->{{3.813329897453171*^9, 3.813329986628234*^9}, {
+   3.813330019219202*^9, 3.8133300214386177`*^9}, {3.813330095026843*^9, 
+   3.8133301044946537`*^9}, {3.813330162257698*^9, 3.813330198771042*^9}, {
+   3.813330406055488*^9, 3.8133304136089277`*^9}, {3.8133373905187197`*^9, 
+   3.81333739927293*^9}, {3.813337477756864*^9, 3.813337617753415*^9}, {
+   3.8133378808333473`*^9, 3.813337912252956*^9}, {3.813340940236546*^9, 
+   3.8133409488866987`*^9}, {3.813341027096396*^9, 3.81334102871319*^9}, {
+   3.813341062740694*^9, 3.813341067500079*^9}, 
+   3.823878382645204*^9},ExpressionUUID->"9d88dadd-4848-4336-adf1-\
+3ba1f36c5a41"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"[", 
+    RowBox[{
+     SubscriptBox["\[Omega]", "z"], 
+     RowBox[{
+      FractionBox["\[PartialD]", 
+       RowBox[{"\[PartialD]", "z"}]], 
+      RowBox[{"+", 
+       SubscriptBox["\[Mu]", "t"]}]}]}], "]"}], "\[CapitalPsi]", 
+   RowBox[{"(", 
+    RowBox[{"z", ",", 
+     SubscriptBox["\[Omega]", "z"]}], ")"}]}], " ", "=", " ", 
+  RowBox[{
+   FractionBox[
+    SubscriptBox["\[Mu]", "s"], "2"], 
+   RowBox[{
+    SuperscriptBox[
+     SubscriptBox["\[Integral]", 
+      RowBox[{"-", "1"}]], "1"], 
+    RowBox[{"\[CapitalPsi]", 
+     RowBox[{"(", 
+      RowBox[{"z", ",", 
+       SuperscriptBox[
+        SubscriptBox["\[Omega]", "z"], "'"]}], ")"}], 
+     SubscriptBox[
+      SuperscriptBox["d\[Omega]", "'"], "z"]}]}]}]}]], "Input",
+ CellChangeTimes->{{3.8133305454419813`*^9, 3.813330556292923*^9}, {
+  3.813330761953143*^9, 
+  3.813330975182583*^9}},ExpressionUUID->"80ba084f-db7f-460d-a2c4-\
+9958ee88c3d7"],
+
+Cell[TextData[{
+ "That eventually after being written as a linear combination and by pruning \
+the expansion and considering only the asymptotic term leads to ",
+ StyleBox["the final approximation",
+  FontColor->RGBColor[1, 0.5, 0]],
+ " :"
+}], "Text",
+ CellChangeTimes->{{3.813330998649991*^9, 
+  3.8133311478424387`*^9}},ExpressionUUID->"e0fe8673-c1ad-40c2-9a7b-\
+aa04598cd133"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"\[CapitalPsi]", 
+   RowBox[{"(", 
+    RowBox[{"z", ",", " ", 
+     SubscriptBox["\[Omega]", "z"]}], ")"}]}], "   ", "\[Proportional]", 
+  "   ", 
+  RowBox[{
+   FractionBox["1", 
+    RowBox[{
+     SubscriptBox["v", "0"], "-", 
+     SubscriptBox["\[Omega]", "z"]}]], 
+   SuperscriptBox["\[ExponentialE]", 
+    RowBox[{
+     RowBox[{"-", 
+      SubscriptBox["\[Mu]", "t"]}], 
+     RowBox[{"z", "/", 
+      SubscriptBox["v", "0"]}]}]]}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"--", 
+    RowBox[{"dEon", "--"}]}], "*)"}], " ", 
+  RowBox[{
+   SubscriptBox["\[Phi]", "0"], 
+   RowBox[{"(", 
+    RowBox[{
+     SubscriptBox["v", "0"], ",", "\[Mu]"}], ")"}], 
+   SuperscriptBox["\[ExponentialE]", 
+    RowBox[{
+     RowBox[{"-", "x"}], "/", 
+     SubscriptBox["v", "0"]}]]}]}]}], "Input",
+ CellChangeTimes->{{3.813331185474012*^9, 3.8133312962015123`*^9}, {
+  3.813339641340548*^9, 
+  3.813339750431831*^9}},ExpressionUUID->"4de1b407-0490-4445-9e9b-\
+f750be7d3992"],
+
+Cell["\<\
+Which can be seen as a simple exponential of optical depth \[Tau] from the \
+boundary,\
+\>", "Text",
+ CellChangeTimes->{{3.81333134330158*^9, 3.813331434176991*^9}, {
+  3.813341657864224*^9, 3.813341695948744*^9}, {3.813341732148712*^9, 
+  3.813341767550024*^9}, {3.81334258315987*^9, 3.813342589707851*^9}, {
+  3.813342622058774*^9, 
+  3.813342658593521*^9}},ExpressionUUID->"ae5616fa-2c25-4ade-948b-\
+ffd2ef93085f"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"I", 
+   RowBox[{"(", "\[Tau]", ")"}]}], "\[Tilde]", 
+  FormBox[
+   SuperscriptBox["e", 
+    RowBox[{
+     RowBox[{"\[Minus]", "\[Tau]"}], "/", 
+     SubscriptBox["v", "0"]}]],
+   TraditionalForm]}]], "Input",
+ CellChangeTimes->{{3.81333134330158*^9, 3.813331434176991*^9}, {
+  3.813341657864224*^9, 3.813341695948744*^9}, {3.813341732148712*^9, 
+  3.813341767550024*^9}, {3.81334258315987*^9, 3.813342589707851*^9}, {
+  3.813342622058774*^9, 
+  3.813342668528983*^9}},ExpressionUUID->"cc99ba63-ca31-4fe9-afd2-\
+3e564d859540"],
+
+Cell[TextData[{
+ "Note that ",
+ StyleBox["we are only interested in the proportionality \[Proportional] here \
+because we're looking for a probability density function",
+  FontSlant->"Italic"],
+ ". Note also that ",
+ StyleBox["the eigenvalue ",
+  FontSlant->"Italic"],
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["V", "0"], TraditionalForm]],
+  FormatType->"TraditionalForm",
+  FontSlant->"Italic",
+  FontVariations->{"Underline"->False},
+  FontColor->RGBColor[1, 0.5, 0.5],ExpressionUUID->
+  "b3a1fd88-b05b-4f03-b97e-105281eca053"],
+ StyleBox[" ",
+  FontSlant->"Italic"],
+ StyleBox["is called the diffusion length",
+  FontSlant->"Italic",
+  FontVariations->{"Underline"->True}],
+ StyleBox[" and it can be approximated numerically (for isotropic scattering, \
+is the posi-\ntive real solution of ",
+  FontSlant->"Italic"],
+ " 1 == ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["\[Alpha]v", "0"], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "73952205-e347-4176-a9f0-16cd66304153"],
+ " ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["tanh", 
+    RowBox[{"-", "1"}]], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "1d32ae63-10d9-41ea-ab19-c80fc6708c85"],
+ " ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"1", "/", 
+    SubscriptBox["\[Nu]", "0"]}], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "6c6d82c7-3998-4ef8-ae02-5103fc8aa2d0"],
+ ")."
+}], "Text",
+ CellChangeTimes->{{3.81333134330158*^9, 3.813331434176991*^9}, {
+   3.813341657864224*^9, 3.813341695948744*^9}, {3.813341732148712*^9, 
+   3.813341767550024*^9}, {3.81334258315987*^9, 3.813342589707851*^9}, {
+   3.813342622058774*^9, 3.813342671707753*^9}, {3.813345486870145*^9, 
+   3.81334548807798*^9}, 
+   3.813345849590301*^9},ExpressionUUID->"fed16524-00f4-4f3b-a4cc-\
+247b67390c05"],
+
+Cell["\<\
+Now, combining all the above while assuming a constant phase function a \
+reduction in variance can be expected by sampling directions and positions \
+from the distributions :\
+\>", "Text",
+ CellChangeTimes->{{3.813338009280904*^9, 
+  3.813338071921084*^9}},ExpressionUUID->"5bc551f6-c8ae-4c05-8eed-\
+3eebc09075cb"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"p", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{
+      SubsuperscriptBox["\[Omega]", "z", "'"], "|", "z"}], ",", " ", 
+     SubscriptBox["\[Omega]", "z"]}], ")"}]}], " ", "\[Proportional]", " ", 
+  FractionBox["1", 
+   RowBox[{
+    SubscriptBox["V", "0"], "-", 
+    SubscriptBox["\[Omega]", "z"]}]], "                              ", 
+  RowBox[{"(*", 
+   RowBox[{"--", " ", 
+    RowBox[{"directions", " ", "--"}]}], "*)"}]}]], "Input",
+ CellChangeTimes->{{3.8133380761662827`*^9, 3.8133381976767607`*^9}, {
+  3.8133382808764467`*^9, 
+  3.813338286969067*^9}},ExpressionUUID->"fe5d4120-2024-4dde-a673-\
+0c2885c01934"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"p", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{
+      SuperscriptBox["z", "'"], "|", "z"}], ",", " ", 
+     SubscriptBox["\[Omega]", "z"]}], ")"}]}], " ", "\[Proportional]", " ", 
+  RowBox[{"\[Tau]", 
+   RowBox[{"(", 
+    RowBox[{"z", ",", 
+     SuperscriptBox["z", "'"]}], ")"}], 
+   SuperscriptBox["\[ExponentialE]", 
+    RowBox[{
+     RowBox[{"-", 
+      SubscriptBox["\[Mu]", "t"]}], 
+     RowBox[{
+      SuperscriptBox["z", "'"], "/", 
+      SubscriptBox["V", "0"]}]}]], "       ", 
+   RowBox[{"(*", 
+    RowBox[{"--", " ", 
+     RowBox[{"positions", " ", "--"}]}], "*)"}]}]}]], "Input",
+ CellChangeTimes->{{3.8133382030761967`*^9, 
+  3.8133382850086718`*^9}},ExpressionUUID->"6ef1880b-d46a-4b50-84dc-\
+736068abb4dd"],
+
+Cell[TextData[{
+ StyleBox["(Direction sampling)",
+  FontWeight->"Bold"],
+ "\nThe normalized directional distribution is :"
+}], "Text",
+ CellChangeTimes->{{3.813338483014649*^9, 3.8133384954085617`*^9}, {
+  3.813342759889923*^9, 
+  3.8133427653050623`*^9}},ExpressionUUID->"61726f72-484d-46ed-a5b2-\
+cf863d991529"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"p", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{
+      SubsuperscriptBox["\[Omega]", "z", "'"], "|", "z"}], ",", 
+     SubscriptBox["\[Omega]", "z"]}], ")"}]}], " ", "=", " ", 
+  RowBox[{
+   FractionBox["1", 
+    RowBox[{"log", 
+     RowBox[{"(", 
+      FractionBox[
+       RowBox[{
+        SubscriptBox["V", "0"], "+", "1"}], 
+       RowBox[{
+        SubscriptBox["V", "0"], "-", "1"}]], ")"}]}]], 
+   FractionBox["1", 
+    RowBox[{
+     SubscriptBox["V", "0"], "-", 
+     SubscriptBox["\[Omega]", "z"]}]]}]}]], "Input",
+ CellChangeTimes->{{3.813338551322163*^9, 3.813338657459015*^9}, {
+  3.81334521139993*^9, 
+  3.8133452204534683`*^9}},ExpressionUUID->"ef1fbe50-6623-4380-8be1-\
+95fb2a05bcca"],
+
+Cell["which can be sampled using \[Xi] \[Tilde] \[ScriptCapitalU](0,1) as :", \
+"Text",
+ CellChangeTimes->{{3.813338668730645*^9, 
+  3.8133387726375713`*^9}},ExpressionUUID->"b34bedfa-a6a3-4483-a3f4-\
+42b9ef8da688"],
+
+Cell[BoxData[
+ RowBox[{
+  SubscriptBox["\[Omega]", "z"], "=", " ", 
+  RowBox[{
+   SubscriptBox["v", "0"], "-", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{
+      SubscriptBox["v", "0"], "+", "1"}], ")"}], 
+    SuperscriptBox[
+     RowBox[{"(", 
+      FractionBox[
+       RowBox[{
+        SubscriptBox["v", "0"], "-", "1"}], 
+       RowBox[{
+        SubscriptBox["v", "0"], "+", "1"}]], ")"}], "\[Xi]"]}]}]}]], "Input",
+ CellChangeTimes->{{3.8133387794448137`*^9, 3.8133388423980618`*^9}, {
+  3.813345116411446*^9, 
+  3.8133451278563013`*^9}},ExpressionUUID->"0a5a6481-67aa-4a6e-a3c2-\
+b77f473a841c"],
+
+Cell[TextData[{
+ "\nSo (dEON), if the classical sampling in an isotropic medium selects a \
+direction cosine ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["\[Upsilon]", "0"], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "95634d4d-baeb-4bf7-8815-cf221189d32e"],
+ " for the outgoing direction uniformly from [\[Minus]1, 1],  with pdf ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"p", "(", 
+    SubscriptBox["\[Upsilon]", "0"]}], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "1788180b-e704-44fc-874f-7ca42829646e"],
+ ") = 1/2. Dwivedi\[CloseCurlyQuote]s procedure leads to the the following \
+distribution for outgoing direction cosine ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["\[Upsilon]", "0"], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "e809bd95-b843-4bfa-9ca2-586703176198"],
+ " (measured from the principal axis perpendicular to the half-space medium \
+boundary):"
+}], "Text",
+ CellChangeTimes->{{3.813339820339772*^9, 3.813339923697647*^9}, {
+   3.8133429163810873`*^9, 3.813342941065*^9}, {3.8133430724967337`*^9, 
+   3.8133432759259987`*^9}, {3.813343393440061*^9, 3.813343410888356*^9}, 
+   3.813343552519286*^9, {3.813343668464437*^9, 3.813343671084508*^9}, 
+   3.813343717287372*^9, {3.813345371644367*^9, 
+   3.8133453722234793`*^9}},ExpressionUUID->"155d740e-77e7-46c9-9d5b-\
+a944aa2610b3"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   SuperscriptBox["p", "'"], 
+   RowBox[{"(", 
+    SubscriptBox["\[Upsilon]", "0"], ")"}]}], "=", 
+  RowBox[{
+   FractionBox["\[Alpha]", "2"], 
+   FractionBox[
+    SubscriptBox["v", "0"], 
+    RowBox[{
+     SubscriptBox["v", "0"], "-", 
+     SubscriptBox["\[Upsilon]", "0"]}]]}]}]], "Input",
+ CellChangeTimes->{{3.813339820339772*^9, 3.813339923697647*^9}, {
+  3.8133429163810873`*^9, 3.813342941065*^9}, {3.8133430724967337`*^9, 
+  3.8133433201640043`*^9}},ExpressionUUID->"d48fb631-7649-4d25-8b36-\
+04068a84747f"],
+
+Cell[TextData[{
+ StyleBox["\n(Distance sampling)",
+  FontWeight->"Bold"],
+ "\nThe free path sampling PDF (positions) can be simplified assuming the \
+medium is homogeneous that means the transmittance term is a simple \
+exponential in t ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"=", 
+    RowBox[{"||", 
+     RowBox[{
+      SuperscriptBox["z", "'"], "-", "z"}], "||"}]}], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "bf46d50e-245a-4b35-bdb8-1905c9759576"],
+ "\nUsing ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{
+     SuperscriptBox["z", "'"], "=", 
+     RowBox[{"z", "-", 
+      RowBox[{
+       SubscriptBox["\[Omega]", "z"], "t"}]}]}], ",", " ", 
+    RowBox[{"we", " ", "effectively", " ", "get"}]}], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "566f6f0a-9619-49ee-b6af-e01c43362e38"]
+}], "Text",
+ CellChangeTimes->{{3.813339820339772*^9, 3.813339923697647*^9}, {
+   3.8133429163810873`*^9, 3.813342941065*^9}, 
+   3.81334341751849*^9},ExpressionUUID->"a0334490-ce59-4b70-aff8-\
+c616e7a3e846"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"p", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"t", "|", "z"}], ",", 
+     SubscriptBox["\[Omega]", "z"]}], ")"}]}], " ", "=", " ", 
+  SuperscriptBox["\[ExponentialE]", 
+   RowBox[{
+    RowBox[{"-", 
+     RowBox[{"(", 
+      RowBox[{"1", "-", 
+       RowBox[{
+        SubscriptBox["\[Omega]", "z"], "/", 
+        SubscriptBox["v", "0"]}]}], ")"}]}], 
+    SubscriptBox["\[Mu]", "t"], "t"}]], "  ", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"--", " ", "t"}], " ", "or", " ", "z"}], " ", ".."}], " ", 
+     "t"}], "|", 
+    RowBox[{"z", " ", "--"}]}], "*)"}]}]], "Input",
+ CellChangeTimes->{{3.813339929873519*^9, 3.813340006268978*^9}, {
+  3.813340106563279*^9, 3.813340116426695*^9}, {3.8133406127923107`*^9, 
+  3.813340669376032*^9}, {3.813342549641008*^9, 
+  3.813342562738599*^9}},ExpressionUUID->"b21defd8-ef9a-4519-9918-\
+b785667b1ce6"],
+
+Cell["\<\
+The normalized positional distribution is a simple exponential distribution :\
+\
+\>", "Text",
+ CellChangeTimes->{{3.813340223047501*^9, 3.813340244149053*^9}, {
+  3.813342838850053*^9, 3.813342844334593*^9}, {3.813342932480782*^9, 
+  3.8133429368493958`*^9}},ExpressionUUID->"ea65fea0-b47a-42a0-a7fa-\
+6ffdf6e012e1"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"p", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"t", "|", "z"}], ",", 
+     SubscriptBox["\[Omega]", "z"]}], ")"}]}], " ", "=", " ", 
+  RowBox[{
+   RowBox[{"(", 
+    RowBox[{"1", "-", 
+     RowBox[{
+      SubscriptBox["\[Omega]", "z"], "/", 
+      SubscriptBox["v", "0"]}]}], ")"}], 
+   SubscriptBox["\[Mu]", "t"], 
+   SuperscriptBox["\[ExponentialE]", 
+    RowBox[{
+     RowBox[{"-", 
+      RowBox[{"(", 
+       RowBox[{"1", "-", 
+        RowBox[{
+         SubscriptBox["\[Omega]", "z"], "/", 
+         SubscriptBox["v", "0"]}]}], ")"}]}], 
+     SubscriptBox["\[Mu]", "t"], "t"}]]}]}]], "Input",
+ CellChangeTimes->{{3.8133402537092857`*^9, 
+  3.813340309978507*^9}},ExpressionUUID->"e7581f53-73c4-4a99-ad53-\
+b3d6a465daf2"],
+
+Cell["\<\
+This distribution can be sampled as usual (?). It effectively has a modified \
+extinction coeff:\
+\>", "Text",
+ CellChangeTimes->{{3.813340323401183*^9, 3.813340352841071*^9}, 
+   3.813410966804165*^9},ExpressionUUID->"d303b0db-0370-4103-bade-\
+82d78a45a3ab"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   SubsuperscriptBox["\[Mu]", "t", "'"], 
+   RowBox[{"(", 
+    SubscriptBox["\[Omega]", "z"], ")"}]}], " ", "=", " ", 
+  RowBox[{
+   RowBox[{"(", 
+    RowBox[{"1", "-", 
+     RowBox[{
+      SubscriptBox["\[Omega]", "z"], "/", 
+      SubscriptBox["v", "0"]}]}], ")"}], 
+   SubscriptBox["\[Mu]", "t"]}]}]], "Input",
+ CellChangeTimes->{{3.813340357713647*^9, 
+  3.813340418244996*^9}},ExpressionUUID->"5fbe07bc-3f0c-4f25-9fe4-\
+b6358a4733e5"],
+
+Cell[TextData[{
+ "\nSo (dEON), given an outgoing direction cosine ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["u", "0"], TraditionalForm]],
+  FormatType->"TraditionalForm",ExpressionUUID->
+  "2eb18935-926d-41db-a1f0-929cbb275ab8"],
+ " the transition distance s is chosen from an exponential distribution with \
+a modified extinction coefficient"
+}], "Text",
+ CellChangeTimes->{{3.813343528111342*^9, 3.813343548788596*^9}, {
+   3.8133436748928757`*^9, 3.813343677231038*^9}, 3.813343722120923*^9, {
+   3.81341098935568*^9, 
+   3.8134109908662148`*^9}},ExpressionUUID->"1d3e0f55-6498-4371-a4d8-\
+ec0e4154d696"],
+
+Cell[BoxData[
+ RowBox[{
+  SubsuperscriptBox["\[Sigma]", "t", "'"], "=", 
+  RowBox[{
+   SubscriptBox["\[Sigma]", "t"], 
+   RowBox[{"(", 
+    RowBox[{"1", "-", 
+     RowBox[{
+      SubscriptBox["\[Upsilon]", "0"], "/", 
+      SubscriptBox["v", "0"]}]}], ")"}]}]}]], "Input",
+ CellChangeTimes->{{3.8133435963602133`*^9, 3.81334365249164*^9}, {
+  3.813343877526845*^9, 
+  3.813343884870315*^9}},ExpressionUUID->"ba4dcf7a-9c40-4637-b95e-\
+2e727e63b23d"],
+
+Cell["The distance sampling pdf ", "Text",
+ CellChangeTimes->{{3.813343691186233*^9, 
+  3.813343699341848*^9}},ExpressionUUID->"927fcc79-db00-456e-aff4-\
+4e98d8a92276"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   SubsuperscriptBox["p", "d", "'"], 
+   RowBox[{"(", "s", ")"}]}], "=", 
+  RowBox[{
+   SubsuperscriptBox["\[Sigma]", "t", "'"], 
+   SuperscriptBox["\[ExponentialE]", 
+    RowBox[{"-", 
+     SubsuperscriptBox["s\[Sigma]", "t", "'"]}]]}]}]], "Input",
+ CellChangeTimes->{{3.8133437322860823`*^9, 
+  3.8133437766432257`*^9}},ExpressionUUID->"e2124a5f-a068-4363-b3bb-\
+5a0a5b320389"],
+
+Cell["can be sampled as ", "Text",
+ CellChangeTimes->{{3.813343789180542*^9, 
+  3.813343795406212*^9}},ExpressionUUID->"49b98a9c-e98f-481e-9e65-\
+c8c0c84b583c"],
+
+Cell[BoxData[
+ RowBox[{"s", "=", 
+  RowBox[{
+   RowBox[{"-", "log"}], 
+   RowBox[{
+    RowBox[{"(", 
+     SubscriptBox["\[Xi]", "s"], ")"}], "/", 
+    SubsuperscriptBox["\[Sigma]", "t", "'"], "  ", 
+    RowBox[{"(*", 
+     RowBox[{
+      RowBox[{"--", " ", "where"}], " ", "\[Xi]", " ", "is", " ", "a", " ", 
+      "uniform", " ", "random", " ", "variate", " ", "\[Xi]", " ", 
+      "\[Epsilon]", " ", "\[ScriptCapitalU]", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"0", ",", "1"}], ")"}], " ", "--"}]}], "*)"}]}]}]}]], "Input",\
+
+ CellChangeTimes->{{3.813343800311441*^9, 3.8133438524569607`*^9}, {
+  3.813346295532382*^9, 
+  3.813346361468276*^9}},ExpressionUUID->"cec290b4-438e-43a5-bc59-\
+2efd171ed407"],
+
+Cell[TextData[{
+ "\n",
+ StyleBox["TODO : integrate these equations with timmbeat code and compar\
+\[CloseCurlyQuote]em with appleseed\n\n4.2.1 Sampling from an inverse \
+transformation\n2019 - Monte Carlo Radiative Transfer.pdf\n\
+https://drive.google.com/drive/folders/15yvj3GtZ_1iqkSaFr9ZM\n\n1993 - \
+(Direct) Volume Rendering.pdf\n\n2015 - Introduction to Linear Transport \
+Theory.pdf\n\n2005 - Monte Carlo Simulations and Radiative Transfer from \
+(1-26pag)\n\
+https://drive.google.com/drive/folders/15yvj3GtZ_1iqkSaFr9ZMUVfN_kKVgtG0\n",
+  FontColor->RGBColor[1, 0.5, 0.5]]
+}], "Text",
+ CellChangeTimes->{{3.813345259788418*^9, 3.813345298643874*^9}, {
+  3.8133463874656477`*^9, 3.813346395861423*^9}, {3.814178051674614*^9, 
+  3.814178113695579*^9}, {3.814380488143489*^9, 3.814380495206929*^9}, {
+  3.814380610047394*^9, 
+  3.8143806225144033`*^9}},ExpressionUUID->"c79d28f4-a7d8-48af-8b66-\
+421af218f457"]
+},
+WindowSize->{1225, 1304},
+WindowMargins->{{42, Automatic}, {0, Automatic}},
+Magnification:>1.5 Inherited,
+FrontEndVersion->"11.2 for Linux x86 (64-bit) (September 10, 2017)",
+StyleDefinitions->"DarkThemeCol.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 3317, 66, 311, "Input",ExpressionUUID->"ced3a0fc-62f0-49e3-9540-ab503c41a3f8"],
+Cell[CellGroupData[{
+Cell[3900, 90, 365, 9, 74, "Input",ExpressionUUID->"d39568d0-231b-4e03-a9f4-8d21ba20008d"],
+Cell[4268, 101, 467, 13, 74, "Output",ExpressionUUID->"ccf91b5f-0f7e-4c48-913c-b0196c66b47b"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4772, 119, 221, 5, 71, "Input",ExpressionUUID->"1cf57507-12a1-4e41-bbbd-536359ebf843"],
+Cell[4996, 126, 287, 7, 74, "Output",ExpressionUUID->"a4d94924-b9bc-47a1-8955-fc0e8b49f6f0"]
+}, Open  ]],
+Cell[5298, 136, 443, 11, 113, "Text",ExpressionUUID->"6c5d34d8-c957-4081-9f29-62f60a242ef5"],
+Cell[5744, 149, 1232, 37, 95, "Input",ExpressionUUID->"aa50138e-4549-4241-8867-4e40b753e6bf"],
+Cell[6979, 188, 529, 13, 71, "Input",ExpressionUUID->"d334d841-b877-45c6-afcd-14d5ca2b2c65"],
+Cell[7511, 203, 395, 11, 71, "Input",ExpressionUUID->"a9620614-03d4-4651-a9d0-dd2ec605b3ad"],
+Cell[7909, 216, 719, 21, 106, "Input",ExpressionUUID->"d9f18831-cf17-487b-af64-8aecfd75dab5"],
+Cell[8631, 239, 472, 12, 75, "Input",ExpressionUUID->"5c3d00dc-5e65-4b1d-98d8-ad218804bd30"],
+Cell[9106, 253, 1013, 22, 107, "Text",ExpressionUUID->"ded2e552-62f2-445c-9e1f-ca1b5816cb1b"],
+Cell[10122, 277, 975, 21, 110, "Text",ExpressionUUID->"d7998e03-367f-4813-a19b-b6103b0486ad"],
+Cell[11100, 300, 1340, 44, 160, "Input",ExpressionUUID->"31bf4812-c9ea-43e9-9af6-0ffe06106c24"],
+Cell[12443, 346, 2322, 54, 491, "Text",ExpressionUUID->"9d88dadd-4848-4336-adf1-3ba1f36c5a41"],
+Cell[14768, 402, 955, 31, 96, "Input",ExpressionUUID->"80ba084f-db7f-460d-a2c4-9958ee88c3d7"],
+Cell[15726, 435, 379, 9, 78, "Text",ExpressionUUID->"e0fe8673-c1ad-40c2-9a7b-aa04598cd133"],
+Cell[16108, 446, 1017, 34, 134, "Input",ExpressionUUID->"4de1b407-0490-4445-9e9b-f750be7d3992"],
+Cell[17128, 482, 427, 9, 48, "Text",ExpressionUUID->"ae5616fa-2c25-4ade-948b-ffd2ef93085f"],
+Cell[17558, 493, 560, 15, 71, "Input",ExpressionUUID->"cc99ba63-ca31-4fe9-afd2-3e564d859540"],
+Cell[18121, 510, 1807, 52, 140, "Text",ExpressionUUID->"fed16524-00f4-4f3b-a4cc-247b67390c05"],
+Cell[19931, 564, 325, 7, 78, "Text",ExpressionUUID->"5bc551f6-c8ae-4c05-8eed-3eebc09075cb"],
+Cell[20259, 573, 651, 18, 96, "Input",ExpressionUUID->"fe5d4120-2024-4dde-a673-0c2885c01934"],
+Cell[20913, 593, 758, 24, 95, "Input",ExpressionUUID->"6ef1880b-d46a-4b50-84dc-736068abb4dd"],
+Cell[21674, 619, 313, 8, 78, "Text",ExpressionUUID->"61726f72-484d-46ed-a5b2-cf863d991529"],
+Cell[21990, 629, 732, 24, 120, "Input",ExpressionUUID->"ef1fbe50-6623-4380-8be1-95fb2a05bcca"],
+Cell[22725, 655, 215, 4, 48, "Text",ExpressionUUID->"b34bedfa-a6a3-4483-a3f4-42b9ef8da688"],
+Cell[22943, 661, 599, 19, 97, "Input",ExpressionUUID->"0a5a6481-67aa-4a6e-a3c2-b77f473a841c"],
+Cell[23545, 682, 1376, 31, 166, "Text",ExpressionUUID->"155d740e-77e7-46c9-9d5b-a944aa2610b3"],
+Cell[24924, 715, 550, 16, 92, "Input",ExpressionUUID->"d48fb631-7649-4d25-8b36-04068a84747f"],
+Cell[25477, 733, 1053, 30, 172, "Text",ExpressionUUID->"a0334490-ce59-4b70-aff8-c616e7a3e846"],
+Cell[26533, 765, 921, 28, 73, "Input",ExpressionUUID->"b21defd8-ef9a-4519-9918-b785667b1ce6"],
+Cell[27457, 795, 326, 7, 48, "Text",ExpressionUUID->"ea65fea0-b47a-42a0-a7fa-6ffdf6e012e1"],
+Cell[27786, 804, 759, 25, 73, "Input",ExpressionUUID->"e7581f53-73c4-4a99-ad53-b3d6a465daf2"],
+Cell[28548, 831, 269, 6, 48, "Text",ExpressionUUID->"d303b0db-0370-4103-bade-82d78a45a3ab"],
+Cell[28820, 839, 474, 15, 71, "Input",ExpressionUUID->"5fbe07bc-3f0c-4f25-9fe4-b6358a4733e5"],
+Cell[29297, 856, 610, 14, 107, "Text",ExpressionUUID->"1d3e0f55-6498-4371-a4d8-ec0e4154d696"],
+Cell[29910, 872, 448, 13, 71, "Input",ExpressionUUID->"ba4dcf7a-9c40-4637-b95e-2e727e63b23d"],
+Cell[30361, 887, 168, 3, 48, "Text",ExpressionUUID->"927fcc79-db00-456e-aff4-4e98d8a92276"],
+Cell[30532, 892, 414, 12, 71, "Input",ExpressionUUID->"e2124a5f-a068-4363-b3bb-5a0a5b320389"],
+Cell[30949, 906, 160, 3, 48, "Text",ExpressionUUID->"49b98a9c-e98f-481e-9e65-c8c0c84b583c"],
+Cell[31112, 911, 717, 20, 74, "Input",ExpressionUUID->"cec290b4-438e-43a5-bc59-2efd171ed407"],
+Cell[31832, 933, 914, 17, 434, "Text",ExpressionUUID->"c79d28f4-a7d8-48af-8b66-421af218f457"]
+}
+]
+*)
+
