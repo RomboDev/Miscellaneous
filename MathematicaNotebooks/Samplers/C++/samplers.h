@@ -4,6 +4,7 @@
 #include <bitset>
 #include <math.h>
 #include <assert.h>
+#include <intrin.h>
 
 #pragma once
 
@@ -15,8 +16,13 @@ typedef unsigned int uint;
 #endif
 
 uint64_t next_pow2(uint64_t x) {
+#ifdef _MSC_VER
+	return x == 1 ? 1 : 1 << (64 - __lzcnt(x - 1));
+#else
 	return x == 1 ? 1 : 1<<(64-__builtin_clzl(x-1));
+#endif
 }
+
 
 /////////////////////////////
 // Correlated Multi-Jitter //
@@ -24,7 +30,7 @@ uint64_t next_pow2(uint64_t x) {
 #define rot(x,k) (((x)<<(k)) | ((x)>>(32-(k))))
 
 template<typename T>
-static inline T hash_int_2d(const uint kx, const uint ky)
+inline T hash_int_2d(const uint kx, const uint ky)
 {
 	T a, b, c;
 
@@ -48,16 +54,16 @@ static inline T hash_int_2d(const uint kx, const uint ky)
 	return (T)c;
 };
 
-static inline
+inline
 int float_to_int(float f){ return (int)f; }
 
-static inline 
+inline 
 int cmj_isqrt(int value){ float_to_int(sqrtf(value) + 1e-6f); }
 
-static inline 
+inline 
 int cmj_fast_mod_pow2(int a, int b){ return (a & (b - 1)); }
 
-static inline 
+inline 
 uint cmj_hash(uint i, uint p)
 {
 	i ^= p;
@@ -74,7 +80,7 @@ uint cmj_hash(uint i, uint p)
 	return i;
 }
 
-static inline 
+inline 
 uint cmj_hash_simple(uint i, uint p)
 {
 	i = (i ^ 61) ^ p;
@@ -84,19 +90,19 @@ uint cmj_hash_simple(uint i, uint p)
 	return i;
 }
 
-static inline 
+inline 
 float cmj_randfloat(uint i, uint p)
 {
 	return cmj_hash(i, p) * (1.0f / 4294967808.0f);
 }
 
-static inline 
+inline 
 bool cmj_is_pow2(int i)
 {
 	return (i > 1) && ((i & (i - 1)) == 0);
 }
 
-static inline 
+inline 
 uint cmj_w_mask(uint w)
 {	
 	w |= w >> 1;
@@ -110,7 +116,7 @@ uint cmj_w_mask(uint w)
 }
 
 //
-static inline 
+inline 
 uint cmj_permute(uint i, uint l, uint p)
 {
 	uint w = l - 1;
@@ -168,7 +174,7 @@ uint cmj_permute(uint i, uint l, uint p)
 	}
 }
 
-static inline
+inline
 float cmj_sample_1D(int s, int N, int p)
 {
 	const uint x = cmj_permute(s, N, p * 0x68bc21eb);
@@ -178,7 +184,7 @@ float cmj_sample_1D(int s, int N, int p)
 	return (x + jx)*invN;
 }
 
-static inline
+inline
 void cmj_sample_2D(int s, int N, int p, float *fx, float *fy)
 {
 	assert(s < N);
@@ -223,7 +229,7 @@ void cmj_sample_2D(int s, int N, int p, float *fx, float *fy)
 	*fy = (s + jy)*invN;
 }
 
-static inline
+inline
 void cmj_sample_2D(int s, int N, int p, double *fx, double *fy)
 {
 	const int m = sqrt(N);
@@ -284,7 +290,7 @@ inline Double hal(const int b, int j)
 }
 // Computes the entry in the base 2 Halton sequence at the specified index.
 // Based on PBRT at https://github.com/mmp/pbrt-v3/blob/master/src/core/lowdiscrepancy.h.
-static inline 
+inline 
 float halton2(uint32_t index)
 {
     index = (index << 16) | (index >> 16);
@@ -297,14 +303,15 @@ float halton2(uint32_t index)
     return index * 1.0f / ull;
 }
 // Computes the entry in the base 3 Halton sequence at the specified index.
-static inline 
+inline 
 float halton3(uint32_t index)
 {
     float result = 0.0f;
     float scale = 1.0f;
     while (index != 0)
     {
-		const u_int32_t xx = index%3;
+		//const u_int32_t xx = index%3;
+		const uint32_t xx = index%3;
         scale /= 3;
         result += xx * scale;
         index /= 3;
@@ -313,7 +320,7 @@ float halton3(uint32_t index)
     return result;
 }
 //This looks nicer than the Halton based on perms and it 3x faster 
-static inline 
+inline 
 void getRandomHalton2D(uint32_t index, float& u1, float& u2)
 {
     u1 = halton2(index);
@@ -335,7 +342,7 @@ const float i0 = 0.700;
 const float alpha0 = 1.0/phi;
 const float alpha1 = 1.0/phi/phi;
 
-static inline 
+inline 
 float hash( uint x, uint y)
 {
     uint qx = 1103515245U * ( (x>>1U) ^ (x) );
@@ -349,7 +356,7 @@ float fmod(float x)
 {
  	return x - floor(x);   
 }
-static inline
+inline
 void getR2Sample2D(int i, float lambda, double* r0, double*r1)
 {
     float u0 = hash(i, 0);
@@ -358,7 +365,7 @@ void getR2Sample2D(int i, float lambda, double* r0, double*r1)
 	*r0 = fmod(alpha0 * float(i) + lambda * delta0 * sqrt(pi) / (4.0 * sqrt(float(i) - i0)) * u0);
 	*r1 = fmod(alpha1 * float(i) + lambda * delta0 * sqrt(pi) / (4.0 * sqrt(float(i) - i0)) * u1);
 }
-static inline
+inline
 float getR2Sample(int i, float lambda=1.f)
 {
     float u0 = hash(i, 0);
@@ -373,7 +380,7 @@ float getR2Sample(int i, float lambda=1.f)
 //////////////////////////
 // Owen Scrambled Sobol //
 //////////////////////////
-static inline
+inline
 void Sobol(uint n, uint&px, uint&py) {
     px = 0u;
     py = 0u;
@@ -408,7 +415,7 @@ inline
 uint LCG2(uint n) {
     return (n * 1103515245u) + 12345u; 		// from glibc
 }
-static inline
+inline
 uint OwenScramble(uint p, uint s) {
     s = LCG2(s);
     
@@ -430,7 +437,7 @@ uint OwenScramble(uint p, uint s) {
 //////////////////
 // Hashing      //
 //////////////////
-static inline
+inline
 uint32_t wangHash(uint32_t x)
 {
     x = (x ^ 61) ^ (x >> 16);
@@ -441,7 +448,7 @@ uint32_t wangHash(uint32_t x)
 
     return x;
 }
-static inline
+inline
 uint32_t lowBias32Hash(uint32_t x)
 {
     x ^= x >> 16;
