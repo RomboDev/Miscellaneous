@@ -164,7 +164,8 @@ std::vector<Token> shuntingYard(const std::vector<Token>& tokens)
                 while (!operatorsStack.empty() && 
                        operatorsStack.top().type == TokenType::OPERATOR &&
                        ((operators[token.value].leftAssociative && operators[token.value].precedence <= operators[operatorsStack.top().value].precedence) ||
-                        (!operators[token.value].leftAssociative && operators[token.value].precedence < operators[operatorsStack.top().value].precedence))) {
+                        (!operators[token.value].leftAssociative && operators[token.value].precedence < operators[operatorsStack.top().value].precedence))) 
+                {
                     output.push_back(operatorsStack.top());
                     operatorsStack.pop();
                 }
