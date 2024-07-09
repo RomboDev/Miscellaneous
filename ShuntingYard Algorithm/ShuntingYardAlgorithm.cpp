@@ -86,27 +86,27 @@ std::vector<Token> tokenize(const std::string& expression)
     std::vector<Token> tokens;
     std::string numberBuffer;
     std::string funcBuffer;
-	
+    
     for (char ch : expression) 
-	{
+    {
         // std::isdigit is no good .. 
         if (isdigit(static_cast<unsigned char>(ch)) || ch == '.') {
             numberBuffer += ch;
         } else 
-		{
+        {
             if (!numberBuffer.empty()) {
                 tokens.emplace_back(TokenType::NUMBER, numberBuffer);
                 numberBuffer.clear();
             }
-			
+            
             // std::isalpha is no good .. 
             if (isalpha(static_cast<unsigned char>(ch))) 
-			{
+            {
                 funcBuffer += ch;
             } else 
-			{
+            {
                 if (!funcBuffer.empty()) 
-				{
+                {
                     if (functions.find(funcBuffer) != functions.end())
                         tokens.emplace_back(TokenType::FUNCTION, funcBuffer);
                     else if (funcBuffer == "x")
@@ -116,7 +116,7 @@ std::vector<Token> tokenize(const std::string& expression)
                     
                     funcBuffer.clear();
                 }
-				
+                
                 if (ch == '(' || ch == ')')
                     tokens.emplace_back(TokenType::PARENTHESIS, std::string(1, ch));
                 else if (operators.find(std::string(1, ch)) != operators.end()) 
@@ -126,12 +126,12 @@ std::vector<Token> tokenize(const std::string& expression)
             }
         }
     }
-	
+    
     if (!numberBuffer.empty())
         tokens.emplace_back(TokenType::NUMBER, numberBuffer);
-	
+    
     if (!funcBuffer.empty()) 
-	{
+    {
         if (functions.find(funcBuffer) != functions.end())
             tokens.emplace_back(TokenType::FUNCTION, funcBuffer);
         else if (funcBuffer == "x")
@@ -150,9 +150,9 @@ std::vector<Token> shuntingYard(const std::vector<Token>& tokens)
     std::stack<Token> operatorsStack;
 
     for (const Token& token : tokens) 
-	{
+    {
         switch (token.type) 
-		{
+        {
             case TokenType::NUMBER:
             case TokenType::VARIABLE:
                 output.push_back(token);
@@ -172,21 +172,21 @@ std::vector<Token> shuntingYard(const std::vector<Token>& tokens)
                 break;
             case TokenType::PARENTHESIS:
                 if (token.value == "(") 
-				{
+                {
                     operatorsStack.push(token);
                 } else if (token.value == ")") 
-				{
+                {
                     while (!operatorsStack.empty() && operatorsStack.top().value != "(") 
-					{
+                    {
                         output.push_back(operatorsStack.top());
                         operatorsStack.pop();
                     }
-					
+                    
                     if (!operatorsStack.empty() && operatorsStack.top().value == "(")
                         operatorsStack.pop();
                     
                     if (!operatorsStack.empty() && operatorsStack.top().type == TokenType::FUNCTION) 
-					{
+                    {
                         output.push_back(operatorsStack.top());
                         operatorsStack.pop();
                     }
@@ -196,7 +196,7 @@ std::vector<Token> shuntingYard(const std::vector<Token>& tokens)
     }
 
     while (!operatorsStack.empty()) 
-	{
+    {
         if (operatorsStack.top().type == TokenType::PARENTHESIS)
             throw std::runtime_error("Mismatched parentheses in expression.");
         
@@ -214,23 +214,23 @@ number evaluateRPN(const std::vector<Token>& tokens, number x)
     std::stack<number> values;
 
     for (const Token& token : tokens) 
-	{
+    {
         if (token.type == TokenType::NUMBER) 
-		{
+        {
             values.push(std::stod(token.value));
         } else if (token.type == TokenType::VARIABLE) 
-		{
+        {
             values.push(x);
         } else if (token.type == TokenType::OPERATOR) 
-		{
+        {
             if (values.size() < 2)
                 throw std::runtime_error("Insufficient values in expression for operator: " + token.value);
-			
+            
             number right = values.top(); values.pop();
             number left = values.top(); values.pop();
             values.push(operators[token.value].function(left, right));
         } else if (token.type == TokenType::FUNCTION) 
-		{
+        {
             if (values.empty())
                 throw std::runtime_error("Insufficient values in expression for function: " + token.value);
             
