@@ -65,11 +65,11 @@ struct Function {
 
 std::unordered_map<std::string, Operator> operators = 
 {
-	{"+", {1, true, [](number a, number b) { return a + b; }}},             // Addition:        precedence 1, left-associative
-	{"-", {1, true, [](number a, number b) { return a - b; }}},             // Subtraction:     precedence 1, left-associative
-	{"*", {2, true, [](number a, number b) { return a * b; }}},             // Multiplication:  precedence 2, left-associative
-	{"/", {2, true, [](number a, number b) { return a / b; }}},             // Division:        precedence 2, left-associative
-	{"^", {3, false, [](number a, number b) { return std::pow(a, b); }}}    // Exponentiation:  precedence 3, right-associative
+    {"+", {1, true, [](number a, number b) { return a + b; }}},             // Addition:        precedence 1, left-associative
+    {"-", {1, true, [](number a, number b) { return a - b; }}},             // Subtraction:     precedence 1, left-associative
+    {"*", {2, true, [](number a, number b) { return a * b; }}},             // Multiplication:  precedence 2, left-associative
+    {"/", {2, true, [](number a, number b) { return a / b; }}},             // Division:        precedence 2, left-associative
+    {"^", {3, false, [](number a, number b) { return std::pow(a, b); }}}    // Exponentiation:  precedence 3, right-associative
 };
 
 std::unordered_map<std::string, Function> functions = 
@@ -89,7 +89,7 @@ std::vector<Token> tokenize(const std::string& expression)
 	
     for (char ch : expression) 
 	{
-		// std::isdigit is no good .. 
+        // std::isdigit is no good .. 
         if (isdigit(static_cast<unsigned char>(ch)) || ch == '.') {
             numberBuffer += ch;
         } else 
@@ -99,7 +99,7 @@ std::vector<Token> tokenize(const std::string& expression)
                 numberBuffer.clear();
             }
 			
-			// std::isalpha is no good .. 
+            // std::isalpha is no good .. 
             if (isalpha(static_cast<unsigned char>(ch))) 
 			{
                 funcBuffer += ch;
