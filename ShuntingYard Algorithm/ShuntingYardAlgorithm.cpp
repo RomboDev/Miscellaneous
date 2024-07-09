@@ -90,7 +90,8 @@ std::vector<Token> tokenize(const std::string& expression)
     for (char ch : expression) 
     {
         // std::isdigit is no good .. 
-        if (isdigit(static_cast<unsigned char>(ch)) || ch == '.') {
+        if (isdigit(static_cast<unsigned char>(ch)) || ch == '.') 
+        {
             numberBuffer += ch;
         } else 
         {
