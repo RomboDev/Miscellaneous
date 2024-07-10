@@ -217,27 +217,33 @@ number evaluateRPN(const std::vector<Token>& tokens, number x)
 
     for (const Token& token : tokens) 
     {
-        if (token.type == TokenType::NUMBER) 
+        switch (token.type)
         {
+        case TokenType::NUMBER:
             values.push(std::stod(token.value));
-        } else if (token.type == TokenType::VARIABLE) 
-        {
+            break;
+        case TokenType::VARIABLE:
             values.push(x);
-        } else if (token.type == TokenType::OPERATOR) 
-        {
+            break;
+        case TokenType::OPERATOR:
+            {
             if (values.size() < 2)
                 throw std::runtime_error("Insufficient values in expression for operator: " + token.value);
-            
+
             number right = values.top(); values.pop();
             number left = values.top(); values.pop();
             values.push(operators[token.value].function(left, right));
-        } else if (token.type == TokenType::FUNCTION) 
-        {
+            }
+            break;
+        case TokenType::FUNCTION:
+            {
             if (values.empty())
                 throw std::runtime_error("Insufficient values in expression for function: " + token.value);
-            
+
             number value = values.top(); values.pop();
             values.push(functions[token.value].function(value));
+            }
+            break;
         }
     }
 
