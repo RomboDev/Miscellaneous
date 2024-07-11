@@ -8,3 +8,5 @@ meaning.. I don't plan to fix it :)
 
 Compile it with  : g++ -o mathparser ShuntingYardAlgorithm.cpp -lm
 Then run it with : ./mathparser
+
+![](https://www.rombo.tools/downloads/shuntingyard.jpg)
