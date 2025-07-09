@@ -1,0 +1,431 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     16953,        421]
+NotebookOptionsPosition[     16319,        402]
+NotebookOutlinePosition[     16867,        420]
+CellTagsIndexPosition[     16824,        417]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+   "Visualize", " ", "and", " ", "manipulate", " ", "solid", " ", "angle", 
+    " ", "sampling"}], "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{
+   "Create", " ", "orthonormal", " ", "basis", " ", "around", " ", "a", " ", 
+    "direction"}], "*)"}], 
+  RowBox[{
+   RowBox[{
+    RowBox[{"createBasis", "[", "baseDir_", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"tangent1", ",", "tangent2", ",", "normalizedBase"}], "}"}], 
+      ",", 
+      RowBox[{
+       RowBox[{"normalizedBase", "=", 
+        RowBox[{"Normalize", "[", "baseDir", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{"Create", " ", "first", " ", "tangent", " ", "vector"}], 
+        "*)"}], 
+       RowBox[{"tangent1", "=", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Abs", "[", 
+            RowBox[{"baseDir", "[", 
+             RowBox[{"[", "1", "]"}], "]"}], "]"}], ">", 
+           RowBox[{"Abs", "[", 
+            RowBox[{"baseDir", "[", 
+             RowBox[{"[", "2", "]"}], "]"}], "]"}]}], ",", 
+          RowBox[{"Normalize", "[", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"-", 
+              RowBox[{"baseDir", "[", 
+               RowBox[{"[", "3", "]"}], "]"}]}], ",", "0", ",", 
+             RowBox[{"baseDir", "[", 
+              RowBox[{"[", "1", "]"}], "]"}]}], "}"}], "]"}], ",", 
+          RowBox[{"Normalize", "[", 
+           RowBox[{"{", 
+            RowBox[{"0", ",", 
+             RowBox[{"baseDir", "[", 
+              RowBox[{"[", "3", "]"}], "]"}], ",", 
+             RowBox[{"-", 
+              RowBox[{"baseDir", "[", 
+               RowBox[{"[", "2", "]"}], "]"}]}]}], "}"}], "]"}]}], "]"}]}], 
+       ";", "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{"Create", " ", "second", " ", "tangent", " ", "vector"}], 
+        "*)"}], 
+       RowBox[{"tangent2", "=", 
+        RowBox[{"Cross", "[", 
+         RowBox[{"normalizedBase", ",", "tangent1"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"{", 
+        RowBox[{"tangent1", ",", "tangent2", ",", "normalizedBase"}], 
+        "}"}]}]}], "]"}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Perturb", " ", "direction", " ", "around", " ", "its", " ", "solid", " ",
+      "angle", " ", "cone"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"perturbDirection", "[", 
+     RowBox[{"baseDir_", ",", "u1_", ",", "u2_", ",", "maxAngleRad_"}], "]"}],
+     ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "tangent1", ",", "tangent2", ",", "normalizedBase", ",", "cosTheta", 
+        ",", "sinTheta", ",", "phi", ",", "localDir"}], "}"}], ",", 
+      RowBox[{
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"maxAngleRad", "\[LessEqual]", 
+          RowBox[{"10", "^", 
+           RowBox[{"(", 
+            RowBox[{"-", "5"}], ")"}]}]}], ",", 
+         RowBox[{"Return", "[", 
+          RowBox[{"Normalize", "[", "baseDir", "]"}], "]"}]}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{"Create", " ", "orthonormal", " ", "basis"}], "*)"}], 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"tangent1", ",", "tangent2", ",", "normalizedBase"}], "}"}], 
+        "=", 
+        RowBox[{"createBasis", "[", "baseDir", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+        "Generate", " ", "point", " ", "in", " ", "cone", " ", "with", " ", 
+         "uniform", " ", "distribution"}], "*)"}], 
+       RowBox[{"cosTheta", "=", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"1", "-", "u1"}], ")"}], "*", 
+          RowBox[{"Cos", "[", "maxAngleRad", "]"}]}], "+", 
+         RowBox[{"u1", "*", "1.0"}]}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"sinTheta", "=", 
+        RowBox[{"Sqrt", "[", 
+         RowBox[{"1", "-", 
+          RowBox[{"cosTheta", "^", "2"}]}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"phi", "=", 
+        RowBox[{"u2", "*", "2", "*", "Pi"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+        "Local", " ", "direction", " ", "in", " ", "spherical", " ", 
+         "coordinates"}], "*)"}], 
+       RowBox[{"localDir", "=", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"sinTheta", "*", 
+           RowBox[{"Cos", "[", "phi", "]"}]}], ",", 
+          RowBox[{"sinTheta", "*", 
+           RowBox[{"Sin", "[", "phi", "]"}]}], ",", "cosTheta"}], "}"}]}], 
+       ";", "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{"Transform", " ", "to", " ", "world", " ", "space"}], "*)"}], 
+       RowBox[{"Normalize", "[", 
+        RowBox[{
+         RowBox[{"tangent1", "*", 
+          RowBox[{"localDir", "[", 
+           RowBox[{"[", "1", "]"}], "]"}]}], "+", 
+         RowBox[{"tangent2", "*", 
+          RowBox[{"localDir", "[", 
+           RowBox[{"[", "2", "]"}], "]"}]}], "+", 
+         RowBox[{"normalizedBase", "*", 
+          RowBox[{"localDir", "[", 
+           RowBox[{"[", "3", "]"}], "]"}]}]}], "]"}]}]}], "]"}]}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"Interactive", " ", "version"}], "-", 
+     RowBox[{"uncomment", " ", "to", " ", "use"}]}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"Manipulate", "[", 
+    RowBox[{
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "perturbedDirs", "}"}], ",", 
+       RowBox[{
+        RowBox[{"perturbedDirs", "=", 
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{"perturbDirection", "[", 
+            RowBox[{"baseDir", ",", 
+             RowBox[{"RandomReal", "[", "]"}], ",", 
+             RowBox[{"RandomReal", "[", "]"}], ",", "maxAngleRad"}], "]"}], 
+           ",", 
+           RowBox[{"{", "numVectors", "}"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Graphics3D", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{"Red", ",", 
+              RowBox[{"Thickness", "[", "0.01", "]"}], ",", 
+              RowBox[{"Arrow", "[", 
+               RowBox[{"{", 
+                RowBox[{
+                 RowBox[{"{", 
+                  RowBox[{"0", ",", "0", ",", "0"}], "}"}], ",", 
+                 RowBox[{"vecLength", "*", 
+                  RowBox[{"Normalize", "[", "baseDir", "]"}]}]}], "}"}], 
+               "]"}]}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"Blue", ",", 
+              RowBox[{"Thickness", "[", "0.005", "]"}], ",", 
+              RowBox[{"Table", "[", 
+               RowBox[{
+                RowBox[{"Arrow", "[", 
+                 RowBox[{"{", 
+                  RowBox[{
+                   RowBox[{"{", 
+                    RowBox[{"0", ",", "0", ",", "0"}], "}"}], ",", 
+                   RowBox[{"vecLength", "*", "dir"}]}], "}"}], "]"}], ",", 
+                RowBox[{"{", 
+                 RowBox[{"dir", ",", "perturbedDirs"}], "}"}]}], "]"}]}], 
+             "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"Gray", ",", 
+              RowBox[{"Opacity", "[", "0.2", "]"}], ",", 
+              RowBox[{"With", "[", 
+               RowBox[{
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"coneHeight", "=", 
+                   RowBox[{"vecLength", "*", 
+                    RowBox[{"Cos", "[", "maxAngleRad", "]"}]}]}], ",", 
+                  RowBox[{"coneRadius", "=", 
+                   RowBox[{"vecLength", "*", 
+                    RowBox[{"Sin", "[", "maxAngleRad", "]"}]}]}]}], "}"}], 
+                ",", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"{", 
+                   RowBox[{
+                   "tangent1", ",", "tangent2", ",", "normalizedBase"}], 
+                   "}"}], "=", 
+                  RowBox[{"createBasis", "[", "baseDir", "]"}]}], ";", 
+                 "\[IndentingNewLine]", 
+                 RowBox[{"Cone", "[", 
+                  RowBox[{
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"coneHeight", "*", "normalizedBase"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "0", ",", "0"}], "}"}]}], "}"}], ",", 
+                   "coneRadius"}], "]"}]}]}], "]"}]}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"Black", ",", 
+              RowBox[{"PointSize", "[", "0.02", "]"}], ",", 
+              RowBox[{"Point", "[", 
+               RowBox[{"{", 
+                RowBox[{"0", ",", "0", ",", "0"}], "}"}], "]"}]}], "}"}]}], 
+           "}"}], ",", 
+          RowBox[{"PlotRange", "\[Rule]", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"-", "2"}], ",", "2"}], "}"}], ",", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"-", "2"}], ",", "2"}], "}"}], ",", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"-", "2"}], ",", "2"}], "}"}]}], "}"}]}], ",", 
+          RowBox[{"Axes", "\[Rule]", "True"}], ",", 
+          RowBox[{"AxesLabel", "\[Rule]", 
+           RowBox[{"{", 
+            RowBox[{"\"\<X\>\"", ",", "\"\<Y\>\"", ",", "\"\<Z\>\""}], 
+            "}"}]}], ",", 
+          RowBox[{"BoxRatios", "\[Rule]", 
+           RowBox[{"{", 
+            RowBox[{"1", ",", "1", ",", "1"}], "}"}]}], ",", 
+          RowBox[{"ViewPoint", "\[Rule]", 
+           RowBox[{"{", 
+            RowBox[{"2", ",", 
+             RowBox[{"-", "2"}], ",", "1.5"}], "}"}]}], ",", 
+          RowBox[{"Lighting", "\[Rule]", "\"\<Neutral\>\""}], ",", 
+          RowBox[{"PlotLabel", "\[Rule]", 
+           RowBox[{"StringForm", "[", 
+            RowBox[{"\"\<Cone Perturbation (Max Angle: ``\[Degree])\>\"", ",", 
+             RowBox[{"Round", "[", 
+              RowBox[{"maxAngleRad", "*", 
+               RowBox[{"180", "/", "Pi"}]}], "]"}]}], "]"}]}]}], "]"}]}]}], 
+      "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"baseDir", ",", 
+         RowBox[{"{", 
+          RowBox[{"0", ",", "1", ",", "0"}], "}"}], ",", 
+         "\"\<Base Direction\>\""}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"-", "2"}], ",", 
+         RowBox[{"-", "2"}], ",", 
+         RowBox[{"-", "2"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"2", ",", "2", ",", "2"}], "}"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"maxAngleRad", ",", 
+         RowBox[{"Pi", "/", "6"}], ",", "\"\<Max Angle (rad)\>\""}], "}"}], 
+       ",", "0", ",", 
+       RowBox[{"Pi", "/", "2"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"numVectors", ",", "50", ",", "\"\<Number of Vectors\>\""}], 
+        "}"}], ",", "10", ",", "100", ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"vecLength", ",", "1.5", ",", "\"\<Vector Length\>\""}], 
+        "}"}], ",", "0.5", ",", "3"}], "}"}]}], "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.961057130734846*^9, 3.9610571307368507`*^9}, {
+  3.9610571716418285`*^9, 3.9610571831786776`*^9}, {3.9610572180221777`*^9, 
+  3.9610572211813493`*^9}, {3.961057288980517*^9, 3.961057319110535*^9}, {
+  3.9610573640777893`*^9, 3.9610573725638943`*^9}, {3.9610578700468917`*^9, 
+  3.9610579730898333`*^9}},
+ CellLabel->"In[25]:=",ExpressionUUID->"561a2cbe-0169-4114-a891-b4f674fe5af7"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`baseDir$$ = {0, 1, 
+    0}, $CellContext`maxAngleRad$$ = Rational[1, 6] 
+    Pi, $CellContext`numVectors$$ = 50, $CellContext`vecLength$$ = 1.5, 
+    Typeset`show$$ = True, Typeset`bookmarkList$$ = {}, 
+    Typeset`bookmarkMode$$ = "Menu", Typeset`animator$$, Typeset`animvar$$ = 
+    1, Typeset`name$$ = "\"untitled\"", Typeset`specs$$ = {{{
+       Hold[$CellContext`baseDir$$], {0, 1, 0}, 
+       "Base Direction"}, {-2, -2, -2}, {2, 2, 2}}, {{
+       Hold[$CellContext`maxAngleRad$$], Rational[1, 6] Pi, 
+       "Max Angle (rad)"}, 0, Rational[1, 2] Pi}, {{
+       Hold[$CellContext`numVectors$$], 50, "Number of Vectors"}, 10, 100, 
+      1}, {{
+       Hold[$CellContext`vecLength$$], 1.5, "Vector Length"}, 0.5, 3}}, 
+    Typeset`size$$ = {360., {195., 199.}}, Typeset`update$$ = 0, 
+    Typeset`initDone$$, Typeset`skipInitDone$$ = True}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`baseDir$$ = {0, 1, 
+         0}, $CellContext`maxAngleRad$$ = 
+        Rational[1, 6] Pi, $CellContext`numVectors$$ = 
+        50, $CellContext`vecLength$$ = 1.5}, "ControllerVariables" :> {}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> 
+      Module[{$CellContext`perturbedDirs$}, $CellContext`perturbedDirs$ = 
+         Table[
+           $CellContext`perturbDirection[$CellContext`baseDir$$, 
+            RandomReal[], 
+            
+            RandomReal[], $CellContext`maxAngleRad$$], \
+{$CellContext`numVectors$$}]; Graphics3D[{{Red, 
+            Thickness[0.01], 
+            
+            Arrow[{{0, 0, 0}, $CellContext`vecLength$$ 
+              Normalize[$CellContext`baseDir$$]}]}, {Blue, 
+            Thickness[0.005], 
+            Table[
+             
+             Arrow[{{0, 0, 
+               0}, $CellContext`vecLength$$ $CellContext`dir}], \
+{$CellContext`dir, $CellContext`perturbedDirs$}]}, {Gray, 
+            Opacity[0.2], 
+            
+            With[{$CellContext`coneHeight$ = $CellContext`vecLength$$ 
+               Cos[$CellContext`maxAngleRad$$], $CellContext`coneRadius$ = \
+$CellContext`vecLength$$ 
+               Sin[$CellContext`maxAngleRad$$]}, {$CellContext`tangent1, \
+$CellContext`tangent2, $CellContext`normalizedBase} = \
+$CellContext`createBasis[$CellContext`baseDir$$]; 
+             Cone[{$CellContext`coneHeight$ $CellContext`normalizedBase, {0, 
+                0, 0}}, $CellContext`coneRadius$]]}, {Black, 
+            PointSize[0.02], 
+            Point[{0, 0, 0}]}}, PlotRange -> {{-2, 2}, {-2, 2}, {-2, 2}}, 
+          Axes -> True, AxesLabel -> {"X", "Y", "Z"}, BoxRatios -> {1, 1, 1}, 
+          ViewPoint -> {2, -2, 1.5}, Lighting -> "Neutral", PlotLabel -> 
+          StringForm["Cone Perturbation (Max Angle: ``\[Degree])", 
+            Round[$CellContext`maxAngleRad$$ (180/Pi)]]]], 
+      "Specifications" :> {{{$CellContext`baseDir$$, {0, 1, 0}, 
+          "Base Direction"}, {-2, -2, -2}, {2, 2, 
+         2}}, {{$CellContext`maxAngleRad$$, Rational[1, 6] Pi, 
+          "Max Angle (rad)"}, 0, Rational[1, 2] 
+         Pi}, {{$CellContext`numVectors$$, 50, "Number of Vectors"}, 10, 100, 
+         1}, {{$CellContext`vecLength$$, 1.5, "Vector Length"}, 0.5, 3}}, 
+      "Options" :> {}, "DefaultOptions" :> {}],
+     ImageSizeCache->{409., {278., 284.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{3.961058183479436*^9, 3.961058274571328*^9},
+ CellLabel->"Out[27]=",ExpressionUUID->"11ea6379-227a-4a45-a680-9b285020c90a"]
+}, Open  ]]
+},
+WindowSize->{1136, 1381},
+WindowMargins->{{407, Automatic}, {Automatic, 35}},
+FrontEndVersion->"12.2 for Microsoft Windows (64-bit) (December 12, 2020)",
+StyleDefinitions->FrontEnd`FileName[{$RootDirectory, "G:", "git", 
+   "Miscellaneous", "MathematicaNotebooks", "Themes"}, "DarkThemeCol.nb", 
+  CharacterEncoding -> "UTF-8"],
+ExpressionUUID->"97ac5dcd-78ba-4791-a70e-1b394d382d3f"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 11619, 294, 634, "Input",ExpressionUUID->"561a2cbe-0169-4114-a891-b4f674fe5af7"],
+Cell[12202, 318, 4101, 81, 597, "Output",ExpressionUUID->"11ea6379-227a-4a45-a680-9b285020c90a"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+
