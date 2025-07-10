@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     16953,        421]
-NotebookOptionsPosition[     16319,        402]
-NotebookOutlinePosition[     16867,        420]
-CellTagsIndexPosition[     16824,        417]
+NotebookDataLength[     86981,       1933]
+NotebookOptionsPosition[     85916,       1907]
+NotebookOutlinePosition[     86558,       1927]
+CellTagsIndexPosition[     86515,       1924]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -24,12 +24,13 @@ Cell[BoxData[
  RowBox[{
   RowBox[{"(*", 
    RowBox[{
-   "Visualize", " ", "and", " ", "manipulate", " ", "solid", " ", "angle", 
-    " ", "sampling"}], "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "Interactive", " ", "code", " ", "to", " ", "compare", " ", "two", " ", 
+    "solid", " ", "angle", " ", "sampling", " ", "methods"}], "*)"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
   RowBox[{"(*", 
    RowBox[{
-   "Create", " ", "orthonormal", " ", "basis", " ", "around", " ", "a", " ", 
-    "direction"}], "*)"}], 
+   "Create", " ", "an", " ", "orthonormal", " ", "basis", " ", "around", " ", 
+    "a", " ", "direction"}], "*)"}], 
   RowBox[{
    RowBox[{
     RowBox[{"createBasis", "[", "baseDir_", "]"}], ":=", 
@@ -81,14 +82,15 @@ Cell[BoxData[
        "\[IndentingNewLine]", 
        RowBox[{"{", 
         RowBox[{"tangent1", ",", "tangent2", ",", "normalizedBase"}], 
-        "}"}]}]}], "]"}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
-   "\n", 
+        "}"}]}]}], "]"}]}], "\n", "\[IndentingNewLine]", 
    RowBox[{"(*", 
     RowBox[{
-    "Perturb", " ", "direction", " ", "around", " ", "its", " ", "solid", " ",
-      "angle", " ", "cone"}], "*)"}], "\[IndentingNewLine]", 
+     RowBox[{"Method", " ", "1"}], " ", ":", " ", 
+     RowBox[{
+     "Perturb", " ", "vector", " ", "around", " ", "its", " ", "solid", " ", 
+      "cone", " ", "angle"}]}], "*)"}], "\[IndentingNewLine]", 
    RowBox[{
-    RowBox[{"perturbDirection", "[", 
+    RowBox[{"perturbDirectionSolidAngle", "[", 
      RowBox[{"baseDir_", ",", "u1_", ",", "u2_", ",", "maxAngleRad_"}], "]"}],
      ":=", 
     RowBox[{"Module", "[", 
@@ -107,18 +109,12 @@ Cell[BoxData[
          RowBox[{"Return", "[", 
           RowBox[{"Normalize", "[", "baseDir", "]"}], "]"}]}], "]"}], ";", 
        "\[IndentingNewLine]", 
-       RowBox[{"(*", 
-        RowBox[{"Create", " ", "orthonormal", " ", "basis"}], "*)"}], 
        RowBox[{
         RowBox[{"{", 
          RowBox[{"tangent1", ",", "tangent2", ",", "normalizedBase"}], "}"}], 
         "=", 
         RowBox[{"createBasis", "[", "baseDir", "]"}]}], ";", 
        "\[IndentingNewLine]", 
-       RowBox[{"(*", 
-        RowBox[{
-        "Generate", " ", "point", " ", "in", " ", "cone", " ", "with", " ", 
-         "uniform", " ", "distribution"}], "*)"}], 
        RowBox[{"cosTheta", "=", 
         RowBox[{
          RowBox[{
@@ -133,10 +129,6 @@ Cell[BoxData[
        "\[IndentingNewLine]", 
        RowBox[{"phi", "=", 
         RowBox[{"u2", "*", "2", "*", "Pi"}]}], ";", "\[IndentingNewLine]", 
-       RowBox[{"(*", 
-        RowBox[{
-        "Local", " ", "direction", " ", "in", " ", "spherical", " ", 
-         "coordinates"}], "*)"}], 
        RowBox[{"localDir", "=", 
         RowBox[{"{", 
          RowBox[{
@@ -145,8 +137,6 @@ Cell[BoxData[
           RowBox[{"sinTheta", "*", 
            RowBox[{"Sin", "[", "phi", "]"}]}], ",", "cosTheta"}], "}"}]}], 
        ";", "\[IndentingNewLine]", 
-       RowBox[{"(*", 
-        RowBox[{"Transform", " ", "to", " ", "world", " ", "space"}], "*)"}], 
        RowBox[{"Normalize", "[", 
         RowBox[{
          RowBox[{"tangent1", "*", 
@@ -161,28 +151,187 @@ Cell[BoxData[
    "\[IndentingNewLine]", "\[IndentingNewLine]", 
    RowBox[{"(*", 
     RowBox[{
-     RowBox[{"Interactive", " ", "version"}], "-", 
-     RowBox[{"uncomment", " ", "to", " ", "use"}]}], "*)"}], 
-   "\[IndentingNewLine]", 
+     RowBox[{"Method", " ", "2"}], " ", ":", " ", 
+     RowBox[{
+     "Fill", " ", "disk", " ", "with", " ", "pts", " ", "and", " ", "connect",
+       " ", "them", " ", "to", " ", "base"}]}], "*)"}], "\n", 
+   RowBox[{
+    RowBox[{"perturbDirectionDisk", "[", 
+     RowBox[{"baseDir_", ",", "u1_", ",", "u2_", ",", "maxAngleRad_"}], "]"}],
+     ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "tangent1", ",", "tangent2", ",", "normalizedBase", ",", "r", ",", 
+        "theta", ",", "diskX", ",", "diskY", ",", "diskPoint"}], "}"}], ",", 
+      RowBox[{
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"maxAngleRad", "\[LessEqual]", 
+          RowBox[{"10", "^", 
+           RowBox[{"(", 
+            RowBox[{"-", "5"}], ")"}]}]}], ",", 
+         RowBox[{"Return", "[", 
+          RowBox[{"Normalize", "[", "baseDir", "]"}], "]"}]}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"tangent1", ",", "tangent2", ",", "normalizedBase"}], "}"}], 
+        "=", 
+        RowBox[{"createBasis", "[", "baseDir", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+        "Sample", " ", "point", " ", "uniformly", " ", "on", " ", "disk"}], 
+        "*)"}], 
+       RowBox[{"r", "=", 
+        RowBox[{
+         RowBox[{"Sqrt", "[", "u1", "]"}], "*", 
+         RowBox[{"Tan", "[", "maxAngleRad", "]"}]}]}], ";", 
+       RowBox[{"(*", 
+        RowBox[{"radius", " ", "scaled", " ", "by", " ", "tan", 
+         RowBox[{"(", "max_angle", ")"}]}], "*)"}], 
+       RowBox[{"theta", "=", 
+        RowBox[{"u2", "*", "2", "*", "Pi"}]}], ";", 
+       RowBox[{"(*", 
+        RowBox[{"angle", " ", "around", " ", "disk"}], "*)"}], 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{"Cartesian", " ", "coordinates", " ", "on", " ", "disk"}], 
+        "*)"}], 
+       RowBox[{"diskX", "=", 
+        RowBox[{"r", "*", 
+         RowBox[{"Cos", "[", "theta", "]"}]}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"diskY", "=", 
+        RowBox[{"r", "*", 
+         RowBox[{"Sin", "[", "theta", "]"}]}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+        "Point", " ", "on", " ", "disk", " ", "positioned", " ", "at", " ", 
+         "distance", " ", "1", " ", "along", " ", "base", " ", "direction"}], 
+        "*)"}], 
+       RowBox[{"diskPoint", "=", 
+        RowBox[{"normalizedBase", "+", 
+         RowBox[{"tangent1", "*", "diskX"}], "+", 
+         RowBox[{"tangent2", "*", "diskY"}]}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+        "Direction", " ", "from", " ", "origin", " ", "to", " ", "disk", " ", 
+         "point"}], "*)"}], 
+       RowBox[{"Normalize", "[", "diskPoint", "]"}]}]}], "]"}]}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{"Interactive", " ", "comparison"}], "*)"}], "\[IndentingNewLine]", 
    RowBox[{"Manipulate", "[", 
     RowBox[{
      RowBox[{"Module", "[", 
       RowBox[{
-       RowBox[{"{", "perturbedDirs", "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+        "solidAngleSamples", ",", "diskProjectionSamples", ",", 
+         "selectedSamples", ",", "samplingMethod", ",", "methodColor", ",", 
+         "methodLabel", ",", "diskRadius", ",", "tangent1", ",", "tangent2", 
+         ",", "normalizedBase"}], "}"}], ",", 
+       RowBox[{"(*", 
+        RowBox[{
+        "Generate", " ", "samples", " ", "based", " ", "on", " ", "selected", 
+         " ", "method"}], "*)"}], 
        RowBox[{
-        RowBox[{"perturbedDirs", "=", 
-         RowBox[{"Table", "[", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"method", "\[Equal]", "\"\<Both\>\""}], ",", 
           RowBox[{
-           RowBox[{"perturbDirection", "[", 
-            RowBox[{"baseDir", ",", 
-             RowBox[{"RandomReal", "[", "]"}], ",", 
-             RowBox[{"RandomReal", "[", "]"}], ",", "maxAngleRad"}], "]"}], 
-           ",", 
-           RowBox[{"{", "numVectors", "}"}]}], "]"}]}], ";", 
+           RowBox[{"solidAngleSamples", "=", 
+            RowBox[{"Table", "[", 
+             RowBox[{
+              RowBox[{"perturbDirectionSolidAngle", "[", 
+               RowBox[{"baseDir", ",", 
+                RowBox[{"RandomReal", "[", "]"}], ",", 
+                RowBox[{"RandomReal", "[", "]"}], ",", "maxAngleRad"}], "]"}],
+               ",", 
+              RowBox[{"{", "numVectors", "}"}]}], "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"diskProjectionSamples", "=", 
+            RowBox[{"Table", "[", 
+             RowBox[{
+              RowBox[{"perturbDirectionDisk", "[", 
+               RowBox[{"baseDir", ",", 
+                RowBox[{"RandomReal", "[", "]"}], ",", 
+                RowBox[{"RandomReal", "[", "]"}], ",", "maxAngleRad"}], "]"}],
+               ",", 
+              RowBox[{"{", "numVectors", "}"}]}], "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"selectedSamples", "=", 
+            RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{"samplingMethod", "=", "\"\<Both\>\""}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"methodColor", "=", "Blue"}], ";", "\[IndentingNewLine]", 
+           RowBox[{"methodLabel", "=", "\"\<Both Methods\>\""}]}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"(*", 
+           RowBox[{"Single", " ", "method"}], "*)"}], 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"method", "\[Equal]", "\"\<Solid Angle\>\""}], ",", 
+            RowBox[{
+             RowBox[{"selectedSamples", "=", 
+              RowBox[{"Table", "[", 
+               RowBox[{
+                RowBox[{"perturbDirectionSolidAngle", "[", 
+                 RowBox[{"baseDir", ",", 
+                  RowBox[{"RandomReal", "[", "]"}], ",", 
+                  RowBox[{"RandomReal", "[", "]"}], ",", "maxAngleRad"}], 
+                 "]"}], ",", 
+                RowBox[{"{", "numVectors", "}"}]}], "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"samplingMethod", "=", "\"\<Solid Angle\>\""}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"methodColor", "=", "Blue"}], ";", "\[IndentingNewLine]", 
+             RowBox[{"methodLabel", "=", "\"\<Solid Angle Sampling\>\""}]}], 
+            ",", "\[IndentingNewLine]", 
+            RowBox[{"(*", 
+             RowBox[{"Disk", " ", "Projection"}], "*)"}], 
+            RowBox[{
+             RowBox[{"selectedSamples", "=", 
+              RowBox[{"Table", "[", 
+               RowBox[{
+                RowBox[{"perturbDirectionDisk", "[", 
+                 RowBox[{"baseDir", ",", 
+                  RowBox[{"RandomReal", "[", "]"}], ",", 
+                  RowBox[{"RandomReal", "[", "]"}], ",", "maxAngleRad"}], 
+                 "]"}], ",", 
+                RowBox[{"{", "numVectors", "}"}]}], "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"samplingMethod", "=", "\"\<Disk Projection\>\""}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"methodColor", "=", "Green"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{
+             "methodLabel", "=", "\"\<Disk Projection Method\>\""}]}]}], 
+           "]"}]}], "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"(*", 
+         RowBox[{"Calculate", " ", "disk", " ", "properties"}], "*)"}], 
+        "\[IndentingNewLine]", 
+        RowBox[{"diskRadius", "=", 
+         RowBox[{"Tan", "[", "maxAngleRad", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"tangent1", ",", "tangent2", ",", "normalizedBase"}], "}"}],
+          "=", 
+         RowBox[{"createBasis", "[", "baseDir", "]"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"(*", 
+         RowBox[{"Create", " ", "visualization"}], "*)"}], 
         "\[IndentingNewLine]", 
         RowBox[{"Graphics3D", "[", 
          RowBox[{
-          RowBox[{"{", 
+          RowBox[{"{", "\[IndentingNewLine]", 
+           RowBox[{"(*", 
+            RowBox[{
+             RowBox[{"Base", " ", "vector"}], "-", 
+             RowBox[{"always", " ", "red"}]}], "*)"}], 
            RowBox[{
             RowBox[{"{", 
              RowBox[{"Red", ",", 
@@ -194,58 +343,332 @@ Cell[BoxData[
                   RowBox[{"0", ",", "0", ",", "0"}], "}"}], ",", 
                  RowBox[{"vecLength", "*", 
                   RowBox[{"Normalize", "[", "baseDir", "]"}]}]}], "}"}], 
-               "]"}]}], "}"}], ",", 
-            RowBox[{"{", 
-             RowBox[{"Blue", ",", 
-              RowBox[{"Thickness", "[", "0.005", "]"}], ",", 
-              RowBox[{"Table", "[", 
-               RowBox[{
-                RowBox[{"Arrow", "[", 
-                 RowBox[{"{", 
-                  RowBox[{
-                   RowBox[{"{", 
-                    RowBox[{"0", ",", "0", ",", "0"}], "}"}], ",", 
-                   RowBox[{"vecLength", "*", "dir"}]}], "}"}], "]"}], ",", 
-                RowBox[{"{", 
-                 RowBox[{"dir", ",", "perturbedDirs"}], "}"}]}], "]"}]}], 
-             "}"}], ",", 
-            RowBox[{"{", 
-             RowBox[{"Gray", ",", 
-              RowBox[{"Opacity", "[", "0.2", "]"}], ",", 
-              RowBox[{"With", "[", 
-               RowBox[{
-                RowBox[{"{", 
-                 RowBox[{
-                  RowBox[{"coneHeight", "=", 
-                   RowBox[{"vecLength", "*", 
-                    RowBox[{"Cos", "[", "maxAngleRad", "]"}]}]}], ",", 
-                  RowBox[{"coneRadius", "=", 
-                   RowBox[{"vecLength", "*", 
-                    RowBox[{"Sin", "[", "maxAngleRad", "]"}]}]}]}], "}"}], 
-                ",", 
+               "]"}]}], "}"}], ",", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{"(*", 
+             RowBox[{"Method", "-", 
+              RowBox[{"specific", " ", "rendering"}]}], "*)"}], 
+            RowBox[{"Which", "[", 
+             RowBox[{
+              RowBox[{"method", "\[Equal]", "\"\<Both\>\""}], ",", 
+              RowBox[{"{", "\[IndentingNewLine]", 
+               RowBox[{"(*", 
                 RowBox[{
+                "Solid", " ", "angle", " ", "samples", " ", "in", " ", 
+                 "blue"}], "*)"}], 
+               RowBox[{
+                RowBox[{"{", 
+                 RowBox[{"Blue", ",", 
+                  RowBox[{"Thickness", "[", "0.005", "]"}], ",", 
+                  RowBox[{"Table", "[", 
+                   RowBox[{
+                    RowBox[{"Arrow", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "0", ",", "0"}], "}"}], ",", 
+                    RowBox[{"vecLength", "*", "dir"}]}], "}"}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"dir", ",", "solidAngleSamples"}], "}"}]}], 
+                   "]"}]}], "}"}], ",", "\[IndentingNewLine]", 
+                "\[IndentingNewLine]", 
+                RowBox[{"(*", 
+                 RowBox[{
+                 "Disk", " ", "projection", " ", "samples", " ", "in", " ", 
+                  "green"}], "*)"}], "\[IndentingNewLine]", 
+                RowBox[{"{", 
+                 RowBox[{"Green", ",", 
+                  RowBox[{"Thickness", "[", "0.005", "]"}], ",", 
+                  RowBox[{"Table", "[", 
+                   RowBox[{
+                    RowBox[{"Arrow", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "0", ",", "0"}], "}"}], ",", 
+                    RowBox[{"vecLength", "*", "dir"}]}], "}"}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"dir", ",", "diskProjectionSamples"}], "}"}]}], 
+                   "]"}]}], "}"}], ",", "\[IndentingNewLine]", 
+                "\[IndentingNewLine]", 
+                RowBox[{"(*", 
+                 RowBox[{
+                 "Show", " ", "sampling", " ", "disk", " ", "for", " ", 
+                  "disk", " ", "projection"}], "*)"}], 
+                RowBox[{"If", "[", 
+                 RowBox[{"showDisk", ",", 
+                  RowBox[{"{", 
+                   RowBox[{"Orange", ",", 
+                    RowBox[{"Opacity", "[", "0.3", "]"}], ",", 
+                    RowBox[{"Polygon", "[", 
+                    RowBox[{"Table", "[", 
+                    RowBox[{
+                    RowBox[{"normalizedBase", "+", 
+                    RowBox[{"diskRadius", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"tangent1", "*", 
+                    RowBox[{"Cos", "[", "angle", "]"}]}], "+", 
+                    RowBox[{"tangent2", "*", 
+                    RowBox[{"Sin", "[", "angle", "]"}]}]}], ")"}]}]}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"angle", ",", "0", ",", 
+                    RowBox[{"2", "*", "Pi"}], ",", 
+                    RowBox[{"Pi", "/", "20"}]}], "}"}]}], "]"}], "]"}]}], 
+                   "}"}], ",", 
+                  RowBox[{"{", "}"}]}], "]"}]}], "}"}], ",", 
+              RowBox[{"method", "\[Equal]", "\"\<Disk Projection\>\""}], ",", 
+              "\[IndentingNewLine]", "\[IndentingNewLine]", 
+              RowBox[{"{", 
+               RowBox[{"(*", 
+                RowBox[{"Disk", " ", "projection", " ", "samples"}], "*)"}], 
+               RowBox[{
+                RowBox[{"{", 
+                 RowBox[{"methodColor", ",", 
+                  RowBox[{"Thickness", "[", "0.005", "]"}], ",", 
+                  RowBox[{"Table", "[", 
+                   RowBox[{
+                    RowBox[{"Arrow", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "0", ",", "0"}], "}"}], ",", 
+                    RowBox[{"vecLength", "*", "dir"}]}], "}"}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"dir", ",", "selectedSamples"}], "}"}]}], "]"}]}],
+                  "}"}], ",", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                RowBox[{"(*", 
+                 RowBox[{"Show", " ", "sampling", " ", "disk"}], "*)"}], 
+                RowBox[{"If", "[", 
+                 RowBox[{"showDisk", ",", 
+                  RowBox[{"{", 
+                   RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"Orange", ",", 
+                    RowBox[{"Opacity", "[", "0.4", "]"}], ",", 
+                    RowBox[{"Polygon", "[", 
+                    RowBox[{"Table", "[", 
+                    RowBox[{
+                    RowBox[{"normalizedBase", "+", 
+                    RowBox[{"diskRadius", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"tangent1", "*", 
+                    RowBox[{"Cos", "[", "angle", "]"}]}], "+", 
+                    RowBox[{"tangent2", "*", 
+                    RowBox[{"Sin", "[", "angle", "]"}]}]}], ")"}]}]}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"angle", ",", "0", ",", 
+                    RowBox[{"2", "*", "Pi"}], ",", 
+                    RowBox[{"Pi", "/", "20"}]}], "}"}]}], "]"}], "]"}]}], 
+                    "}"}], ",", 
+                    RowBox[{"(*", 
+                    RowBox[{
+                    "Show", " ", "sample", " ", "points", " ", "on", " ", 
+                    "disk"}], "*)"}], 
+                    RowBox[{"If", "[", 
+                    RowBox[{"showDiskPoints", ",", 
+                    RowBox[{"{", 
+                    RowBox[{"Orange", ",", 
+                    RowBox[{"PointSize", "[", "0.008", "]"}], ",", 
+                    RowBox[{"Table", "[", 
+                    RowBox[{
+                    RowBox[{"With", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"u1", "=", 
+                    RowBox[{"RandomReal", "[", "]"}]}], ",", 
+                    RowBox[{"u2", "=", 
+                    RowBox[{"RandomReal", "[", "]"}]}]}], "}"}], ",", 
+                    RowBox[{"With", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"r", "=", 
+                    RowBox[{
+                    RowBox[{"Sqrt", "[", "u1", "]"}], "*", "diskRadius"}]}], 
+                    ",", 
+                    RowBox[{"theta", "=", 
+                    RowBox[{"u2", "*", "2", "*", "Pi"}]}]}], "}"}], ",", 
+                    RowBox[{"Point", "[", 
+                    RowBox[{"normalizedBase", "+", 
+                    RowBox[{"r", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"tangent1", "*", 
+                    RowBox[{"Cos", "[", "theta", "]"}]}], "+", 
+                    RowBox[{"tangent2", "*", 
+                    RowBox[{"Sin", "[", "theta", "]"}]}]}], ")"}]}]}], 
+                    "]"}]}], "]"}]}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"Min", "[", 
+                    RowBox[{"20", ",", "numVectors"}], "]"}], "}"}]}], 
+                    "]"}]}], "}"}], ",", 
+                    RowBox[{"{", "}"}]}], "]"}], ",", "\[IndentingNewLine]", 
+                    RowBox[{"(*", 
+                    RowBox[{"Show", " ", "projection", " ", "lines"}], "*)"}], 
+                    RowBox[{"If", "[", 
+                    RowBox[{"showProjectionLines", ",", 
+                    RowBox[{"{", 
+                    RowBox[{"Orange", ",", 
+                    RowBox[{"Opacity", "[", "0.3", "]"}], ",", 
+                    RowBox[{"Thickness", "[", "0.002", "]"}], ",", 
+                    RowBox[{"Table", "[", 
+                    RowBox[{
+                    RowBox[{"With", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"u1", "=", 
+                    RowBox[{"RandomReal", "[", "]"}]}], ",", 
+                    RowBox[{"u2", "=", 
+                    RowBox[{"RandomReal", "[", "]"}]}]}], "}"}], ",", 
+                    RowBox[{"With", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"r", "=", 
+                    RowBox[{
+                    RowBox[{"Sqrt", "[", "u1", "]"}], "*", "diskRadius"}]}], 
+                    ",", 
+                    RowBox[{"theta", "=", 
+                    RowBox[{"u2", "*", "2", "*", "Pi"}]}]}], "}"}], ",", 
+                    RowBox[{"Line", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "0", ",", "0"}], "}"}], ",", 
+                    RowBox[{"normalizedBase", "+", 
+                    RowBox[{"r", "*", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"tangent1", "*", 
+                    RowBox[{"Cos", "[", "theta", "]"}]}], "+", 
+                    RowBox[{"tangent2", "*", 
+                    RowBox[{"Sin", "[", "theta", "]"}]}]}], ")"}]}]}]}], 
+                    "}"}], "]"}]}], "]"}]}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"Min", "[", 
+                    RowBox[{"15", ",", "numVectors"}], "]"}], "}"}]}], 
+                    "]"}]}], "}"}], ",", 
+                    RowBox[{"{", "}"}]}], "]"}]}], "}"}], ",", 
+                  RowBox[{"{", "}"}]}], "]"}]}], "}"}], ",", "True", ",", 
+              "\[IndentingNewLine]", 
+              RowBox[{"(*", 
+               RowBox[{"Solid", " ", "angle", " ", "method"}], "*)"}], 
+              RowBox[{"{", 
+               RowBox[{"methodColor", ",", 
+                RowBox[{"Thickness", "[", "0.005", "]"}], ",", 
+                RowBox[{"Table", "[", 
+                 RowBox[{
+                  RowBox[{"Arrow", "[", 
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "0", ",", "0"}], "}"}], ",", 
+                    RowBox[{"vecLength", "*", "dir"}]}], "}"}], "]"}], ",", 
+                  RowBox[{"{", 
+                   RowBox[{"dir", ",", "selectedSamples"}], "}"}]}], "]"}]}], 
+               "}"}]}], "]"}], ",", "\[IndentingNewLine]", 
+            "\[IndentingNewLine]", 
+            RowBox[{"(*", 
+             RowBox[{"Cone", " ", "outline"}], "*)"}], 
+            RowBox[{"If", "[", 
+             RowBox[{"showCone", ",", 
+              RowBox[{"{", 
+               RowBox[{"Gray", ",", 
+                RowBox[{"Opacity", "[", "0.2", "]"}], ",", 
+                RowBox[{"With", "[", 
                  RowBox[{
                   RowBox[{"{", 
                    RowBox[{
-                   "tangent1", ",", "tangent2", ",", "normalizedBase"}], 
-                   "}"}], "=", 
-                  RowBox[{"createBasis", "[", "baseDir", "]"}]}], ";", 
-                 "\[IndentingNewLine]", 
-                 RowBox[{"Cone", "[", 
-                  RowBox[{
-                   RowBox[{"{", 
+                    RowBox[{"coneHeight", "=", 
+                    RowBox[{"vecLength", "*", 
+                    RowBox[{"Cos", "[", "maxAngleRad", "]"}]}]}], ",", 
+                    RowBox[{"coneRadius", "=", 
+                    RowBox[{"vecLength", "*", 
+                    RowBox[{"Sin", "[", "maxAngleRad", "]"}]}]}]}], "}"}], 
+                  ",", 
+                  RowBox[{"Cone", "[", 
+                   RowBox[{
+                    RowBox[{"{", 
                     RowBox[{
                     RowBox[{"coneHeight", "*", "normalizedBase"}], ",", 
                     RowBox[{"{", 
                     RowBox[{"0", ",", "0", ",", "0"}], "}"}]}], "}"}], ",", 
-                   "coneRadius"}], "]"}]}]}], "]"}]}], "}"}], ",", 
+                    "coneRadius"}], "]"}]}], "]"}]}], "}"}], ",", 
+              RowBox[{"{", "}"}]}], "]"}], ",", "\[IndentingNewLine]", 
+            RowBox[{"(*", 
+             RowBox[{"Origin", " ", "point"}], "*)"}], 
             RowBox[{"{", 
              RowBox[{"Black", ",", 
               RowBox[{"PointSize", "[", "0.02", "]"}], ",", 
               RowBox[{"Point", "[", 
                RowBox[{"{", 
-                RowBox[{"0", ",", "0", ",", "0"}], "}"}], "]"}]}], "}"}]}], 
-           "}"}], ",", 
+                RowBox[{"0", ",", "0", ",", "0"}], "}"}], "]"}]}], "}"}], ",",
+             "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"(*", "Labels", "*)"}], 
+            RowBox[{"If", "[", 
+             RowBox[{"showLabels", ",", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"{", 
+                 RowBox[{"Black", ",", 
+                  RowBox[{"Text", "[", 
+                   RowBox[{"\"\<Origin\>\"", ",", 
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "0", ",", 
+                    RowBox[{"-", "0.3"}]}], "}"}]}], "]"}]}], "}"}], ",", 
+                RowBox[{"{", 
+                 RowBox[{"Red", ",", 
+                  RowBox[{"Text", "[", 
+                   RowBox[{"\"\<Base Direction\>\"", ",", 
+                    RowBox[{
+                    RowBox[{"vecLength", "*", 
+                    RowBox[{"Normalize", "[", "baseDir", "]"}]}], "+", 
+                    RowBox[{"{", 
+                    RowBox[{"0.2", ",", "0.2", ",", "0"}], "}"}]}]}], "]"}]}],
+                  "}"}], ",", 
+                RowBox[{"If", "[", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"method", "\[Equal]", "\"\<Disk Projection\>\""}], 
+                   "&&", "showDisk"}], ",", 
+                  RowBox[{"{", 
+                   RowBox[{"Orange", ",", 
+                    RowBox[{"Text", "[", 
+                    RowBox[{"\"\<Sampling Disk\>\"", ",", 
+                    RowBox[{"normalizedBase", "+", 
+                    RowBox[{"{", 
+                    RowBox[{"0.3", ",", "0", ",", "0.3"}], "}"}]}]}], "]"}]}],
+                    "}"}], ",", 
+                  RowBox[{"{", "}"}]}], "]"}], ",", 
+                RowBox[{"If", "[", 
+                 RowBox[{
+                  RowBox[{"method", "\[Equal]", "\"\<Both\>\""}], ",", 
+                  RowBox[{"{", 
+                   RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"Blue", ",", 
+                    RowBox[{"Text", "[", 
+                    RowBox[{"\"\<Solid Angle\>\"", ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"-", "1.5"}], ",", "0.5", ",", "1"}], "}"}]}], 
+                    "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"Green", ",", 
+                    RowBox[{"Text", "[", 
+                    RowBox[{"\"\<Disk Projection\>\"", ",", 
+                    RowBox[{"{", 
+                    RowBox[{"1.5", ",", "0.5", ",", "1"}], "}"}]}], "]"}]}], 
+                    "}"}]}], "}"}], ",", 
+                  RowBox[{"{", "}"}]}], "]"}]}], "}"}], ",", 
+              RowBox[{"{", "}"}]}], "]"}]}], "}"}], ",", 
+          "\[IndentingNewLine]", "\[IndentingNewLine]", 
+          RowBox[{"(*", 
+           RowBox[{"Display", " ", "options"}], "*)"}], 
           RowBox[{"PlotRange", "\[Rule]", 
            RowBox[{"{", 
             RowBox[{
@@ -258,26 +681,43 @@ Cell[BoxData[
              RowBox[{"{", 
               RowBox[{
                RowBox[{"-", "2"}], ",", "2"}], "}"}]}], "}"}]}], ",", 
-          RowBox[{"Axes", "\[Rule]", "True"}], ",", 
+          RowBox[{"Axes", "\[Rule]", "showAxes"}], ",", 
           RowBox[{"AxesLabel", "\[Rule]", 
-           RowBox[{"{", 
-            RowBox[{"\"\<X\>\"", ",", "\"\<Y\>\"", ",", "\"\<Z\>\""}], 
-            "}"}]}], ",", 
+           RowBox[{"If", "[", 
+            RowBox[{"showAxes", ",", 
+             RowBox[{"{", 
+              RowBox[{"\"\<X\>\"", ",", "\"\<Y\>\"", ",", "\"\<Z\>\""}], 
+              "}"}], ",", "None"}], "]"}]}], ",", 
           RowBox[{"BoxRatios", "\[Rule]", 
            RowBox[{"{", 
             RowBox[{"1", ",", "1", ",", "1"}], "}"}]}], ",", 
-          RowBox[{"ViewPoint", "\[Rule]", 
-           RowBox[{"{", 
-            RowBox[{"2", ",", 
-             RowBox[{"-", "2"}], ",", "1.5"}], "}"}]}], ",", 
+          RowBox[{"ViewPoint", "\[Rule]", "viewPoint"}], ",", 
           RowBox[{"Lighting", "\[Rule]", "\"\<Neutral\>\""}], ",", 
           RowBox[{"PlotLabel", "\[Rule]", 
            RowBox[{"StringForm", "[", 
-            RowBox[{"\"\<Cone Perturbation (Max Angle: ``\[Degree])\>\"", ",", 
+            RowBox[{
+            "\"\<`` (Max Angle: ``\[Degree], Vectors: ``)\>\"", ",", 
+             "methodLabel", ",", 
              RowBox[{"Round", "[", 
               RowBox[{"maxAngleRad", "*", 
-               RowBox[{"180", "/", "Pi"}]}], "]"}]}], "]"}]}]}], "]"}]}]}], 
-      "]"}], ",", 
+               RowBox[{"180", "/", "Pi"}]}], "]"}], ",", "numVectors"}], 
+            "]"}]}], ",", "\[IndentingNewLine]", 
+          RowBox[{"ImageSize", "\[Rule]", 
+           RowBox[{"{", 
+            RowBox[{"Full", ",", "800"}], "}"}]}]}], "\[IndentingNewLine]", 
+         "]"}]}]}], "\[IndentingNewLine]", "]"}], ",", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", "Controls", "*)"}], 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "method", ",", "\"\<Both\>\"", ",", "\"\<Sampling Method\>\""}], 
+        "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+        "\"\<Solid Angle\>\"", ",", "\"\<Disk Projection\>\"", ",", 
+         "\"\<Both\>\""}], "}"}]}], "}"}], ",", 
      RowBox[{"{", 
       RowBox[{
        RowBox[{"{", 
@@ -297,98 +737,524 @@ Cell[BoxData[
        RowBox[{"{", 
         RowBox[{"maxAngleRad", ",", 
          RowBox[{"Pi", "/", "6"}], ",", "\"\<Max Angle (rad)\>\""}], "}"}], 
-       ",", "0", ",", 
-       RowBox[{"Pi", "/", "2"}]}], "}"}], ",", 
+       ",", "0.01", ",", 
+       RowBox[{"Pi", "/", "2"}], ",", "0.01"}], "}"}], ",", 
      RowBox[{"{", 
       RowBox[{
        RowBox[{"{", 
         RowBox[{"numVectors", ",", "50", ",", "\"\<Number of Vectors\>\""}], 
-        "}"}], ",", "10", ",", "100", ",", "1"}], "}"}], ",", 
+        "}"}], ",", "10", ",", "200", ",", "1"}], "}"}], ",", 
      RowBox[{"{", 
       RowBox[{
        RowBox[{"{", 
         RowBox[{"vecLength", ",", "1.5", ",", "\"\<Vector Length\>\""}], 
-        "}"}], ",", "0.5", ",", "3"}], "}"}]}], "]"}]}]}]], "Input",
- CellChangeTimes->{{3.961057130734846*^9, 3.9610571307368507`*^9}, {
-  3.9610571716418285`*^9, 3.9610571831786776`*^9}, {3.9610572180221777`*^9, 
-  3.9610572211813493`*^9}, {3.961057288980517*^9, 3.961057319110535*^9}, {
-  3.9610573640777893`*^9, 3.9610573725638943`*^9}, {3.9610578700468917`*^9, 
-  3.9610579730898333`*^9}},
- CellLabel->"In[25]:=",ExpressionUUID->"561a2cbe-0169-4114-a891-b4f674fe5af7"],
+        "}"}], ",", "0.5", ",", "3", ",", "0.1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"showCone", ",", "True", ",", "\"\<Show Cone\>\""}], "}"}], 
+       ",", 
+       RowBox[{"{", 
+        RowBox[{"True", ",", "False"}], "}"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"showDisk", ",", "True", ",", "\"\<Show Sampling Disk\>\""}], 
+        "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"True", ",", "False"}], "}"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "showDiskPoints", ",", "False", ",", 
+         "\"\<Show Disk Sample Points\>\""}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"True", ",", "False"}], "}"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "showProjectionLines", ",", "False", ",", 
+         "\"\<Show Projection Lines\>\""}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"True", ",", "False"}], "}"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"showLabels", ",", "True", ",", "\"\<Show Labels\>\""}], 
+        "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"True", ",", "False"}], "}"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"showAxes", ",", "True", ",", "\"\<Show Axes\>\""}], "}"}], 
+       ",", 
+       RowBox[{"{", 
+        RowBox[{"True", ",", "False"}], "}"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"viewPoint", ",", 
+         RowBox[{"{", 
+          RowBox[{"2", ",", 
+           RowBox[{"-", "2"}], ",", "1.5"}], "}"}], ",", 
+         "\"\<View Point\>\""}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"-", "3"}], ",", 
+         RowBox[{"-", "3"}], ",", 
+         RowBox[{"-", "3"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"3", ",", "3", ",", "3"}], "}"}]}], "}"}], ",", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"Additional", " ", "info"}], "*)"}], 
+     RowBox[{"Dynamic", "[", 
+      RowBox[{"Grid", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"\"\<Method:\>\"", ",", "method"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"\"\<Angle (degrees):\>\"", ",", 
+            RowBox[{"Round", "[", 
+             RowBox[{
+              RowBox[{"maxAngleRad", "*", 
+               RowBox[{"180", "/", "Pi"}]}], ",", "1"}], "]"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"\"\<Angle (radians):\>\"", ",", 
+            RowBox[{"Round", "[", 
+             RowBox[{"maxAngleRad", ",", "3"}], "]"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"\"\<Base Direction:\>\"", ",", "baseDir"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"\"\<Disk Radius:\>\"", ",", 
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"method", "\[NotEqual]", "\"\<Solid Angle\>\""}], ",", 
+              RowBox[{"Round", "[", 
+               RowBox[{
+                RowBox[{"Tan", "[", "maxAngleRad", "]"}], ",", "3"}], "]"}], 
+              ",", "\"\<N/A\>\""}], "]"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"\"\<Solid Angle (steradians):\>\"", ",", 
+            RowBox[{"Round", "[", 
+             RowBox[{
+              RowBox[{"2", "*", "Pi", "*", 
+               RowBox[{"(", 
+                RowBox[{"1", "-", 
+                 RowBox[{"Cos", "[", "maxAngleRad", "]"}]}], ")"}]}], ",", 
+              "3"}], "]"}]}], "}"}]}], "}"}], ",", 
+        RowBox[{"Frame", "\[Rule]", "All"}], ",", 
+        RowBox[{"Alignment", "\[Rule]", "Left"}]}], "]"}], "]"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", "Layout", "*)"}], "\[IndentingNewLine]", 
+     RowBox[{"ControlPlacement", "\[Rule]", "Top"}], ",", 
+     RowBox[{"SaveDefinitions", "\[Rule]", "True"}]}], "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.9611390649774823`*^9, 3.961139173053694*^9}, {
+   3.961139266684886*^9, 3.9611393354519677`*^9}, {3.9611393822179575`*^9, 
+   3.96113944239027*^9}, 3.9611397310569563`*^9, {3.9611400102984467`*^9, 
+   3.961140022745961*^9}, {3.961140663809771*^9, 3.9611406774266386`*^9}, {
+   3.961141292578347*^9, 3.961141451168826*^9}, {3.9611415501859207`*^9, 
+   3.96114156578662*^9}},
+ CellLabel->"In[79]:=",ExpressionUUID->"4480fad3-73f1-46c6-b21c-7bd4ac4b35a6"],
 
 Cell[BoxData[
  TagBox[
   StyleBox[
    DynamicModuleBox[{$CellContext`baseDir$$ = {0, 1, 
     0}, $CellContext`maxAngleRad$$ = Rational[1, 6] 
-    Pi, $CellContext`numVectors$$ = 50, $CellContext`vecLength$$ = 1.5, 
-    Typeset`show$$ = True, Typeset`bookmarkList$$ = {}, 
+    Pi, $CellContext`method$$ = "Both", $CellContext`numVectors$$ = 
+    50, $CellContext`showAxes$$ = True, $CellContext`showCone$$ = 
+    True, $CellContext`showDisk$$ = True, $CellContext`showDiskPoints$$ = 
+    False, $CellContext`showLabels$$ = 
+    True, $CellContext`showProjectionLines$$ = 
+    False, $CellContext`vecLength$$ = 1.5, $CellContext`viewPoint$$ = {
+    2, -2, 1.5}, Typeset`show$$ = True, Typeset`bookmarkList$$ = {}, 
     Typeset`bookmarkMode$$ = "Menu", Typeset`animator$$, Typeset`animvar$$ = 
     1, Typeset`name$$ = "\"untitled\"", Typeset`specs$$ = {{{
+       Hold[$CellContext`method$$], "Both", "Sampling Method"}, {
+      "Solid Angle", "Disk Projection", "Both"}}, {{
        Hold[$CellContext`baseDir$$], {0, 1, 0}, 
        "Base Direction"}, {-2, -2, -2}, {2, 2, 2}}, {{
        Hold[$CellContext`maxAngleRad$$], Rational[1, 6] Pi, 
-       "Max Angle (rad)"}, 0, Rational[1, 2] Pi}, {{
-       Hold[$CellContext`numVectors$$], 50, "Number of Vectors"}, 10, 100, 
+       "Max Angle (rad)"}, 0.01, Rational[1, 2] Pi, 0.01}, {{
+       Hold[$CellContext`numVectors$$], 50, "Number of Vectors"}, 10, 200, 
       1}, {{
-       Hold[$CellContext`vecLength$$], 1.5, "Vector Length"}, 0.5, 3}}, 
-    Typeset`size$$ = {360., {195., 199.}}, Typeset`update$$ = 0, 
-    Typeset`initDone$$, Typeset`skipInitDone$$ = True}, 
+       Hold[$CellContext`vecLength$$], 1.5, "Vector Length"}, 0.5, 3, 0.1}, {{
+       Hold[$CellContext`showCone$$], True, "Show Cone"}, {True, False}}, {{
+       Hold[$CellContext`showDisk$$], True, "Show Sampling Disk"}, {
+      True, False}}, {{
+       Hold[$CellContext`showDiskPoints$$], False, 
+       "Show Disk Sample Points"}, {True, False}}, {{
+       Hold[$CellContext`showProjectionLines$$], False, 
+       "Show Projection Lines"}, {True, False}}, {{
+       Hold[$CellContext`showLabels$$], True, "Show Labels"}, {
+      True, False}}, {{
+       Hold[$CellContext`showAxes$$], True, "Show Axes"}, {True, False}}, {{
+       Hold[$CellContext`viewPoint$$], {2, -2, 1.5}, 
+       "View Point"}, {-3, -3, -3}, {3, 3, 3}}, {
+      Hold[
+       Dynamic[
+        Grid[{{"Method:", $CellContext`method$$}, {"Angle (degrees):", 
+           Round[$CellContext`maxAngleRad$$ (180/Pi), 1]}, {
+          "Angle (radians):", 
+           Round[$CellContext`maxAngleRad$$, 3]}, {
+          "Base Direction:", $CellContext`baseDir$$}, {"Disk Radius:", 
+           If[$CellContext`method$$ != "Solid Angle", 
+            Round[
+             Tan[$CellContext`maxAngleRad$$], 3], "N/A"]}, {
+          "Solid Angle (steradians):", 
+           Round[2 Pi (1 - Cos[$CellContext`maxAngleRad$$]), 3]}}, Frame -> 
+         All, Alignment -> Left]]], Manipulate`Dump`ThisIsNotAControl}}, 
+    Typeset`size$$ = {1125., {397., 403.}}, Typeset`update$$ = 0, 
+    Typeset`initDone$$, Typeset`skipInitDone$$ = False}, 
     DynamicBox[Manipulate`ManipulateBoxes[
      1, StandardForm, 
       "Variables" :> {$CellContext`baseDir$$ = {0, 1, 
          0}, $CellContext`maxAngleRad$$ = 
-        Rational[1, 6] Pi, $CellContext`numVectors$$ = 
-        50, $CellContext`vecLength$$ = 1.5}, "ControllerVariables" :> {}, 
+        Rational[1, 6] Pi, $CellContext`method$$ = 
+        "Both", $CellContext`numVectors$$ = 50, $CellContext`showAxes$$ = 
+        True, $CellContext`showCone$$ = True, $CellContext`showDisk$$ = 
+        True, $CellContext`showDiskPoints$$ = 
+        False, $CellContext`showLabels$$ = 
+        True, $CellContext`showProjectionLines$$ = 
+        False, $CellContext`vecLength$$ = 
+        1.5, $CellContext`viewPoint$$ = {2, -2, 1.5}}, 
+      "ControllerVariables" :> {}, 
       "OtherVariables" :> {
        Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
         Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
         Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
          Typeset`skipInitDone$$}, "Body" :> 
-      Module[{$CellContext`perturbedDirs$}, $CellContext`perturbedDirs$ = 
-         Table[
-           $CellContext`perturbDirection[$CellContext`baseDir$$, 
-            RandomReal[], 
-            
-            RandomReal[], $CellContext`maxAngleRad$$], \
-{$CellContext`numVectors$$}]; Graphics3D[{{Red, 
+      Module[{$CellContext`solidAngleSamples$, \
+$CellContext`diskProjectionSamples$, $CellContext`selectedSamples$, \
+$CellContext`samplingMethod$, $CellContext`methodColor$, \
+$CellContext`methodLabel$, $CellContext`diskRadius$, $CellContext`tangent1$, \
+$CellContext`tangent2$, $CellContext`normalizedBase$}, 
+        If[$CellContext`method$$ == 
+          "Both", $CellContext`solidAngleSamples$ = Table[
+             $CellContext`perturbDirectionSolidAngle[$CellContext`baseDir$$, 
+              RandomReal[], 
+              
+              RandomReal[], $CellContext`maxAngleRad$$], \
+{$CellContext`numVectors$$}]; $CellContext`diskProjectionSamples$ = Table[
+             $CellContext`perturbDirectionDisk[$CellContext`baseDir$$, 
+              RandomReal[], 
+              
+              RandomReal[], $CellContext`maxAngleRad$$], \
+{$CellContext`numVectors$$}]; $CellContext`selectedSamples$ = {}; \
+$CellContext`samplingMethod$ = "Both"; $CellContext`methodColor$ = 
+           Blue; $CellContext`methodLabel$ = "Both Methods", 
+          
+          If[$CellContext`method$$ == 
+           "Solid Angle", $CellContext`selectedSamples$ = Table[
+              $CellContext`perturbDirectionSolidAngle[$CellContext`baseDir$$, 
+               RandomReal[], 
+               
+               RandomReal[], $CellContext`maxAngleRad$$], \
+{$CellContext`numVectors$$}]; $CellContext`samplingMethod$ = 
+            "Solid Angle"; $CellContext`methodColor$ = 
+            Blue; $CellContext`methodLabel$ = 
+            "Solid Angle Sampling", $CellContext`selectedSamples$ = Table[
+              $CellContext`perturbDirectionDisk[$CellContext`baseDir$$, 
+               RandomReal[], 
+               
+               RandomReal[], $CellContext`maxAngleRad$$], \
+{$CellContext`numVectors$$}]; $CellContext`samplingMethod$ = 
+            "Disk Projection"; $CellContext`methodColor$ = 
+            Green; $CellContext`methodLabel$ = 
+            "Disk Projection Method"]]; $CellContext`diskRadius$ = 
+         Tan[$CellContext`maxAngleRad$$]; {$CellContext`tangent1$, \
+$CellContext`tangent2$, $CellContext`normalizedBase$} = \
+$CellContext`createBasis[$CellContext`baseDir$$]; Graphics3D[{{Red, 
             Thickness[0.01], 
             
             Arrow[{{0, 0, 0}, $CellContext`vecLength$$ 
-              Normalize[$CellContext`baseDir$$]}]}, {Blue, 
-            Thickness[0.005], 
-            Table[
+              Normalize[$CellContext`baseDir$$]}]}, 
+           Which[$CellContext`method$$ == "Both", {{Blue, 
+              Thickness[0.005], 
+              Table[
+               
+               Arrow[{{0, 0, 
+                 0}, $CellContext`vecLength$$ $CellContext`dir}], \
+{$CellContext`dir, $CellContext`solidAngleSamples$}]}, {Green, 
+              Thickness[0.005], 
+              Table[
+               
+               Arrow[{{0, 0, 
+                 0}, $CellContext`vecLength$$ $CellContext`dir}], \
+{$CellContext`dir, $CellContext`diskProjectionSamples$}]}, 
+             If[$CellContext`showDisk$$, {Orange, 
+               Opacity[0.3], 
+               Polygon[
+                
+                Table[$CellContext`normalizedBase$ + $CellContext`diskRadius$ \
+($CellContext`tangent1$ Cos[$CellContext`angle] + $CellContext`tangent2$ 
+                    Sin[$CellContext`angle]), {$CellContext`angle, 0, 2 Pi, 
+                  Pi/20}]]}, {}]}, $CellContext`method$$ == 
+            "Disk Projection", {{$CellContext`methodColor$, 
+              Thickness[0.005], 
+              Table[
+               
+               Arrow[{{0, 0, 
+                 0}, $CellContext`vecLength$$ $CellContext`dir}], \
+{$CellContext`dir, $CellContext`selectedSamples$}]}, 
+             If[$CellContext`showDisk$$, {{Orange, 
+                Opacity[0.4], 
+                Polygon[
+                 
+                 Table[$CellContext`normalizedBase$ + \
+$CellContext`diskRadius$ ($CellContext`tangent1$ 
+                    Cos[$CellContext`angle] + $CellContext`tangent2$ 
+                    Sin[$CellContext`angle]), {$CellContext`angle, 0, 2 Pi, 
+                   Pi/20}]]}, 
+               If[$CellContext`showDiskPoints$$, {Orange, 
+                 PointSize[0.008], 
+                 Table[
+                  
+                  With[{$CellContext`u1$ = RandomReal[], $CellContext`u2$ = 
+                    RandomReal[]}, 
+                   
+                   With[{$CellContext`r$ = 
+                    Sqrt[$CellContext`u1$] $CellContext`diskRadius$, \
+$CellContext`theta$ = $CellContext`u2$ 2 Pi}, 
+                    
+                    Point[$CellContext`normalizedBase$ + $CellContext`r$ \
+($CellContext`tangent1$ Cos[$CellContext`theta$] + $CellContext`tangent2$ 
+                    Sin[$CellContext`theta$])]]], {
+                   Min[20, $CellContext`numVectors$$]}]}, {}], 
+               If[$CellContext`showProjectionLines$$, {Orange, 
+                 Opacity[0.3], 
+                 Thickness[0.002], 
+                 Table[
+                  
+                  With[{$CellContext`u1$ = RandomReal[], $CellContext`u2$ = 
+                    RandomReal[]}, 
+                   
+                   With[{$CellContext`r$ = 
+                    Sqrt[$CellContext`u1$] $CellContext`diskRadius$, \
+$CellContext`theta$ = $CellContext`u2$ 2 Pi}, 
+                    
+                    Line[{{0, 0, 
+                    0}, $CellContext`normalizedBase$ + $CellContext`r$ \
+($CellContext`tangent1$ Cos[$CellContext`theta$] + $CellContext`tangent2$ 
+                    Sin[$CellContext`theta$])}]]], {
+                   Min[15, $CellContext`numVectors$$]}]}, {}]}, {}]}, 
+            True, {$CellContext`methodColor$, 
+             Thickness[0.005], 
+             Table[
+              
+              Arrow[{{0, 0, 
+                0}, $CellContext`vecLength$$ $CellContext`dir}], \
+{$CellContext`dir, $CellContext`selectedSamples$}]}], 
+           If[$CellContext`showCone$$, {Gray, 
+             Opacity[0.2], 
              
-             Arrow[{{0, 0, 
-               0}, $CellContext`vecLength$$ $CellContext`dir}], \
-{$CellContext`dir, $CellContext`perturbedDirs$}]}, {Gray, 
-            Opacity[0.2], 
-            
-            With[{$CellContext`coneHeight$ = $CellContext`vecLength$$ 
-               Cos[$CellContext`maxAngleRad$$], $CellContext`coneRadius$ = \
-$CellContext`vecLength$$ 
-               Sin[$CellContext`maxAngleRad$$]}, {$CellContext`tangent1, \
-$CellContext`tangent2, $CellContext`normalizedBase} = \
-$CellContext`createBasis[$CellContext`baseDir$$]; 
-             Cone[{$CellContext`coneHeight$ $CellContext`normalizedBase, {0, 
-                0, 0}}, $CellContext`coneRadius$]]}, {Black, 
+             With[{$CellContext`coneHeight$ = $CellContext`vecLength$$ 
+                Cos[$CellContext`maxAngleRad$$], $CellContext`coneRadius$ = \
+$CellContext`vecLength$$ Sin[$CellContext`maxAngleRad$$]}, 
+              
+              Cone[{$CellContext`coneHeight$ $CellContext`normalizedBase$, {0,
+                 0, 0}}, $CellContext`coneRadius$]]}, {}], {Black, 
             PointSize[0.02], 
-            Point[{0, 0, 0}]}}, PlotRange -> {{-2, 2}, {-2, 2}, {-2, 2}}, 
-          Axes -> True, AxesLabel -> {"X", "Y", "Z"}, BoxRatios -> {1, 1, 1}, 
-          ViewPoint -> {2, -2, 1.5}, Lighting -> "Neutral", PlotLabel -> 
-          StringForm["Cone Perturbation (Max Angle: ``\[Degree])", 
-            Round[$CellContext`maxAngleRad$$ (180/Pi)]]]], 
-      "Specifications" :> {{{$CellContext`baseDir$$, {0, 1, 0}, 
+            Point[{0, 0, 0}]}, 
+           If[$CellContext`showLabels$$, {{Black, 
+              Text["Origin", {0, 0, -0.3}]}, {Red, 
+              Text[
+              "Base Direction", $CellContext`vecLength$$ 
+                Normalize[$CellContext`baseDir$$] + {0.2, 0.2, 0}]}, 
+             If[
+              
+              And[$CellContext`method$$ == 
+               "Disk Projection", $CellContext`showDisk$$], {Orange, 
+               Text[
+               "Sampling Disk", $CellContext`normalizedBase$ + {
+                 0.3, 0, 0.3}]}, {}], 
+             If[$CellContext`method$$ == "Both", {{Blue, 
+                Text["Solid Angle", {-1.5, 0.5, 1}]}, {Green, 
+                Text["Disk Projection", {1.5, 0.5, 1}]}}, {}]}, {}]}, 
+          PlotRange -> {{-2, 2}, {-2, 2}, {-2, 2}}, 
+          Axes -> $CellContext`showAxes$$, AxesLabel -> 
+          If[$CellContext`showAxes$$, {"X", "Y", "Z"}, None], 
+          BoxRatios -> {1, 1, 1}, ViewPoint -> $CellContext`viewPoint$$, 
+          Lighting -> "Neutral", PlotLabel -> 
+          StringForm[
+           "`` (Max Angle: ``\[Degree], Vectors: ``)", \
+$CellContext`methodLabel$, 
+            
+            Round[$CellContext`maxAngleRad$$ (180/
+              Pi)], $CellContext`numVectors$$], ImageSize -> {Full, 800}]], 
+      "Specifications" :> {{{$CellContext`method$$, "Both", 
+          "Sampling Method"}, {
+         "Solid Angle", "Disk Projection", 
+          "Both"}}, {{$CellContext`baseDir$$, {0, 1, 0}, 
           "Base Direction"}, {-2, -2, -2}, {2, 2, 
          2}}, {{$CellContext`maxAngleRad$$, Rational[1, 6] Pi, 
-          "Max Angle (rad)"}, 0, Rational[1, 2] 
-         Pi}, {{$CellContext`numVectors$$, 50, "Number of Vectors"}, 10, 100, 
-         1}, {{$CellContext`vecLength$$, 1.5, "Vector Length"}, 0.5, 3}}, 
-      "Options" :> {}, "DefaultOptions" :> {}],
-     ImageSizeCache->{409., {278., 284.}},
+          "Max Angle (rad)"}, 0.01, Rational[1, 2] Pi, 
+         0.01}, {{$CellContext`numVectors$$, 50, "Number of Vectors"}, 10, 
+         200, 1}, {{$CellContext`vecLength$$, 1.5, "Vector Length"}, 0.5, 3, 
+         0.1}, {{$CellContext`showCone$$, True, "Show Cone"}, {
+         True, False}}, {{$CellContext`showDisk$$, True, 
+          "Show Sampling Disk"}, {
+         True, False}}, {{$CellContext`showDiskPoints$$, False, 
+          "Show Disk Sample Points"}, {
+         True, False}}, {{$CellContext`showProjectionLines$$, False, 
+          "Show Projection Lines"}, {
+         True, False}}, {{$CellContext`showLabels$$, True, "Show Labels"}, {
+         True, False}}, {{$CellContext`showAxes$$, True, "Show Axes"}, {
+         True, False}}, {{$CellContext`viewPoint$$, {2, -2, 1.5}, 
+          "View Point"}, {-3, -3, -3}, {3, 3, 3}}, 
+        Dynamic[
+         Grid[{{"Method:", $CellContext`method$$}, {"Angle (degrees):", 
+            Round[$CellContext`maxAngleRad$$ (180/Pi), 1]}, {
+           "Angle (radians):", 
+            Round[$CellContext`maxAngleRad$$, 3]}, {
+           "Base Direction:", $CellContext`baseDir$$}, {"Disk Radius:", 
+            If[$CellContext`method$$ != "Solid Angle", 
+             Round[
+              Tan[$CellContext`maxAngleRad$$], 3], "N/A"]}, {
+           "Solid Angle (steradians):", 
+            Round[2 Pi (1 - Cos[$CellContext`maxAngleRad$$]), 3]}}, Frame -> 
+          All, Alignment -> Left]]}, "Options" :> {ControlPlacement -> Top}, 
+      "DefaultOptions" :> {}],
+     ImageSizeCache->{1174., {609., 615.}},
      SingleEvaluation->True],
     Deinitialization:>None,
     DynamicModuleValues:>{},
+    Initialization:>({$CellContext`solidAngleSamples = CompressedData["
+1:eJwNz38803kcwHEiEp3Oj2kVUvmRk65xidRbCWsrqXHySORHLetSJ06cCyGn
+JbrLo7ty46Ss4ttkTcvqw4ptbNrm9+gH3Upt330fuR6VXO388fz39Xi83JKP
+7j4wx8TEhDLLbNZ2JHGLr7mI+Kwn2YmfCXBkHv8YkVoCOUafgqpPo9Aqt03I
+t9bDdFHbtz0aGerBSNHXn3SgT/kuP6Zz9GB6VGb09B8FaZV6L/npEAqWa7S1
+F3AoNKcS84r4UM3sdr19rxP174h/n1RKwCpP+VrPnguwkD4+QvIWI19GurWk
+kYBz4GRNe10IrR7Oj7z82ZCZ5eXkISRATF2kCBG0o50+gaIChQRV7+tL5jMJ
+yGZJvVOiuGh/8bZ1KVka0H6IXrLLGQcjY5nXw6w6VHbEfXPrawU0nEva3bWU
+AFc5JTHoZhHSO0Zws9MfA9mTpxBM6yCKYhW+uFcD12we8Mbs69AwhUJaITfA
+dEtOyl8bVGCqt0rt4w2iiYqir39BOFgqvGkbhUIkPVP0A9lVDOZWbfQtlTis
+sGTsfNExiCJMj5n0Birgnwel1vPEOMxNbIzhZqjBrAZ7E8zuhYzxypvzl+th
+INRG7nVQgwoqc3OCng+CJ7fyhFCggxjMrcwpcRBSXfr5vk1i1NkWOmJC0cMz
+P5YkvnsMyPY2h23DMFCbbl7NJxFQnSGyeJqgAGnqSUMbQ4HCShsnwl/pwE9U
+Efry1ijisd5Pt66/itjfxNlmCnGQhA7sGC0fQnar2zb9lHcQcYNe/ByE4aBL
+32+v0g1B9Be2eR2zGeqo4o4pgw66Z67c8NM9haiuY8XFcSLIn3TZyozF4cG9
+AgOnbBgxPmSIKxfdRneXXmlSLSSArGyiU2MVwDQ/PvcrCyESvbG5GbzRANiq
+gFqrmT7EKpU98mYr4KOlnba2Hoetw4svOy7oQ2tPSAM2JbSjTHPBvICm2c6c
+tO2ipFuQ2zT+tiJuBLoma5Ivzn65ljg0s5hqiFrxX7ZvWgscFtu5l6kIiLXO
+vCRxagGR2FJr7/4YUVc2ezj8qYcNd435VcuGUXg5qUD7RYkcL68kTzni8Jk7
+43z+t35QvtrrVvtyELD5ttPZahywzk3CGhsMdS2jpIQ4yMGrpbw42tUADdpt
+n2gsJYqdbg9aw1KhQxxL2SGeARo51GCH1XxUG83y3+XThjQhojV9uQTc5+Yl
+sc+IUXvH0bTwJSqYLHq3wLEUB3Jd5J2KThX8EeNckMW7h7CeJQMT6wiIrCJd
+/b5fit6fUoUZ/x5DB5oZzZdy9IAZG0I4uAAVDr0203v0IiyA4fZ2DgHJadc4
+c/m3kd38cmzjKiU6WDFEi6Qa4Fm4wkyplkE9mB0LsBhD9bSpfeorenh8wbbq
+vPQOOkJS0zMSZTCwmx0o8yOAFP/rkfrTQnDy+5KrSVYhnx0Jorj1BtAmf4j0
+FUrAAp1yT/vcDTem8ug+SgPcMAab0M92wu/0PfjWU/2Q8/JM4OEmPZhjXf7x
+9X1wt+Fk+/3GblRh+pHmskUPULJYEzipgSep++7vuR4GpwWHRsIJHMb/dXvI
+4wyizuVj1xRcNVR/91xCfodDwrqYsbMBMqg1UGaG0lUwnv4iWlCCQxQt5/jz
+PBX8D1MgbIE=
+        "], $CellContext`diskProjectionSamples = CompressedData["
+1:eJwNkv0/0wkcwEmXY9Ul7jrRXUqpvEoeOjfhc2PO66TVROuJLuno5oToJskS
+cdIDFV3NXqbIssjDcMSHiaxJNg9rHubIzZXvNtcrTVo6P7z/gPf79bYJPRFw
+bIGBgYHTPEbzFOzevr3BtgVaClg34QgBBhu0pkX+Q6BcFRHlEdEPF81a7Ftq
+CAh9u5y60UWKCR3x4emUAVSMq/gHv1BD7WTY4dlIIfys2nS7z6EZPQqbu22f
+a6Db9NHvjTldGFjSlsJe/RhDEmlSpGhhiCejePJEkPmeG3KcUwy+Lq2XOUot
+NP1znfTSphoX1mb+Ef+6F0LN7j5Zv14D1fxN5ypIVfBkuf1HWbsUpwvuRCiV
+BHSMWbpafNOHS+t3cZcFd+LgxjL/21o11DScN1mYL4WyB8H97FMK0CVxT60U
+EOBd9UP5R3cxKDNjRQvpckixi7PhN6vBvz/zRuDKUvCamLhbUqyAFxRjuzXv
+CMjo4DDiXEWY7uMynRknx0rucNDcfQL6DpLLM8y70SqzfjbD6xc86sf1PqXW
+wpqnbcYypwow8olmv+svAfecDx8fdk/CPh9cEZU0gmuZSSuPtnaC1Meb9vCN
+BhRb+IwNp5tw0a4kkj5Yit3XehkbWzVA1bs4W64uwWre7aUTugGoLDKy4u8h
+QF++LKGQLEZw85e5CbIw8HMx5227Fp6v+cl78L9G1F3tSfGLyYYVM1apKaFq
+oIxyTn5LV4AmoWOHbrQbuKVL9KXJBKRROwLpNXJMOnQ95hH0YJph48xUKgFe
+zQ+9HOr7IH8s9gx9zxDYEd+3Wc/7zhatomyDImxwlt1ru58NW6gmyjq+Fkh7
+978JPybCXqbVoSZOOohvKZMDJrTwKGbRudzCKoR1VjGVFwZgmmwoEugIiH5l
+ltCoq4U6j5nmpmkZsuQNdT5hGnCfYg0nj/8FQZ6mJvtZRSgqvCx8VTcJyTNk
+nWBgBFXMMs+cMTmGyBvYQ4VqMGbSPBIXC5AmtvR3tBDipefROyLnNGDb6Uue
+XNyF47n0KON8MTj4Dn15MlsDAXfYg1mjElxk82HJKpIMs0VbdJ1LCUiM+/Pw
+v+oXoNGfPS+ukSIjwiGcHa2B8rKes/yoFnAeyZjOCu9BfYpdROhZDdB7HefY
+vAA8LbC4JmmtRCphIrTiauDTCft4oaEMnwYZqc581YHCDxWi+59pIPKAZ15A
+ngzvarte/zglQUt27VhBHAGjXvaHOfUK0PO8rFuLhbCNxTy0ef7/4hs0sfNY
+AUjT9umnSh/AN8HpqUdjCfgt/+I+J/NhMGYwSMtDJLBAsu4FI42Arz3MDrbn
+KcDJ4dnY+0scpNgwd5o/VcOUvs0xniZHnlICOxWIF16uo5up5n/LEWeHuj+D
+akNft1SLRnx9pWt265tJoC7z67xCV8KSWOPdIRsq4GZtpGvufE9SniqLVtKF
+LJ4brjdpQFV74Ns5UwJsNvcNvjdXoqMBWWJBqgbrrWtnymsJOD4Q9h1TPIjW
+rp22fkceA/AGqMdTtNA1ci99zr0SPQrOj/ulCcDC9MDeTRwtzEbvIQXeEmFQ
+Pcv+76p2zE28Sr5K1kLep+aZrLBmfJx52sAxQgjXV3uF2e4gIH6/06W9vw7j
+/68Rfvc=
+        "], $CellContext`tangent1 = {0, 0, -1}, $CellContext`tangent2 = {-1, 
+        0, 0}, $CellContext`normalizedBase = {0, 1, 
+        0}, $CellContext`perturbDirectionSolidAngle[
+         Pattern[$CellContext`baseDir, 
+          Blank[]], 
+         Pattern[$CellContext`u1, 
+          Blank[]], 
+         Pattern[$CellContext`u2, 
+          Blank[]], 
+         Pattern[$CellContext`maxAngleRad, 
+          Blank[]]] := 
+       Module[{$CellContext`tangent1, $CellContext`tangent2, \
+$CellContext`normalizedBase, $CellContext`cosTheta, $CellContext`sinTheta, \
+$CellContext`phi, $CellContext`localDir}, 
+         If[$CellContext`maxAngleRad <= 10^(-5), 
+           Return[
+            
+            Normalize[$CellContext`baseDir]]]; {$CellContext`tangent1, \
+$CellContext`tangent2, $CellContext`normalizedBase} = \
+$CellContext`createBasis[$CellContext`baseDir]; $CellContext`cosTheta = (
+             1 - $CellContext`u1) 
+            Cos[$CellContext`maxAngleRad] + $CellContext`u1 
+            1.; $CellContext`sinTheta = 
+          Sqrt[1 - $CellContext`cosTheta^2]; $CellContext`phi = \
+$CellContext`u2 2 
+           Pi; $CellContext`localDir = {$CellContext`sinTheta 
+            Cos[$CellContext`phi], $CellContext`sinTheta 
+            Sin[$CellContext`phi], $CellContext`cosTheta}; 
+         Normalize[$CellContext`tangent1 
+            Part[$CellContext`localDir, 1] + $CellContext`tangent2 
+            Part[$CellContext`localDir, 2] + $CellContext`normalizedBase 
+            Part[$CellContext`localDir, 3]]], $CellContext`createBasis[
+         Pattern[$CellContext`baseDir, 
+          Blank[]]] := 
+       Module[{$CellContext`tangent1, $CellContext`tangent2, \
+$CellContext`normalizedBase}, $CellContext`normalizedBase = 
+          Normalize[$CellContext`baseDir]; $CellContext`tangent1 = If[Abs[
+              Part[$CellContext`baseDir, 1]] > Abs[
+              Part[$CellContext`baseDir, 2]], 
+            Normalize[{-Part[$CellContext`baseDir, 3], 0, 
+              Part[$CellContext`baseDir, 1]}], 
+            Normalize[{0, 
+              Part[$CellContext`baseDir, 3], -
+              Part[$CellContext`baseDir, 2]}]]; $CellContext`tangent2 = 
+          Cross[$CellContext`normalizedBase, $CellContext`tangent1]; \
+{$CellContext`tangent1, $CellContext`tangent2, $CellContext`normalizedBase}], \
+$CellContext`perturbDirectionDisk[
+         Pattern[$CellContext`baseDir, 
+          Blank[]], 
+         Pattern[$CellContext`u1, 
+          Blank[]], 
+         Pattern[$CellContext`u2, 
+          Blank[]], 
+         Pattern[$CellContext`maxAngleRad, 
+          Blank[]]] := 
+       Module[{$CellContext`tangent1, $CellContext`tangent2, \
+$CellContext`normalizedBase, $CellContext`r, $CellContext`theta, \
+$CellContext`diskX, $CellContext`diskY, $CellContext`diskPoint}, 
+         If[$CellContext`maxAngleRad <= 10^(-5), 
+           Return[
+            
+            Normalize[$CellContext`baseDir]]]; {$CellContext`tangent1, \
+$CellContext`tangent2, $CellContext`normalizedBase} = \
+$CellContext`createBasis[$CellContext`baseDir]; $CellContext`r = 
+          Sqrt[$CellContext`u1] 
+           Tan[$CellContext`maxAngleRad]; $CellContext`theta = \
+$CellContext`u2 2 Pi; $CellContext`diskX = $CellContext`r 
+           Cos[$CellContext`theta]; $CellContext`diskY = $CellContext`r 
+           Sin[$CellContext`theta]; $CellContext`diskPoint = \
+$CellContext`normalizedBase + $CellContext`tangent1 $CellContext`diskX + \
+$CellContext`tangent2 $CellContext`diskY; Normalize[$CellContext`diskPoint]]}; 
+     Typeset`initDone$$ = True),
     SynchronousInitialization->True,
     UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
     UnsavedVariables:>{Typeset`initDone$$},
@@ -396,12 +1262,653 @@ $CellContext`createBasis[$CellContext`baseDir$$];
    Deployed->True,
    StripOnInput->False],
   Manipulate`InterpretManipulate[1]]], "Output",
- CellChangeTimes->{3.961058183479436*^9, 3.961058274571328*^9},
- CellLabel->"Out[27]=",ExpressionUUID->"11ea6379-227a-4a45-a680-9b285020c90a"]
+ CellChangeTimes->{
+  3.9611390662078333`*^9, 3.961139197228993*^9, {3.9611393306698537`*^9, 
+   3.961139337113282*^9}, {3.961139449826562*^9, 3.961139488122802*^9}, 
+   3.9611400244381847`*^9, 3.9611413082428355`*^9, 3.961142053290289*^9},
+ CellLabel->"Out[82]=",ExpressionUUID->"f1d357fe-b7da-4656-bc7c-746826484797"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"(*", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"Solid", " ", "Angle", " ", "Method"}], " ", "-", 
+    RowBox[{"Generally", " ", 
+     RowBox[{"Better", ":", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{
+       "Numerically", " ", "stable", " ", "across", " ", "all", " ", "cone", 
+        " ", "angles", "\[IndentingNewLine]", "Efficient"}], "-", 
+       RowBox[{
+       "uses", " ", "direct", " ", "trigonometric", " ", "functions", 
+        "\[IndentingNewLine]", "No", " ", "singularities"}], "-", 
+       RowBox[{
+       "works", " ", "well", " ", "from", " ", "0", "\[Degree]", " ", "to", 
+        " ", "90", "\[Degree]", "\[IndentingNewLine]", "Compact", " ", 
+        "code"}], "-", 
+       RowBox[{
+       "fewer", " ", "operations", "\[IndentingNewLine]", "Industry", " ", 
+        "standard"}], "-", 
+       RowBox[{
+       "widely", " ", "used", " ", "in", " ", "Monte", " ", "Carlo", " ", 
+        "ray", " ", "tracing", "\[IndentingNewLine]", "\n", "Disk", " ", 
+        "Projection", " ", "Method"}], "-", 
+       RowBox[{"Has", " ", "Limitations"}]}], ":", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{
+       "Numerical", " ", "instability", " ", "for", " ", "small", " ", 
+        "angles", " ", "due", " ", "to", " ", "tan", 
+        RowBox[{"(", 
+         RowBox[{"max_angle", "_rad"}], ")"}], "\[IndentingNewLine]", 
+        "Precision", " ", "loss", " ", "when", " ", "max_angle", "_rad", " ", 
+        "is", " ", "very", " ", "small", " ", 
+        RowBox[{"(", 
+         RowBox[{"tan", " ", "approaches", " ", "0"}], ")"}], 
+        "\[IndentingNewLine]", "Potential", " ", "overflow", " ", "when", " ",
+         "max_angle", "_rad", " ", "approaches", " ", "90", "\[Degree]", " ", 
+        RowBox[{"(", 
+         RowBox[{"tan", " ", "approaches", " ", "infinity"}], ")"}], 
+        "\[IndentingNewLine]", "More", " ", "operations"}], "-", 
+       RowBox[{"square", " ", "root"}]}]}]}]}], ",", "tangent", ",", 
+   RowBox[{
+    RowBox[{
+    "normalization", "\[IndentingNewLine]", "Geometric", " ", "intuition"}], 
+    "-", 
+    RowBox[{
+    "easier", " ", "to", " ", "visualize", " ", "but", " ", "computationally",
+      " ", "heavier", "\[IndentingNewLine]", "\n", 
+     RowBox[{"Performance", ":", 
+      RowBox[{"Solid", " ", "angle"}], ":", " ", 
+      RowBox[{
+       RowBox[{"~", "3"}], "-", 
+       RowBox[{"4", " ", "operations", " ", 
+        RowBox[{"(", 
+         RowBox[{"mix", ",", "sqrt", ",", "cos", ",", "sin"}], ")"}], "\n", 
+        "Disk", " ", 
+        RowBox[{"projection", ":", " ", 
+         RowBox[{
+          RowBox[{"~", "5"}], "-", 
+          RowBox[{"6", " ", "operations", " ", 
+           RowBox[{"(", 
+            RowBox[{
+            "sqrt", ",", "tan", ",", "cos", ",", "sin", ",", "normalize"}], 
+            ")"}]}]}]}]}]}]}]}]}]}], "\[IndentingNewLine]", "*)"}]], "Input",
+ CellChangeTimes->{{3.9611396796266766`*^9, 3.9611397191641335`*^9}, {
+  3.96113976192759*^9, 
+  3.9611397962589736`*^9}},ExpressionUUID->"e48ac81d-e641-4c27-82e8-\
+4bdb1012e109"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"Performance", " ", "comparison", " ", "simulation"}], "*)"}], 
+  RowBox[{
+   RowBox[{"Manipulate", "[", 
+    RowBox[{
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "solidAngleTime", ",", "diskProjectionTime", ",", "solidAngleResult", 
+         ",", "diskProjectionResult", ",", "speedRatio", ",", 
+         RowBox[{"baseDir", "=", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "1", ",", "0"}], "}"}]}]}], "}"}], ",", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{"Benchmark", " ", "solid", " ", "angle", " ", "method"}], 
+        "*)"}], 
+       RowBox[{
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"solidAngleTime", ",", "solidAngleResult"}], "}"}], "=", 
+         RowBox[{"AbsoluteTiming", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"perturbDirectionSolidAngle", "[", 
+             RowBox[{"baseDir", ",", 
+              RowBox[{"RandomReal", "[", "]"}], ",", 
+              RowBox[{"RandomReal", "[", "]"}], ",", "benchMaxAngle"}], "]"}],
+             ",", 
+            RowBox[{"{", "benchNumVectors", "}"}]}], "]"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"(*", 
+         RowBox[{"Benchmark", " ", "disk", " ", "projection", " ", "method"}],
+          "*)"}], 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"diskProjectionTime", ",", "diskProjectionResult"}], "}"}], 
+         "=", 
+         RowBox[{"AbsoluteTiming", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"perturbDirectionDisk", "[", 
+             RowBox[{"baseDir", ",", 
+              RowBox[{"RandomReal", "[", "]"}], ",", 
+              RowBox[{"RandomReal", "[", "]"}], ",", "benchMaxAngle"}], "]"}],
+             ",", 
+            RowBox[{"{", "benchNumVectors", "}"}]}], "]"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"(*", 
+         RowBox[{"Calculate", " ", "speed", " ", "ratio"}], "*)"}], 
+        "\[IndentingNewLine]", 
+        RowBox[{"speedRatio", "=", 
+         RowBox[{"diskProjectionTime", "/", "solidAngleTime"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"(*", 
+         RowBox[{"Display", " ", "results"}], "*)"}], 
+        RowBox[{"Column", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"Style", "[", 
+            RowBox[{
+            "\"\<Performance Comparison\>\"", ",", "\"\<Title\>\"", ",", 
+             RowBox[{"FontSize", "\[Rule]", "16"}]}], "]"}], ",", 
+           RowBox[{"Grid", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"{", 
+                RowBox[{
+                "\"\<Method\>\"", ",", "\"\<Time (seconds)\>\"", ",", 
+                 "\"\<Vectors/sec\>\"", ",", "\"\<Relative Speed\>\""}], 
+                "}"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"\"\<Solid Angle\>\"", ",", "\[IndentingNewLine]", 
+                 RowBox[{"NumberForm", "[", 
+                  RowBox[{"solidAngleTime", ",", 
+                   RowBox[{"{", 
+                    RowBox[{"6", ",", "4"}], "}"}]}], "]"}], ",", 
+                 "\[IndentingNewLine]", 
+                 RowBox[{"NumberForm", "[", 
+                  RowBox[{
+                   RowBox[{"benchNumVectors", "/", "solidAngleTime"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{"8", ",", "0"}], "}"}]}], "]"}], ",", 
+                 "\"\<1.00x (baseline)\>\""}], "}"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"\"\<Disk Projection\>\"", ",", "\[IndentingNewLine]", 
+                 RowBox[{"NumberForm", "[", 
+                  RowBox[{"diskProjectionTime", ",", 
+                   RowBox[{"{", 
+                    RowBox[{"6", ",", "4"}], "}"}]}], "]"}], ",", 
+                 "\[IndentingNewLine]", 
+                 RowBox[{"NumberForm", "[", 
+                  RowBox[{
+                   RowBox[{"benchNumVectors", "/", "diskProjectionTime"}], 
+                   ",", 
+                   RowBox[{"{", 
+                    RowBox[{"8", ",", "0"}], "}"}]}], "]"}], ",", 
+                 "\[IndentingNewLine]", 
+                 RowBox[{
+                  RowBox[{"ToString", "[", 
+                   RowBox[{"NumberForm", "[", 
+                    RowBox[{"speedRatio", ",", 
+                    RowBox[{"{", 
+                    RowBox[{"4", ",", "2"}], "}"}]}], "]"}], "]"}], "<>", 
+                  "\"\<x slower\>\""}]}], "}"}]}], "\[IndentingNewLine]", 
+              "}"}], ",", "\[IndentingNewLine]", 
+             RowBox[{"Frame", "\[Rule]", "All"}], ",", "\[IndentingNewLine]", 
+             RowBox[{"Alignment", "\[Rule]", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"{", 
+                 RowBox[{"Left", ",", "Right", ",", "Right", ",", "Right"}], 
+                 "}"}], ",", "Center"}], "}"}]}], ",", "\[IndentingNewLine]", 
+             RowBox[{"Background", "\[Rule]", 
+              RowBox[{"{", 
+               RowBox[{"None", ",", 
+                RowBox[{"{", 
+                 RowBox[{"LightGray", ",", "White", ",", "LightBlue"}], 
+                 "}"}]}], "}"}]}], ",", "\[IndentingNewLine]", 
+             RowBox[{"Spacings", "\[Rule]", 
+              RowBox[{"{", 
+               RowBox[{"2", ",", "1"}], "}"}]}]}], "]"}], ",", "\"\<\>\"", 
+           ",", 
+           RowBox[{"Row", "[", 
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{"Style", "\[IndentingNewLine]", "[", 
+               RowBox[{"\"\<Parameters: \>\"", ",", "Bold"}], "]"}], ",", 
+              "\[IndentingNewLine]", 
+              RowBox[{"\"\<Max Angle = \>\"", "<>", 
+               RowBox[{"ToString", "[", 
+                RowBox[{"Round", "[", 
+                 RowBox[{
+                  RowBox[{"benchMaxAngle", "*", 
+                   RowBox[{"180", "/", "Pi"}]}], ",", "1"}], "]"}], "]"}], 
+               "<>", "\"\<\[Degree], \>\""}], ",", "\[IndentingNewLine]", 
+              RowBox[{"\"\<Vectors = \>\"", "<>", 
+               RowBox[{"ToString", "[", "benchNumVectors", "]"}]}]}], "}"}], 
+            "]"}], ",", "\"\<\>\"", ",", "\[IndentingNewLine]", 
+           "\[IndentingNewLine]", 
+           RowBox[{"(*", 
+            RowBox[{"Performance", " ", "analysis"}], "*)"}], 
+           "\[IndentingNewLine]", 
+           RowBox[{"Style", "[", 
+            RowBox[{"\"\<Analysis:\>\"", ",", "\"\<Subsubtitle\>\""}], "]"}], 
+           ",", "\[IndentingNewLine]", 
+           RowBox[{"Grid", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"{", 
+                RowBox[{
+                "\"\<Solid Angle Method:\>\"", ",", 
+                 "\"\<Direct trigonometric computation (cos, sin, \
+sqrt)\>\""}], "}"}], ",", 
+               RowBox[{"{", 
+                RowBox[{
+                "\"\<Disk Projection Method:\>\"", ",", 
+                 "\"\<Additional operations (tan, extra sqrt, \
+normalization)\>\""}], "}"}], ",", 
+               RowBox[{"{", 
+                RowBox[{
+                "\"\<Speed Difference:\>\"", ",", "\[IndentingNewLine]", 
+                 RowBox[{"If", "[", 
+                  RowBox[{
+                   RowBox[{"speedRatio", ">", "1.2"}], ",", 
+                   "\"\<Solid angle method is significantly faster\>\"", ",", 
+                   "\[IndentingNewLine]", 
+                   RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"speedRatio", ">", "1.05"}], ",", 
+                    "\[IndentingNewLine]", 
+                    "\"\<Solid angle method is slightly faster\>\"", ",", 
+                    "\"\<Methods are comparable\>\""}], "]"}]}], "]"}]}], 
+                "}"}], ",", 
+               RowBox[{"{", 
+                RowBox[{
+                "\"\<Memory Usage:\>\"", ",", 
+                 "\"\<Both methods use similar memory\>\""}], "}"}], ",", 
+               RowBox[{"{", 
+                RowBox[{
+                "\"\<Numerical Stability:\>\"", ",", 
+                 "\"\<Solid angle method is more stable for extreme \
+angles\>\""}], "}"}]}], "}"}], ",", 
+             RowBox[{"Frame", "\[Rule]", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"{", 
+                 RowBox[{"False", ",", "False"}], "}"}], ",", 
+                RowBox[{"{", 
+                 RowBox[{"True", ",", "False"}], "}"}]}], "}"}]}], ",", 
+             RowBox[{"Alignment", "\[Rule]", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"{", 
+                 RowBox[{"Left", ",", "Left"}], "}"}], ",", "Center"}], 
+               "}"}]}], ",", 
+             RowBox[{"Spacings", "\[Rule]", 
+              RowBox[{"{", 
+               RowBox[{"2", ",", "1"}], "}"}]}]}], "]"}], ",", "\"\<\>\"", 
+           ",", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+           RowBox[{"(*", 
+            RowBox[{"Visual", " ", "comparison", " ", "bar", " ", "chart"}], 
+            "*)"}], "\[IndentingNewLine]", 
+           RowBox[{"BarChart", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{"solidAngleTime", ",", "diskProjectionTime"}], "}"}], 
+             ",", 
+             RowBox[{"ChartLabels", "\[Rule]", 
+              RowBox[{"{", 
+               RowBox[{
+               "\"\<Solid Angle\>\"", ",", "\"\<Disk Projection\>\""}], 
+               "}"}]}], ",", 
+             RowBox[{"ChartStyle", "\[Rule]", "\"\<Pastel\>\""}], ",", 
+             RowBox[{
+             "PlotLabel", "\[Rule]", "\"\<Execution Time Comparison\>\""}], 
+             ",", 
+             RowBox[{"AxesLabel", "\[Rule]", 
+              RowBox[{"{", 
+               RowBox[{"None", ",", "\"\<Time (seconds)\>\""}], "}"}]}], ",", 
+             RowBox[{"ImageSize", "\[Rule]", "400"}]}], "]"}]}], "}"}], 
+         "]"}]}]}], "]"}], ",", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"Benchmark", " ", "controls"}], "*)"}], "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"benchMaxAngle", ",", 
+         RowBox[{"Pi", "/", "6"}], ",", "\"\<Max Angle (rad)\>\""}], "}"}], 
+       ",", "0.01", ",", 
+       RowBox[{"Pi", "/", "2"}], ",", "0.01"}], "}"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "benchNumVectors", ",", "10000", ",", "\"\<Nb of Vectors\>\""}], 
+        "}"}], ",", "1000", ",", "100000", ",", "1000"}], "}"}], ",", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"(*", "Information", "*)"}], 
+     RowBox[{"Dynamic", "[", 
+      RowBox[{"Column", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"Style", "[", 
+          RowBox[{"\"\<\\nBenchmark Info:\>\"", ",", "Bold"}], "]"}], ",", 
+         RowBox[{"\"\<Max Angle: \>\"", "<>", 
+          RowBox[{"ToString", "[", 
+           RowBox[{"Round", "[", 
+            RowBox[{
+             RowBox[{"benchMaxAngle", "*", 
+              RowBox[{"180", "/", "Pi"}]}], ",", "1"}], "]"}], "]"}], "<>", 
+          "\"\<\[Degree] \>\""}], ",", 
+         RowBox[{"\"\<Sample Size: \>\"", "<>", 
+          RowBox[{"ToString", "[", "benchNumVectors", "]"}], "<>", 
+          "\"\< vectors\>\""}], ",", "\"\<Base Direction: {0, 1, 0}\>\"", 
+         ",", "\"\<\>\"", ",", 
+         RowBox[{"Style", "[", 
+          RowBox[{
+          "\"\<Note: Times may vary based on system performance.\>\"", ",", 
+           "Italic", ",", 
+           RowBox[{"FontSize", "\[Rule]", "10"}]}], "]"}]}], "}"}], "]"}], 
+      "]"}], ",", 
+     RowBox[{"ControlPlacement", "\[Rule]", "Left"}], ",", 
+     RowBox[{"SaveDefinitions", "\[Rule]", "True"}]}], "]"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Quick", " ", "benchmark", " ", "function", " ", "for", " ", "console", 
+     " ", "use"}], "*)"}], "\n", 
+   RowBox[{
+    RowBox[{"benchmarkSamplingMethods", "[", 
+     RowBox[{"maxAngle_", ",", "numVectors_"}], "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"solidAngleTime", ",", "diskProjectionTime", ",", 
+        RowBox[{"baseDir", "=", 
+         RowBox[{"{", 
+          RowBox[{"0", ",", "1", ",", "0"}], "}"}]}]}], "}"}], ",", 
+      RowBox[{
+       RowBox[{"Print", "[", 
+        RowBox[{
+        "\"\<Benchmarking with \>\"", ",", "numVectors", ",", 
+         "\"\< vectors at \>\"", ",", 
+         RowBox[{"Round", "[", 
+          RowBox[{
+           RowBox[{"maxAngle", "*", 
+            RowBox[{"180", "/", "Pi"}]}], ",", "1"}], "]"}], ",", 
+         "\"\<\[Degree] max angle...\>\""}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"solidAngleTime", "=", 
+        RowBox[{
+         RowBox[{"AbsoluteTiming", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"perturbDirectionSolidAngle", "[", 
+             RowBox[{"baseDir", ",", 
+              RowBox[{"RandomReal", "[", "]"}], ",", 
+              RowBox[{"RandomReal", "[", "]"}], ",", "maxAngle"}], "]"}], ",", 
+            RowBox[{"{", "numVectors", "}"}]}], "]"}], "]"}], "[", 
+         RowBox[{"[", "1", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"diskProjectionTime", "=", 
+        RowBox[{
+         RowBox[{"AbsoluteTiming", "[", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"perturbDirectionDisk", "[", 
+             RowBox[{"baseDir", ",", 
+              RowBox[{"RandomReal", "[", "]"}], ",", 
+              RowBox[{"RandomReal", "[", "]"}], ",", "maxAngle"}], "]"}], ",", 
+            RowBox[{"{", "numVectors", "}"}]}], "]"}], "]"}], "[", 
+         RowBox[{"[", "1", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"Print", "[", 
+        RowBox[{"\"\<Solid Angle Method: \>\"", ",", 
+         RowBox[{"NumberForm", "[", 
+          RowBox[{"solidAngleTime", ",", "4"}], "]"}], ",", 
+         "\"\< seconds\>\""}], "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"Print", "[", 
+        RowBox[{"\"\<Disk Projection Method: \>\"", ",", 
+         RowBox[{"NumberForm", "[", 
+          RowBox[{"diskProjectionTime", ",", "4"}], "]"}], ",", 
+         "\"\< seconds\>\""}], "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"Print", "[", 
+        RowBox[{"\"\<Speed Ratio: \>\"", ",", 
+         RowBox[{"NumberForm", "[", 
+          RowBox[{
+           RowBox[{"diskProjectionTime", "/", "solidAngleTime"}], ",", "3"}], 
+          "]"}], ",", "\"\<x\>\""}], "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"{", 
+        RowBox[{"solidAngleTime", ",", "diskProjectionTime"}], "}"}]}]}], 
+     "]"}]}]}]}]], "Input",
+ CellChangeTimes->{{3.961140050891799*^9, 3.9611400508927994`*^9}, {
+   3.9611403544013557`*^9, 3.961140470619752*^9}, {3.9611405043994255`*^9, 
+   3.9611405153240895`*^9}, 3.9611405592609186`*^9, {3.961140859360303*^9, 
+   3.961140887466099*^9}, {3.9611409763309655`*^9, 3.9611409883239384`*^9}, {
+   3.961141018869916*^9, 3.9611410307754464`*^9}, {3.961141079556627*^9, 
+   3.9611411124072*^9}, 3.9611417685828705`*^9, {3.9611418145613394`*^9, 
+   3.961141816136362*^9}, {3.9611418524203296`*^9, 3.96114185356425*^9}, {
+   3.961141983048888*^9, 3.961141989186281*^9}},
+ CellLabel->"In[77]:=",ExpressionUUID->"884a45f5-60ed-4e59-96ab-729b3bd340f1"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`benchMaxAngle$$ = Rational[1, 6] 
+    Pi, $CellContext`benchNumVectors$$ = 10000, Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{{
+       Hold[$CellContext`benchMaxAngle$$], Rational[1, 6] Pi, 
+       "Max Angle (rad)"}, 0.01, Rational[1, 2] Pi, 0.01}, {{
+       Hold[$CellContext`benchNumVectors$$], 10000, "Nb of Vectors"}, 1000, 
+      100000, 1000}, {
+      Hold[
+       Dynamic[
+        Column[{
+          Style["\nBenchmark Info:", Bold], 
+          StringJoin["Max Angle: ", 
+           ToString[
+            Round[$CellContext`benchMaxAngle$$ (180/Pi), 1]], "\[Degree] "], 
+          StringJoin["Sample Size: ", 
+           ToString[$CellContext`benchNumVectors$$], " vectors"], 
+          "Base Direction: {0, 1, 0}", "", 
+          Style[
+          "Note: Times may vary based on system performance.", Italic, 
+           FontSize -> 10]}]]], Manipulate`Dump`ThisIsNotAControl}}, 
+    Typeset`size$$ = {829., {413.5, 419.5}}, Typeset`update$$ = 0, 
+    Typeset`initDone$$, Typeset`skipInitDone$$ = False}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`benchMaxAngle$$ = 
+        Rational[1, 6] Pi, $CellContext`benchNumVectors$$ = 10000}, 
+      "ControllerVariables" :> {}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> 
+      Module[{$CellContext`solidAngleTime$, $CellContext`diskProjectionTime$, \
+$CellContext`solidAngleResult$, $CellContext`diskProjectionResult$, \
+$CellContext`speedRatio$, $CellContext`baseDir$ = {0, 1, 
+          0}}, {$CellContext`solidAngleTime$, $CellContext`solidAngleResult$} = 
+         AbsoluteTiming[
+           Table[
+            $CellContext`perturbDirectionSolidAngle[$CellContext`baseDir$, 
+             RandomReal[], 
+             
+             RandomReal[], $CellContext`benchMaxAngle$$], \
+{$CellContext`benchNumVectors$$}]]; {$CellContext`diskProjectionTime$, \
+$CellContext`diskProjectionResult$} = AbsoluteTiming[
+           Table[
+            $CellContext`perturbDirectionDisk[$CellContext`baseDir$, 
+             RandomReal[], 
+             
+             RandomReal[], $CellContext`benchMaxAngle$$], \
+{$CellContext`benchNumVectors$$}]]; $CellContext`speedRatio$ = \
+$CellContext`diskProjectionTime$/$CellContext`solidAngleTime$; Column[{
+           Style["Performance Comparison", "Title", FontSize -> 16], 
+           
+           Grid[{{"Method", "Time (seconds)", "Vectors/sec", 
+              "Relative Speed"}, {"Solid Angle", 
+              NumberForm[$CellContext`solidAngleTime$, {6, 4}], 
+              
+              NumberForm[$CellContext`benchNumVectors$$/$CellContext`\
+solidAngleTime$, {8, 0}], "1.00x (baseline)"}, {"Disk Projection", 
+              NumberForm[$CellContext`diskProjectionTime$, {6, 4}], 
+              
+              NumberForm[$CellContext`benchNumVectors$$/$CellContext`\
+diskProjectionTime$, {8, 0}], 
+              StringJoin[
+               ToString[
+                NumberForm[$CellContext`speedRatio$, {4, 2}]], "x slower"]}}, 
+            Frame -> All, Alignment -> {{Left, Right, Right, Right}, Center}, 
+            Background -> {None, {LightGray, White, LightBlue}}, 
+            Spacings -> {2, 1}], "", 
+           Row[{
+             Style["Parameters: ", Bold], 
+             StringJoin["Max Angle = ", 
+              ToString[
+               Round[$CellContext`benchMaxAngle$$ (180/Pi), 1]], 
+              "\[Degree], "], 
+             StringJoin["Vectors = ", 
+              ToString[$CellContext`benchNumVectors$$]]}], "", 
+           Style["Analysis:", "Subsubtitle"], 
+           
+           Grid[{{"Solid Angle Method:", 
+              "Direct trigonometric computation (cos, sin, sqrt)"}, {
+             "Disk Projection Method:", 
+              "Additional operations (tan, extra sqrt, normalization)"}, {
+             "Speed Difference:", 
+              
+              If[$CellContext`speedRatio$ > 1.2, 
+               "Solid angle method is significantly faster", 
+               
+               If[$CellContext`speedRatio$ > 1.05, 
+                "Solid angle method is slightly faster", 
+                "Methods are comparable"]]}, {
+             "Memory Usage:", "Both methods use similar memory"}, {
+             "Numerical Stability:", 
+              "Solid angle method is more stable for extreme angles"}}, 
+            Frame -> {{False, False}, {True, False}}, 
+            Alignment -> {{Left, Left}, Center}, Spacings -> {2, 1}], "", 
+           
+           BarChart[{$CellContext`solidAngleTime$, \
+$CellContext`diskProjectionTime$}, 
+            ChartLabels -> {"Solid Angle", "Disk Projection"}, ChartStyle -> 
+            "Pastel", PlotLabel -> "Execution Time Comparison", 
+            AxesLabel -> {None, "Time (seconds)"}, ImageSize -> 400]}]], 
+      "Specifications" :> {{{$CellContext`benchMaxAngle$$, Rational[1, 6] Pi, 
+          "Max Angle (rad)"}, 0.01, Rational[1, 2] Pi, 
+         0.01}, {{$CellContext`benchNumVectors$$, 10000, "Nb of Vectors"}, 
+         1000, 100000, 1000}, 
+        Dynamic[
+         Column[{
+           Style["\nBenchmark Info:", Bold], 
+           StringJoin["Max Angle: ", 
+            ToString[
+             Round[$CellContext`benchMaxAngle$$ (180/Pi), 1]], "\[Degree] "], 
+           StringJoin["Sample Size: ", 
+            ToString[$CellContext`benchNumVectors$$], " vectors"], 
+           "Base Direction: {0, 1, 0}", "", 
+           Style[
+           "Note: Times may vary based on system performance.", Italic, 
+            FontSize -> 10]}]]}, "Options" :> {ControlPlacement -> Left}, 
+      "DefaultOptions" :> {}],
+     ImageSizeCache->{1183., {444., 450.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    Initialization:>({$CellContext`perturbDirectionSolidAngle[
+         Pattern[$CellContext`baseDir, 
+          Blank[]], 
+         Pattern[$CellContext`u1, 
+          Blank[]], 
+         Pattern[$CellContext`u2, 
+          Blank[]], 
+         Pattern[$CellContext`maxAngleRad, 
+          Blank[]]] := 
+       Module[{$CellContext`tangent1, $CellContext`tangent2, \
+$CellContext`normalizedBase, $CellContext`cosTheta, $CellContext`sinTheta, \
+$CellContext`phi, $CellContext`localDir}, 
+         If[$CellContext`maxAngleRad <= 10^(-5), 
+           Return[
+            
+            Normalize[$CellContext`baseDir]]]; {$CellContext`tangent1, \
+$CellContext`tangent2, $CellContext`normalizedBase} = \
+$CellContext`createBasis[$CellContext`baseDir]; $CellContext`cosTheta = (
+             1 - $CellContext`u1) 
+            Cos[$CellContext`maxAngleRad] + $CellContext`u1 
+            1.; $CellContext`sinTheta = 
+          Sqrt[1 - $CellContext`cosTheta^2]; $CellContext`phi = \
+$CellContext`u2 2 
+           Pi; $CellContext`localDir = {$CellContext`sinTheta 
+            Cos[$CellContext`phi], $CellContext`sinTheta 
+            Sin[$CellContext`phi], $CellContext`cosTheta}; 
+         Normalize[$CellContext`tangent1 
+            Part[$CellContext`localDir, 1] + $CellContext`tangent2 
+            Part[$CellContext`localDir, 2] + $CellContext`normalizedBase 
+            Part[$CellContext`localDir, 3]]], $CellContext`tangent1 = {0, 
+        0, -1}, $CellContext`tangent2 = {-1, 0, 
+        0}, $CellContext`normalizedBase = {0, 1, 0}, $CellContext`createBasis[
+         Pattern[$CellContext`baseDir, 
+          Blank[]]] := 
+       Module[{$CellContext`tangent1, $CellContext`tangent2, \
+$CellContext`normalizedBase}, $CellContext`normalizedBase = 
+          Normalize[$CellContext`baseDir]; $CellContext`tangent1 = If[Abs[
+              Part[$CellContext`baseDir, 1]] > Abs[
+              Part[$CellContext`baseDir, 2]], 
+            Normalize[{-Part[$CellContext`baseDir, 3], 0, 
+              Part[$CellContext`baseDir, 1]}], 
+            Normalize[{0, 
+              Part[$CellContext`baseDir, 3], -
+              Part[$CellContext`baseDir, 2]}]]; $CellContext`tangent2 = 
+          
+          Cross[$CellContext`normalizedBase, $CellContext`tangent1]; \
+{$CellContext`tangent1, $CellContext`tangent2, $CellContext`normalizedBase}], \
+$CellContext`perturbDirectionDisk[
+         Pattern[$CellContext`baseDir, 
+          Blank[]], 
+         Pattern[$CellContext`u1, 
+          Blank[]], 
+         Pattern[$CellContext`u2, 
+          Blank[]], 
+         Pattern[$CellContext`maxAngleRad, 
+          Blank[]]] := 
+       Module[{$CellContext`tangent1, $CellContext`tangent2, \
+$CellContext`normalizedBase, $CellContext`r, $CellContext`theta, \
+$CellContext`diskX, $CellContext`diskY, $CellContext`diskPoint}, 
+         If[$CellContext`maxAngleRad <= 10^(-5), 
+           Return[
+            
+            Normalize[$CellContext`baseDir]]]; {$CellContext`tangent1, \
+$CellContext`tangent2, $CellContext`normalizedBase} = \
+$CellContext`createBasis[$CellContext`baseDir]; $CellContext`r = 
+          Sqrt[$CellContext`u1] 
+           Tan[$CellContext`maxAngleRad]; $CellContext`theta = \
+$CellContext`u2 2 Pi; $CellContext`diskX = $CellContext`r 
+           Cos[$CellContext`theta]; $CellContext`diskY = $CellContext`r 
+           Sin[$CellContext`theta]; $CellContext`diskPoint = \
+$CellContext`normalizedBase + $CellContext`tangent1 $CellContext`diskX + \
+$CellContext`tangent2 $CellContext`diskY; Normalize[$CellContext`diskPoint]]}; 
+     Typeset`initDone$$ = True),
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{
+  3.96114005316531*^9, {3.9611405177110496`*^9, 3.9611405326986227`*^9}, {
+   3.961140852068185*^9, 3.961140901012195*^9}, 3.9611410398386803`*^9, {
+   3.961141159302643*^9, 3.9611411637728477`*^9}, 3.961141770453972*^9, 
+   3.961141818082975*^9, {3.9611418550645175`*^9, 3.9611419021539555`*^9}, 
+   3.9611420179564695`*^9},
+ CellLabel->"Out[77]=",ExpressionUUID->"7a00b377-5b73-4ae7-b738-2b14c1ba73e9"]
 }, Open  ]]
 },
-WindowSize->{1136, 1381},
+WindowSize->{1312, 1381},
 WindowMargins->{{407, Automatic}, {Automatic, 35}},
+TaggingRules->{
+ "WelcomeScreenSettings" -> {"FEStarting" -> False}, "TryRealOnly" -> False},
 FrontEndVersion->"12.2 for Microsoft Windows (64-bit) (December 12, 2020)",
 StyleDefinitions->FrontEnd`FileName[{$RootDirectory, "G:", "git", 
    "Miscellaneous", "MathematicaNotebooks", "Themes"}, "DarkThemeCol.nb", 
@@ -420,12 +1927,15 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[580, 22, 11619, 294, 634, "Input",ExpressionUUID->"561a2cbe-0169-4114-a891-b4f674fe5af7"],
-Cell[12202, 318, 4101, 81, 597, "Output",ExpressionUUID->"11ea6379-227a-4a45-a680-9b285020c90a"]
+Cell[580, 22, 35675, 840, 2040, "Input",ExpressionUUID->"4480fad3-73f1-46c6-b21c-7bd4ac4b35a6"],
+Cell[36258, 864, 20709, 404, 1259, "Output",ExpressionUUID->"f1d357fe-b7da-4656-bc7c-746826484797"]
+}, Open  ]],
+Cell[56982, 1271, 3071, 68, 368, "Input",ExpressionUUID->"e48ac81d-e641-4c27-82e8-4bdb1012e109"],
+Cell[CellGroupData[{
+Cell[60078, 1343, 15385, 345, 1147, "Input",ExpressionUUID->"884a45f5-60ed-4e59-96ab-729b3bd340f1"],
+Cell[75466, 1690, 10434, 214, 929, "Output",ExpressionUUID->"7a00b377-5b73-4ae7-b738-2b14c1ba73e9"]
 }, Open  ]]
 }
 ]
 *)
-
-(* End of internal cache information *)
 
