@@ -64,9 +64,9 @@ void trace_value(float value) {
     uint64_t count = g_count.load(std::memory_order_relaxed);
     
     // Guard against potential zero-division if count resets or initializes asynchronously
-    // Tip: We could move the count % 500 logic inside a std::atomic<uint64_t> last_printed_count 
+    // Tip: We could move the count % 512 logic inside a std::atomic<uint64_t> last_printed_count 
     // check using compare_exchange so that only one thread performs the expensive printf and division logic
-    if (count > 0 && count % 500 == 0) {
+    if (count > 0 && count % 512 == 0) {
         // NOTE ON CONSISTENCY: Reading multiple relaxed atomics here means data is "eventually consistent."
         // Under heavy contention, g_sum or g_min might advance slightly ahead of 'count'. 
         // For real-time telemetry and trend spotting, minor snapshot skew is completely fine.
