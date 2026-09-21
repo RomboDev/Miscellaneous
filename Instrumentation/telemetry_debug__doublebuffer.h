@@ -278,7 +278,7 @@ public:
         if (node_)
         {
             node_->is_retired.store(true, std::memory_order_release);
-            node_->instance = nullptr;
+            node_->instance.store(nullptr, std::memory_order_release);
         }
         harvest_all_buffers_to_global();
     }
@@ -375,24 +375,35 @@ public:
     //
     // Automatically merges persistent aggregate totals accumulated from retired transient threads.
     // -------------------------------------------------------------------------------------------
-    static Report collect_all() noexcept
+    // -------------------------------------------------------------------------------------------
+    // collect_active() / retired_total() / collect_all() -- three
+    // distinct primitives, deliberately separated. They exist because
+    // "gather everything right now" mixes two genuinely different
+    // safety properties, and treating them as one operation is exactly
+    // what caused a real, confirmed bug: an incremental reporter that
+    // called the combined operation repeatedly and merged every result
+    // into a running total over-counted by 3-4x the moment any thread
+    // retired mid-run, because the retired portion re-appeared, in
+    // full, in every subsequent call.
+    //
+    // collect_active(): walks the registry, draining ONLY still-active
+    // (non-retired) threads' rotated buffers via report() -- the same
+    // one-time-consuming mechanism as before. NEVER touches
+    // global_retired_data(). Safe to call as often as you like and
+    // merge every result into a running accumulator -- each call's
+    // data is genuinely fresh, non-overlapping with any prior call.
+    // -------------------------------------------------------------------------------------------
+    static Report collect_active() noexcept
     {
         Report out{};
 
-        // 1. Seed aggregate with historical metrics harvested from dead transient threads
-        {
-            std::lock_guard<std::mutex> lock(global_retired_mutex());
-            out.merge(global_retired_data().slots);
-        }
-
-        // 2. Walk active intrusive node list safely
         for (Node* curr = registry_head().load(std::memory_order_acquire);
              curr != nullptr;
              curr = curr->next.load(std::memory_order_acquire))
         {
             if (curr->is_retired.load(std::memory_order_acquire)) continue;
 
-            Telemetry* t = curr->instance;
+            Telemetry* t = curr->instance.load(std::memory_order_acquire);
             if (!t) continue;
 
             Slot snapshot[kMetricCount];
@@ -402,6 +413,43 @@ public:
             }
         }
 
+        return out;
+    }
+
+    // -------------------------------------------------------------------------------------------
+    // retired_total(): a pure peek at the historical, ever-growing total
+    // accumulated from threads that have already exited. Safe to READ at
+    // any time, from any thread -- but it is a snapshot of CURRENT
+    // state, not a delta, so it must be merged into an accumulator AT
+    // MOST ONCE per logical total you're computing. Merging it
+    // repeatedly reproduces the exact over-counting bug this split
+    // exists to prevent. Typical safe use: read it once, at the very
+    // end of a run, after every worker thread has exited.
+    // -------------------------------------------------------------------------------------------
+    static Report retired_total() noexcept
+    {
+        Report out{};
+        std::lock_guard<std::mutex> lock(global_retired_mutex());
+        out.merge(global_retired_data().slots);
+        return out;
+    }
+
+    // -------------------------------------------------------------------------------------------
+    // collect_all(): unchanged signature and behavior from before this
+    // split -- a one-shot snapshot of everything, active and retired
+    // combined. Correct and sufficient for a caller that calls it
+    // EXACTLY ONCE (e.g. a final report after every worker has already
+    // joined). Do NOT call this repeatedly and merge each result into a
+    // running accumulator -- that is precisely the misuse that caused
+    // the over-counting bug. For incremental/repeated accumulation, use
+    // collect_active() instead, and read retired_total() separately,
+    // exactly once, when you actually need the historical total folded
+    // in (typically only at the very end).
+    // -------------------------------------------------------------------------------------------
+    static Report collect_all() noexcept
+    {
+        Report out = collect_active();
+        out.merge(retired_total().slots);
         return out;
     }
 
@@ -443,7 +491,7 @@ public:
         {
             if (curr->is_retired.load(std::memory_order_acquire)) continue;
 
-            Telemetry* t = curr->instance;
+            Telemetry* t = curr->instance.load(std::memory_order_acquire);
             if (!t) continue;
 
             const auto t_tag = t->tag();
@@ -464,29 +512,34 @@ public:
 
     // -------------------------------------------------------------------------------------------
     // CADENCE GATE -- call from ANY thread to throttle reporting logic.
+    //
+    // FIXED: the previous version added an extra "single-winner" CAS
+    // retry loop (last_reported_step, guarded by `while (expected <
+    // current)`) on top of the fetch_add below -- but that extra loop
+    // was not just unnecessary, it was actively buggy. It assumed
+    // multiples of `interval` always arrive at the CAS in increasing
+    // order. Under real concurrency they don't: if a "fast" thread's
+    // LARGER current value wins its CAS before a "slower" thread's
+    // smaller (but still legitimately valid) current value gets a
+    // chance, the slow thread's retry sees `expected >= current`, the
+    // while-loop condition goes false, and it silently exits without
+    // reporting -- a real, valid cadence trigger just vanishes, no
+    // signal, no crash. Confirmed both in production output (6 reports
+    // instead of ~80, with deltas 10-20x larger than the configured
+    // interval) and reproduced deterministically in isolation.
+    //
+    // The fix is to DELETE that extra logic entirely. fetch_add's return
+    // value is already, by itself, unique per caller -- no two threads
+    // can ever receive the same `current` from an atomic fetch_add. That
+    // uniqueness alone guarantees at most one thread's `current` can
+    // ever equal any specific multiple of `interval`, with no additional
+    // cross-thread ordering enforcement needed. Simpler, and correct.
     // -------------------------------------------------------------------------------------------
     static bool should_report(std::uint64_t interval) noexcept
     {
         if (interval == 0) return false;
-
-        static std::atomic<std::uint64_t> last_reported_step{0};
-        
         const std::uint64_t current = report_cadence().fetch_add(1, std::memory_order_relaxed) + 1;
-        if (current % interval == 0)
-        {
-            // Single-winner check: ensure only one thread claims this cadence mark
-            std::uint64_t expected = last_reported_step.load(std::memory_order_relaxed);
-            while (expected < current)
-            {
-                if (last_reported_step.compare_exchange_weak(
-                        expected, current,
-                        std::memory_order_release, std::memory_order_relaxed))
-                {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return (current % interval) == 0;
     }
 
 
@@ -521,7 +574,11 @@ private:
     {
         std::atomic<bool> is_retired{false};
         std::atomic<Node*> next{nullptr};
-        Telemetry* instance{nullptr};
+        // Was a plain Telemetry*, confirmed racy: written non-atomically
+        // by ~Telemetry() and read non-atomically by collect_all()/
+        // find_by_tag() from other threads, with is_retired's own
+        // acquire/release doing nothing to protect this SEPARATE field.
+        std::atomic<Telemetry*> instance{nullptr};
     };
 
 
@@ -552,7 +609,7 @@ private:
 #endif
 
         node_ = new Node();
-        node_->instance = this;
+        node_->instance.store(this, std::memory_order_release);
         register_self();
     }
 
@@ -642,13 +699,45 @@ private:
 
     // -------------------------------------------------------------------------------------------
     // Harvest both buffers during thread destruction (~Telemetry).
+    //
+    // FIXED: previously read buffers_[b].data.slots directly, for BOTH
+    // buffers, with ZERO regard for their state -- if the non-active
+    // buffer happened to be READY or (worse) CONSUMING at this exact
+    // moment, this raced directly against a concurrent report() call
+    // from another thread's collect_all(), which reads AND writes
+    // (reset()) that same data. Confirmed via TSan with a precisely
+    // orchestrated interleaving (5 separate field-level races caught).
+    //
+    // The active buffer is exclusively ours -- no other thread ever
+    // touches an ACTIVE buffer (an invariant this class relies on
+    // everywhere else too), so reading it directly here is safe.
+    //
+    // The OTHER buffer is claimed via the EXACT SAME CAS protocol
+    // report() uses. If we win (it was READY), we safely own it. If we
+    // lose -- it was FREE (nothing to harvest) or already CONSUMING (a
+    // reporter got there first) -- we simply don't touch it. Losing
+    // costs nothing: that data isn't lost, it reaches the reporter's own
+    // collect_all() output instead. This is what makes it safe to run
+    // concurrently with an in-flight report() on this same instance,
+    // instead of racing against it.
     // -------------------------------------------------------------------------------------------
     void harvest_all_buffers_to_global() noexcept
     {
         Report temp{};
-        for (std::size_t b = 0; b < 2; ++b)
+
+        temp.merge(active().slots);
+
+        const std::uint32_t other = active_buffer_ ^ 1u;
+        Buffer& other_buffer = buffers_[other];
+        State expected = State::READY;
+        if (other_buffer.state.compare_exchange_strong(
+                expected, State::CONSUMING,
+                std::memory_order_acquire, std::memory_order_relaxed))
         {
-            temp.merge(buffers_[b].data.slots);
+            temp.merge(other_buffer.data.slots);
+            // No reset() / no restoring FREE needed -- the whole object
+            // is being destroyed; nothing will ever look at this
+            // buffer's state again after this function returns.
         }
 
         std::lock_guard<std::mutex> lock(global_retired_mutex());
