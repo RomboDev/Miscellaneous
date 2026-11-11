@@ -1,0 +1,756 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     29088,        748]
+NotebookOptionsPosition[     26921,        714]
+NotebookOutlinePosition[     27326,        730]
+CellTagsIndexPosition[     27283,        727]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["SSS Statistical Foundation", "Section",
+ CellChangeTimes->{{4.0033302334896383`*^9, 
+  4.0033302451235933`*^9}},ExpressionUUID->"382268fd-beb2-47e9-ae75-\
+278e14f17e4a"],
+
+Cell[TextData[{
+ "\nGenerally with \[OpenCurlyQuote]scattering\[CloseCurlyQuote] we intend a \
+surface material property, aka ",
+ StyleBox["surface scattering",
+  FontWeight->"Bold",
+  FontColor->RGBColor[0.6, 0.4, 0.2]],
+ " which is generally modelled by a BRDF. Here instead we will deal with ",
+ StyleBox["subsurface scattering",
+  FontWeight->"Bold",
+  FontColor->RGBColor[0.6, 0.4, 0.2]],
+ ". However under a general definition this is the same as surface \
+scattering.. it is just that particles substrate at the surface will also \
+absorb light so the \[OpenCurlyQuote]surface\[CloseCurlyQuote] is going \
+deeper into the material and as a result of that it won\[CloseCurlyQuote]t \
+scatter back necessarily from the same point it did hit the material \
+originally. So we can consider a ",
+ StyleBox["BRDF",
+  FontWeight->"Bold"],
+ " an approximation (where ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["x", "o"], "=", 
+    SubscriptBox["x", "i"]}], TraditionalForm]],ExpressionUUID->
+  "0b6c4edc-1585-414f-8a55-5c4a0878d282"],
+ ") of a full ",
+ StyleBox["BSSRDF ",
+  FontWeight->"Bold"],
+ "and formalize the BSSRDF definition as ",
+ StyleBox["the ratio between outgoing radiance at ",
+  FontVariations->{"Underline"->True}],
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["x", "o"], TraditionalForm]],
+  FontVariations->{"Underline"->True},ExpressionUUID->
+  "668b5d2c-871e-49e6-a9fa-5f06c76856f2"],
+ StyleBox[", as a result of incoming differential radiant flux",
+  FontVariations->{"Underline"->True}],
+ " ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"\[DifferentialD]", "\[CapitalPhi]"}], TraditionalForm]],
+  ExpressionUUID->"37f8f638-2fd6-4afa-8b7b-c187083bd311"],
+ StyleBox[" at ",
+  FontVariations->{"Underline"->True}],
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["x", "i"], TraditionalForm]],
+  FontVariations->{"Underline"->True},ExpressionUUID->
+  "3d0d62e5-2c3f-4c53-a3a0-a5aeb7c0b1ce"],
+ ".\n\n",
+ StyleBox["[see Jensen et al. 2001, A Practical Model for Subsurface Light \
+Transport]",
+  FontSize->12,
+  FontColor->GrayLevel[0.5]],
+ "\nBecause we\[CloseCurlyQuote]re interested in the outgoing radiance that \
+will hit back our eyes or camera sensor, given a ",
+ StyleBox["BSSRDF",
+  FontWeight->"Bold",
+  FontColor->RGBColor[
+   0.47843137254901963`, 0.5725490196078431, 0.7843137254901961]],
+ ", the outgoing radiance ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["L", "o"], TraditionalForm]],ExpressionUUID->
+  "eabda518-c6d0-47fd-8c82-784db3eb7a18"],
+ " is computed by integrating the incident radiance ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["L", "i"], TraditionalForm]],ExpressionUUID->
+  "19a366cb-71a6-4caa-8143-2bbf017df61f"],
+ " over incoming direction and area :"
+}], "Text",
+ CellChangeTimes->{{3.824550697932967*^9, 3.824550723041133*^9}, {
+   3.8245509176458673`*^9, 3.824550927185413*^9}, {3.824551012617799*^9, 
+   3.824551047993524*^9}, {3.824551136457945*^9, 3.824551265785981*^9}, {
+   3.824551480504201*^9, 3.824551481990189*^9}, {3.824551685935348*^9, 
+   3.824551753727151*^9}, {3.824551985346472*^9, 3.82455216413489*^9}, {
+   3.824552218582253*^9, 3.824552292988578*^9}, 3.8245523522376337`*^9, {
+   3.8245524467577953`*^9, 3.8245524503135147`*^9}, {3.824552539683873*^9, 
+   3.82455265767197*^9}, {3.824552896987789*^9, 3.8245529107728863`*^9}, {
+   3.824553365543788*^9, 3.824553371153121*^9}, {3.824896435095092*^9, 
+   3.824896437752548*^9}, {3.824920722129362*^9, 3.824920852771266*^9}, {
+   3.824921092397895*^9, 3.8249210945682287`*^9}, {3.824921257226675*^9, 
+   3.8249212584402847`*^9}, {3.8249216165970373`*^9, 
+   3.8249216393020973`*^9}, {3.824921950949359*^9, 3.82492197808253*^9}, {
+   3.8249221536960506`*^9, 3.824922162942238*^9}, {3.8249255597924337`*^9, 
+   3.824925575438726*^9}, {3.825005913317861*^9, 3.8250059135461197`*^9}, {
+   4.0023686960375495`*^9, 
+   4.002368697693246*^9}},ExpressionUUID->"3babe2d5-7c7c-47f0-ad91-\
+bee1cbf6ad93"],
+
+Cell[BoxData[
+ StyleBox[
+  RowBox[{
+   RowBox[{
+    SubscriptBox["L", "o"], "(", 
+    SubscriptBox["x", "o"], ",", 
+    SubscriptBox[
+     OverscriptBox["w", "\[Rule]"], "o"], ")"}], "=", 
+   RowBox[{
+    SubscriptBox["\[Integral]", "A"], 
+    RowBox[{
+     SubscriptBox["\[Integral]", 
+      RowBox[{"2", "\[Pi]"}]], 
+     RowBox[{"S", "(", 
+      SubscriptBox["x", "i"], ",", 
+      SubscriptBox[
+       OverscriptBox["w", "\[Rule]"], "i"], ";", 
+      SubscriptBox["x", "o"], ",", 
+      SubscriptBox[
+       OverscriptBox["w", "\[Rule]"], "o"], ")", 
+      SubscriptBox["L", "i"], "(", 
+      SubscriptBox["x", "i"], ",", 
+      SubscriptBox[
+       OverscriptBox["w", "\[Rule]"], "i"], ")", "(", 
+      OverscriptBox["n", "\[Rule]"], "\[CenterDot]", 
+      SubscriptBox[
+       OverscriptBox["w", "\[Rule]"], "i"], ")", 
+      RowBox[{"\[DifferentialD]", 
+       SubscriptBox[
+        OverscriptBox["w", "\[Rule]"], "i"]}], 
+      RowBox[{"\[DifferentialD]", 
+       RowBox[{"A", "(", 
+        SubscriptBox["x", "i"], ")"}]}]}]}]}]}],
+  FontSize->18,
+  FontColor->RGBColor[
+   0.47843137254901963`, 0.5725490196078431, 
+    0.7843137254901961]]], "DisplayFormula",
+ CellChangeTimes->{{3.824552682557118*^9, 
+  3.824552884046054*^9}},ExpressionUUID->"1483af09-7d5f-4b47-af73-\
+94643630b07b"],
+
+Cell[TextData[{
+ "Note the ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["x", "i"], TraditionalForm]],ExpressionUUID->
+  "e4087cdd-a7a5-4b99-aa55-efcbec55229e"],
+ ", ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["x", "o"], TraditionalForm]],ExpressionUUID->
+  "643f77ed-2c85-4856-afe9-f8c9dae88153"],
+ " where for a BRDF ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["x", "o"], TraditionalForm]],ExpressionUUID->
+  "e626ecbb-1b5c-49a9-aefd-b2aea7d266f5"],
+ "= ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["x", "i"], TraditionalForm]],ExpressionUUID->
+  "4166c351-fbe1-425b-a0b7-af07d80bad8e"],
+ "; \nS(\[CenterDot]) is the BSSRDF : ",
+ Cell[BoxData[
+  FormBox[
+   FractionBox[
+    RowBox[{
+     RowBox[{"\[DifferentialD]", 
+      SubscriptBox["L", "o"]}], 
+     RowBox[{"(", 
+      RowBox[{
+       SubscriptBox["x", "o"], ",", 
+       SubscriptBox[
+        OverscriptBox["w", "\[Rule]"], "o"]}], ")"}]}], 
+    RowBox[{"\[DifferentialD]", 
+     RowBox[{
+      SubscriptBox["\[CapitalPhi]", "i"], "(", 
+      RowBox[{
+       SubscriptBox["x", "i"], ",", 
+       SubscriptBox[
+        OverscriptBox["w", "\[Rule]"], "i"]}], ")"}]}]], TraditionalForm]],
+  FontSize->18,
+  FontColor->RGBColor[
+   0.47843137254901963`, 0.5725490196078431, 0.7843137254901961],
+  ExpressionUUID->"3de99551-51eb-4e15-a6a8-20c8f4779d27"],
+ "\n",
+ StyleBox["Note from the above ",
+  FontSize->12,
+  FontColor->GrayLevel[0.5]],
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["L", "o"], TraditionalForm]],ExpressionUUID->
+  "80b15666-5bc1-4675-a37b-139ab3bf3d5e"],
+ StyleBox["(\[CenterDot]) , the cosine term ",
+  FontSize->12,
+  FontColor->GrayLevel[0.5]],
+ Cell[BoxData[
+  RowBox[{
+   OverscriptBox["n", "\[Rule]"], ".", 
+   SubscriptBox[
+    OverscriptBox["w", "\[Rule]"], "i"]}]], "DisplayFormula",
+  CellChangeTimes->{{3.824552682557118*^9, 3.824552884046054*^9}},
+  FontSize->12,
+  FontColor->GrayLevel[0.5],ExpressionUUID->
+  "b9f1b90e-65f9-4e2f-a3d5-3e7617448f00"],
+ " ",
+ StyleBox["diminishes the density of photons arriving within dA for large \
+angles ..",
+  FontSize->12,
+  FontColor->GrayLevel[0.5]]
+}], "Text",
+ CellChangeTimes->{{3.8245531273374653`*^9, 3.824553192700694*^9}, {
+   3.824553245730564*^9, 3.824553272576036*^9}, {3.824553395266856*^9, 
+   3.824553418328043*^9}, 3.824553841105332*^9, {3.8249211618919687`*^9, 
+   3.8249211703994007`*^9}, {3.824921301121313*^9, 3.8249213728772507`*^9}, {
+   3.824921418121717*^9, 3.8249214183947687`*^9}, {3.8249216483679247`*^9, 
+   3.824921654891263*^9}, {3.824921758910429*^9, 3.82492179414508*^9}, {
+   3.8249218312799253`*^9, 3.8249219130798397`*^9}, {3.824922633823821*^9, 
+   3.824922643782734*^9}, {3.824923264384794*^9, 3.824923267671825*^9}, {
+   3.8249234721286097`*^9, 3.8249234766517773`*^9}, {3.824923991363559*^9, 
+   3.824924093332045*^9}, {3.824925412540592*^9, 3.824925412541237*^9}, {
+   3.824925634337429*^9, 
+   3.824925661604287*^9}},ExpressionUUID->"4025c075-b93a-4e50-9775-\
+742c07f245ad"],
+
+Cell[BoxData[
+ StyleBox[
+  RowBox[{
+   FractionBox[
+    RowBox[{
+     SuperscriptBox["d", "2"], "\[CapitalPhi]"}], 
+    RowBox[{"dAd", 
+     OverscriptBox["w", "\[Rule]"]}]], "=", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{
+      OverscriptBox["w", "\[Rule]"], "\[CenterDot]", 
+      OverscriptBox["n", "\[Rule]"]}], ")"}], "L", 
+    RowBox[{"(", 
+     RowBox[{"x", ",", 
+      OverscriptBox["w", "\[Rule]"]}], ")"}]}]}],
+  FontSize->16,
+  FontColor->GrayLevel[0.5]]], "DisplayFormula",
+ CellChangeTimes->{{3.824922656592534*^9, 
+  3.824922732129386*^9}},ExpressionUUID->"849d53c9-fab6-4413-9f5e-\
+f7c02aa28f09"],
+
+Cell[TextData[{
+ StyleBox["aka, the flux received at xi within a differential area, dA, from \
+a direction within a differential angle around ",
+  FontSize->12,
+  FontColor->GrayLevel[0.5]],
+ Cell[BoxData[
+  SubscriptBox[
+   OverscriptBox["w", "\[Rule]"], "i"]], "DisplayFormula",
+  FontSize->12,
+  FontColor->GrayLevel[0.5],ExpressionUUID->
+  "c95ed0ee-78bb-43ea-aae6-651fc40d9db9"],
+ "\n\nThe BSSRDF S relates the differential outgoing radiance at ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["x", "o"], TraditionalForm]],ExpressionUUID->
+  "30b5b18f-a043-4179-aebd-3447191ce903"],
+ " to the differential incident flux at ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["x", "i"], TraditionalForm]],ExpressionUUID->
+  "a16f1e13-1908-4c02-88e3-960b5d32c14c"],
+ " as :"
+}], "Text",
+ CellChangeTimes->{{3.8245531273374653`*^9, 3.824553192700694*^9}, {
+   3.824553245730564*^9, 3.824553272576036*^9}, {3.824553395266856*^9, 
+   3.824553418328043*^9}, 3.824553841105332*^9, {3.8249211618919687`*^9, 
+   3.8249211703994007`*^9}, {3.824921301121313*^9, 3.8249213728772507`*^9}, {
+   3.824921418121717*^9, 3.8249214183947687`*^9}, {3.8249216483679247`*^9, 
+   3.824921654891263*^9}, {3.824921758910429*^9, 3.82492179414508*^9}, {
+   3.8249218312799253`*^9, 3.8249219130798397`*^9}, {3.824922633823821*^9, 
+   3.824922636095385*^9}, {3.824923016803793*^9, 
+   3.824923018709097*^9}},ExpressionUUID->"482005e2-bf53-4d4d-9f42-\
+2429ced3a723"],
+
+Cell[BoxData[
+ StyleBox[
+  RowBox[{
+   RowBox[{
+    SubscriptBox["dL", "o"], 
+    RowBox[{"(", 
+     RowBox[{
+      SubscriptBox["x", "o"], ",", 
+      SubscriptBox[
+       OverscriptBox["w", "\[Rule]"], "o"]}], ")"}]}], "=", 
+   RowBox[{"S", 
+    RowBox[{"(", 
+     RowBox[{
+      SubscriptBox["x", "i"], ",", 
+      SubscriptBox[
+       OverscriptBox["w", "\[Rule]"], "i"], ",", 
+      SubscriptBox["x", "o"], ",", 
+      SubscriptBox[
+       OverscriptBox["w", "\[Rule]"], "o"]}], ")"}], 
+    SubscriptBox["d\[CapitalPhi]", "i"], 
+    RowBox[{"(", 
+     RowBox[{
+      SubscriptBox["x", "i"], ",", 
+      SubscriptBox[
+       OverscriptBox["w", "\[Rule]"], "i"]}], ")"}]}]}],
+  FontSize->18,
+  FontColor->RGBColor[
+   0.47843137254901963`, 0.5725490196078431, 
+    0.7843137254901961]]], "DisplayFormula",
+ CellChangeTimes->{{3.824921383607421*^9, 3.824921460604148*^9}, {
+  3.8249215311189327`*^9, 
+  3.824921571393598*^9}},ExpressionUUID->"2074a728-a11b-453e-8b0e-\
+a4e66307322e"],
+
+Cell[TextData[{
+ "\nLight propagation in a participating medium is described by the ",
+ StyleBox["radiative transport equation (RTE)",
+  FontVariations->{"Underline"->True}],
+ ", \naka volume rendering linear integro-differential equation (VRE):"
+}], "Text",
+ CellChangeTimes->{{3.8245531273374653`*^9, 3.824553192700694*^9}, {
+   3.824553245730564*^9, 3.824553272576036*^9}, {3.824553395266856*^9, 
+   3.824553418328043*^9}, 3.824553841105332*^9, {3.8249211618919687`*^9, 
+   3.8249211703994007`*^9}, {3.824921301121313*^9, 3.8249213755283833`*^9}, 
+   3.82492149572687*^9, {3.8249227698369102`*^9, 3.824922788151662*^9}, {
+   3.824922938348668*^9, 3.824923011395969*^9}, 3.82492305268458*^9, {
+   3.8249774909599047`*^9, 3.824977505604823*^9}, {3.8249785132458076`*^9, 
+   3.824978517881509*^9}, {3.824979431202462*^9, 
+   3.824979439729229*^9}},ExpressionUUID->"69af9870-dfbe-4956-bd14-\
+232f5f744644"],
+
+Cell[BoxData[
+ StyleBox[
+  RowBox[{
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{
+      OverscriptBox["w", "\[Rule]"], "\[CenterDot]", 
+      OverscriptBox["\[Del]", "\[Rule]"]}], ")"}], "L", 
+    RowBox[{"(", 
+     RowBox[{"x", ",", 
+      OverscriptBox["w", "\[Rule]"]}], ")"}]}], "=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"-", 
+      SubscriptBox["\[Sigma]", "t"]}], "L", 
+     RowBox[{"(", 
+      RowBox[{"x", ",", 
+       OverscriptBox["w", "\[Rule]"]}], ")"}]}], "+", 
+    RowBox[{
+     SubscriptBox["\[Sigma]", "s"], 
+     RowBox[{
+      SubscriptBox["\[Integral]", 
+       RowBox[{"4", "\[Pi]"}]], 
+      RowBox[{"p", 
+       RowBox[{"(", 
+        RowBox[{
+         OverscriptBox["w", "\[Rule]"], ",", 
+         OverscriptBox[
+          RowBox[{"w", "'"}], "\[Rule]"]}], ")"}], "L", 
+       RowBox[{"(", 
+        RowBox[{"x", ",", 
+         OverscriptBox[
+          RowBox[{"w", "'"}], "\[Rule]"]}], ")"}], 
+       RowBox[{"\[DifferentialD]", 
+        SuperscriptBox["w", "'"]}]}]}]}]}]}],
+  FontSize->18,
+  FontColor->RGBColor[
+   0.47843137254901963`, 0.5725490196078431, 
+    0.7843137254901961]]], "DisplayFormula",
+ CellChangeTimes->{{3.82455351060366*^9, 3.824553678139624*^9}, {
+  3.8249773739334707`*^9, 
+  3.824977375466682*^9}},ExpressionUUID->"4f32def9-562c-4a73-88b3-\
+0e6e2ecdebb6"],
+
+Cell[TextData[{
+ StyleBox["[see e.g. Nov\[AAcute]k et al. 2018]",
+  FontSize->12,
+  FontColor->GrayLevel[0.5]],
+ "\nThe equation describes the rate of change in radiance. \nWhere ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["\[Sigma]", "t"], TraditionalForm]],ExpressionUUID->
+  "3f83b501-2343-4312-8d68-d8562c327df1"],
+ " and ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["\[Sigma]", "s"], TraditionalForm]],ExpressionUUID->
+  "e19ec4c0-9d1c-40f1-bfcf-ba5d8532d863"],
+ " are our extinction and scattering coefficients. The quantity of photons \
+scattered per unit traveled is given by ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["\[Sigma]", "s"], TraditionalForm]],ExpressionUUID->
+  "a27eba34-e3e3-4b0d-8bb9-5825ead856b1"],
+ "(x) and the quantity absorbed is given by ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["\[Sigma]", "a"], "(", "x", ")"}], TraditionalForm]],
+  ExpressionUUID->"bfd3b354-4b90-451b-814a-459e36ae4b84"],
+ ". The rate of loss in radiance flowing in the direction ",
+ Cell[BoxData[
+  FormBox[
+   OverscriptBox["\[Omega]", "\[Rule]"], TraditionalForm]],ExpressionUUID->
+  "3945574b-f45e-4ed5-858c-702488f045ff"],
+ " at x is accounted for by the first term on the right side of equation. The \
+second term accounts for gain in radiance due to in-scattering. This is done \
+by integrating the radiance over all possible directions. During integration \
+the radiance is scaled by ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["\[Sigma]", "s"], TraditionalForm]],ExpressionUUID->
+  "df05a8e5-4835-4cf1-95e8-7d5bf9dd8dce"],
+ "(x) and the phase function p(",
+ Cell[BoxData[
+  FormBox[
+   OverscriptBox["w", "\[Rule]"], TraditionalForm]],ExpressionUUID->
+  "de991e20-9ee3-444b-a6da-d2dd51d1df95"],
+ ",",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox[
+    OverscriptBox["w", "\[Rule]"], "'"], TraditionalForm]],ExpressionUUID->
+  "60a481ea-aead-4dbb-a90a-b3f8ca3275d8"],
+ "). The former will give us the portion of radiance from  ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox[
+    OverscriptBox["w", "\[Rule]"], "'"], TraditionalForm]],ExpressionUUID->
+  "66f975f6-0b17-40fc-9ca4-f2060b5f4076"],
+ " scattered at x and the latter will give us the portion of this \
+contribution which scatters specifically into the direction ",
+ Cell[BoxData[
+  FormBox[
+   OverscriptBox["w", "\[Rule]"], TraditionalForm]],ExpressionUUID->
+  "f8125151-88b8-4eb0-9fa5-c5cda0075c8d"],
+ ".\n\n\nWhere ",
+ Cell[BoxData[
+  StyleBox[
+   RowBox[{"p", 
+    RowBox[{"(", 
+     RowBox[{
+      OverscriptBox["w", "\[Rule]"], ",", 
+      OverscriptBox[
+       RowBox[{"w", "'"}], "\[Rule]"]}], ")"}]}],
+   FontWeight->"Bold",
+   FontColor->RGBColor[1, 0.5, 0]]], "DisplayFormula",
+  CellChangeTimes->{{3.82455351060366*^9, 3.824553678139624*^9}},
+  ExpressionUUID->"bb25b270-f037-4ddf-ad20-4400226ab9bb"],
+ " is the ",
+ StyleBox["phase function",
+  FontWeight->"Bold",
+  FontColor->RGBColor[1, 0.5, 0]],
+ " that obeys ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["\[Integral]", 
+     RowBox[{"4", "\[Pi]"}]], 
+    RowBox[{
+     RowBox[{"p", "(", 
+      RowBox[{"x", ",", 
+       FormBox[
+        SuperscriptBox[
+         OverscriptBox["w", "\[Rule]"], "'"],
+        TraditionalForm], ",", 
+       FormBox[
+        OverscriptBox["w", "\[Rule]"],
+        TraditionalForm]}], ")"}], 
+     RowBox[{"\[DifferentialD]", 
+      SuperscriptBox[
+       OverscriptBox["w", "\[Rule]"], "'"]}]}]}], TraditionalForm]],
+  ExpressionUUID->"5bb63d2e-0f60-46c4-b6f5-ec2b771ab8f0"],
+ "=1.\nThat is a function describing the dependence of scattered radiance on \
+scattering angle. The phase function is a dimensionless and normalized \
+version of the scattering function, such that the integral of the phase \
+function over 4\[Pi] steradians is unity. The phase function for a given \
+wavelength is a property of the medium, not of the incident radiation.\n\nThe \
+phase function is the angular distribution of light intensity scattered by a \
+particle at a given wavelength. It is given at an angle \[Theta] which is \
+relative to the incident beam. The phase function is the intensity (radiance) \
+at \[Theta] relative to the normalized integral of the scattered intensity at \
+all angles. It is defined as :"
+}], "Text",
+ CellChangeTimes->{{3.824553706488608*^9, 3.824553900709805*^9}, {
+   3.824555498432885*^9, 3.8245555066221533`*^9}, 3.824555835891686*^9, {
+   3.824555866770369*^9, 3.824555898789248*^9}, {3.8245559338082323`*^9, 
+   3.824555964858616*^9}, {3.8245560647417707`*^9, 3.82455606588378*^9}, {
+   3.824556181160338*^9, 3.824556200931937*^9}, {3.824556256911048*^9, 
+   3.8245562681183558`*^9}, {3.8245622383271723`*^9, 3.8245622418672237`*^9}, 
+   3.824563090787607*^9, {3.824920883705665*^9, 3.824920883883069*^9}, 
+   3.82492276659525*^9, {3.824926335570478*^9, 3.8249264163051243`*^9}, {
+   3.8249769744182653`*^9, 3.824977301644741*^9}, {3.8249774235628633`*^9, 
+   3.8249774719948606`*^9}, {3.824977563488373*^9, 3.824977598717575*^9}, {
+   3.8249776359719563`*^9, 3.824977640833618*^9}, {3.824977949389018*^9, 
+   3.8249779681658163`*^9}, {3.824978629595436*^9, 
+   3.8249786684066763`*^9}},ExpressionUUID->"80ae2be5-c7d2-46ef-ae7f-\
+c2742028f9a4"],
+
+Cell[BoxData[
+ StyleBox[
+  RowBox[{
+   RowBox[{"P", 
+    RowBox[{"(", "\[Theta]", ")"}]}], "=", 
+   FractionBox[
+    RowBox[{"F", 
+     RowBox[{"(", "\[Theta]", ")"}]}], 
+    RowBox[{"2", "\[Pi]", 
+     RowBox[{
+      SubsuperscriptBox["\[Integral]", "0", "\[Pi]"], 
+      RowBox[{"F", 
+       RowBox[{"(", "\[Theta]", ")"}], "sin\[Theta]", 
+       RowBox[{"\[DifferentialD]", "\[Theta]"}]}]}]}]]}],
+  FontSize->18,
+  FontWeight->"Bold",
+  FontColor->RGBColor[1, 0.5, 0]]], "DisplayFormula",
+ CellChangeTimes->{{3.824556277045685*^9, 3.824556303326281*^9}, {
+  3.8245564198465977`*^9, 
+  3.824556474759355*^9}},ExpressionUUID->"c977d6aa-da80-4fdd-abba-\
+1bdd9fd0b6bc"],
+
+Cell[TextData[{
+ "where F is the radiance and P(\[Theta]) is the probability of a photon \
+being scattered in a particular direction \[Theta]. That also means that when \
+integrated over the sphere it must equal one, thing known as the \
+\[OpenCurlyQuote]",
+ StyleBox["normalization condition",
+  FontWeight->"Bold"],
+ "\[CloseCurlyQuote] and shown by :"
+}], "Text",
+ CellChangeTimes->{{3.824562352631489*^9, 
+  3.824562453769326*^9}},ExpressionUUID->"1e2cf969-7d2c-4ffb-888c-\
+923da44d7ad6"],
+
+Cell[BoxData[
+ StyleBox[
+  RowBox[{
+   RowBox[{
+    SubsuperscriptBox["\[Integral]", "0", 
+     RowBox[{"2", "\[Pi]"}]], 
+    RowBox[{
+     SubsuperscriptBox["\[Integral]", "0", "\[Pi]"], 
+     RowBox[{"p", 
+      RowBox[{"(", "cos\[Theta]", ")"}], "sin\[Theta]", 
+      RowBox[{"\[DifferentialD]", "\[Theta]"}], 
+      RowBox[{"\[DifferentialD]", "\[Phi]"}]}]}]}], "=", "1"}],
+  FontSize->18,
+  FontWeight->"Bold",
+  FontColor->RGBColor[1, 0.5, 0]]], "DisplayFormula",
+ CellChangeTimes->{{3.8245624732333193`*^9, 3.8245625479767637`*^9}, 
+   3.8245626129466133`*^9},ExpressionUUID->"9f900b2d-9596-411b-86a8-\
+1bb91bfd0456"],
+
+Cell[TextData[{
+ StyleBox["Note that the azimuthal dependence \[Phi] of P is often removed, \
+which is possible under the assumption of a spherical particle",
+  FontVariations->{"Underline"->True}],
+ ". Eventually as there\[CloseCurlyQuote]re many BRDFs for surface \
+scattering, there\[CloseCurlyQuote]re many phase functions for subsurface \
+scatter.\n\nPhase fncs share a similarity with BRDFs in that phase functions \
+are reciprocal, where the trivial case regards that cos(-\[Theta])=cos(\
+\[Theta]). Phase functions can be isotropic or anisotropic and we\
+\[CloseCurlyQuote]ll see them in section 3. Another distinction is that for \
+particles much smaller than the wavelength we generally use Rayleigh \
+scattering while Mie theory covers spheres of any size, Rayleigh being its \
+small-particle limit (Henyey-Greenstein is an empirical approximation that \
+mimics the forward-peaked lobes predicted by Mie theory)."
+}], "Text",
+ CellChangeTimes->{{3.824563159467142*^9, 3.824563171137369*^9}, {
+   3.824563239446883*^9, 3.8245632676847677`*^9}, {3.82456339811567*^9, 
+   3.824563520944681*^9}, {3.824564091791871*^9, 3.8245641264005823`*^9}, {
+   3.82457095921169*^9, 3.8245710695550737`*^9}, {3.82457169537075*^9, 
+   3.824571699150305*^9}, {3.824896552367671*^9, 3.824896565303213*^9}, 
+   3.825090711472815*^9},ExpressionUUID->"bc17535d-c5e9-441f-a24f-\
+cfd0dd10cc69"],
+
+Cell[TextData[{
+ "\nNow getting back to our BSSRDF, the incoming radiance will decrease \
+exponentially with distance s.\nThis is referred to as the ",
+ StyleBox["reduced radiance",
+  FontWeight->"Bold",
+  FontColor->RGBColor[0.6, 0.4, 0.2]],
+ ". which is the radiance that has entered the medium but has not yet \
+scattered or been absorbed. And that\[CloseCurlyQuote]s the first part into \
+which the radiance is decomposed (the ",
+ StyleBox["diffuse radiance",
+  FontWeight->"Bold",
+  FontColor->RGBColor[0.6, 0.4, 0.2]],
+ " ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    SubscriptBox["L", "d"], "(", 
+    RowBox[{"x", ",", 
+     OverscriptBox["w", "\[Rule]"]}]}], TraditionalForm]],ExpressionUUID->
+  "6257971f-d44a-4dc0-8952-b0ba5232c77d"],
+ ") being the second term)."
+}], "Text",
+ CellChangeTimes->{{3.824553706488608*^9, 3.824553900709805*^9}, {
+   3.824555498432885*^9, 3.8245555066221533`*^9}, 3.824555835891686*^9, {
+   3.824555866770369*^9, 3.824555898789248*^9}, {3.8245559338082323`*^9, 
+   3.824555964858616*^9}, {3.8245560647417707`*^9, 3.82455606588378*^9}, {
+   3.824556181160338*^9, 3.824556200931937*^9}, {3.824556256911048*^9, 
+   3.8245562622466307`*^9}, {3.824563079990089*^9, 3.824563087953827*^9}, 
+   3.8245631506850452`*^9, 3.8245631966275187`*^9, 3.824896603912261*^9, {
+   3.8249780809770184`*^9, 
+   3.824978232311064*^9}},ExpressionUUID->"74fdebbb-33d6-490d-8f2f-\
+6fd986d085e9"],
+
+Cell[BoxData[
+ StyleBox[
+  RowBox[{
+   SubscriptBox["L", "ri"], 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{
+      SubscriptBox["x", "i"], 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{"+", "s"}], 
+         SubscriptBox[
+          OverscriptBox["w", "\[Rule]"], "i"]}], ",", 
+        SubscriptBox[
+         OverscriptBox["w", "\[Rule]"], "i"]}], ")"}]}], "=", 
+     RowBox[{
+      SuperscriptBox["e", 
+       RowBox[{
+        RowBox[{"-", 
+         SubscriptBox["\[Sigma]", "t"]}], "s"}]], 
+      SubscriptBox["L", "i"], 
+      RowBox[{"(", 
+       RowBox[{
+        SubscriptBox["x", "i"], ",", 
+        SubscriptBox[
+         OverscriptBox["w", "\[Rule]"], "i"]}], ")"}]}]}]}]}],
+  FontSize->18,
+  FontColor->RGBColor[
+   0.47843137254901963`, 0.5725490196078431, 
+    0.7843137254901961]]], "DisplayFormula",
+ CellChangeTimes->{{3.824553926966898*^9, 
+  3.8245540238781757`*^9}},ExpressionUUID->"705f8423-252c-439d-b973-\
+2892fef08e29"],
+
+Cell[TextData[StyleBox["for more on volume rendering, see Nov\[AAcute]k et \
+al. 2018, Monte Carlo Methods for Volumetric Light Transport Simulation.",
+ FontSize->12,
+ FontColor->GrayLevel[0.5]]], "Text",
+ CellChangeTimes->{{3.824554173746826*^9, 3.824554232179494*^9}, {
+   3.824554502019492*^9, 3.82455464332051*^9}, {3.8245547975381947`*^9, 
+   3.824554799064616*^9}, {3.824554988564271*^9, 3.8245549930841722`*^9}, {
+   3.824555217658393*^9, 3.824555305634725*^9}, {3.824555672808477*^9, 
+   3.824555700617463*^9}, {3.824562853101626*^9, 3.824562853597055*^9}, {
+   3.824896644798872*^9, 3.8248966451548443`*^9}, {3.8248968927257833`*^9, 
+   3.824896899630603*^9}, {3.824923088214036*^9, 3.824923126169553*^9}, 
+   3.8249785319903183`*^9},ExpressionUUID->"094f1ad0-cc49-4be9-94ba-\
+fafec54e1ff6"],
+
+Cell["\<\
+In mean free path units (\[Tau] = \[Sigma]t s) the RTE loses \[Sigma]t \
+altogether: only the albedo \[Alpha] = \[Sigma]s/\[Sigma]t and the phase \
+function are left. In an infinite medium color is \[Alpha] (and the phase \
+function); the radius only sets the unit of distance .. on a real mesh it \
+also sets how thick things look to the light.\
+\>", "Text",ExpressionUUID->"55a9c517-1b07-4a00-a233-4c35e099590d"],
+
+Cell[BoxData[
+ StyleBox[
+  RowBox[{
+   RowBox[{"(", 
+    OverscriptBox["w", "\[Rule]"], "\[CenterDot]", 
+    SubscriptBox[
+     OverscriptBox["\[Del]", "\[Rule]"], "\[Tau]"], ")"}], "L", "=", 
+   RowBox[{"-", "L"}], "+", 
+   RowBox[{"\[Alpha]", 
+    RowBox[{
+     SubscriptBox["\[Integral]", 
+      RowBox[{"4", "\[Pi]"}]], 
+     RowBox[{"p", "(", 
+      OverscriptBox["w", "\[Rule]"], ",", 
+      OverscriptBox[
+       RowBox[{"w", "'"}], "\[Rule]"], ")", "L", "(", 
+      OverscriptBox[
+       RowBox[{"w", "'"}], "\[Rule]"], ")", 
+      RowBox[{"\[DifferentialD]", 
+       SuperscriptBox["w", "'"]}]}]}]}]}],
+  FontSize->18,
+  FontColor->RGBColor[
+   0.47843137254901963`, 0.5725490196078431, 
+    0.7843137254901961]]], "DisplayFormula",ExpressionUUID->"78d6e7d6-8125-\
+4f81-a8ef-aec348c74f77"]
+}, Open  ]]
+},
+WindowSize->{1158, 1316},
+WindowMargins->{{Automatic, 347}, {Automatic, 15}},
+FrontEndVersion->"12.2 for Microsoft Windows (64-bit) (December 12, 2020)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"57b6697d-ef80-4ce9-b3f6-eece7fe8e9df"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 175, 3, 67, "Section",ExpressionUUID->"382268fd-beb2-47e9-ae75-278e14f17e4a"],
+Cell[758, 27, 3911, 90, 232, "Text",ExpressionUUID->"3babe2d5-7c7c-47f0-ad91-bee1cbf6ad93"],
+Cell[4672, 119, 1295, 39, 52, "DisplayFormula",ExpressionUUID->"1483af09-7d5f-4b47-af73-94643630b07b"],
+Cell[5970, 160, 2940, 82, 106, "Text",ExpressionUUID->"4025c075-b93a-4e50-9775-742c07f245ad"],
+Cell[8913, 244, 613, 20, 52, "DisplayFormula",ExpressionUUID->"849d53c9-fab6-4413-9f5e-f7c02aa28f09"],
+Cell[9529, 266, 1430, 32, 76, "Text",ExpressionUUID->"482005e2-bf53-4d4d-9f42-2429ced3a723"],
+Cell[10962, 300, 985, 32, 41, "DisplayFormula",ExpressionUUID->"2074a728-a11b-453e-8b0e-a4e66307322e"],
+Cell[11950, 334, 905, 15, 78, "Text",ExpressionUUID->"69af9870-dfbe-4956-bd14-232f5f744644"],
+Cell[12858, 351, 1303, 42, 52, "DisplayFormula",ExpressionUUID->"4f32def9-562c-4a73-88b3-0e6e2ecdebb6"],
+Cell[14164, 395, 5162, 123, 381, "Text",ExpressionUUID->"80ae2be5-c7d2-46ef-ae7f-c2742028f9a4"],
+Cell[19329, 520, 668, 20, 64, "DisplayFormula",ExpressionUUID->"c977d6aa-da80-4fdd-abba-1bdd9fd0b6bc"],
+Cell[20000, 542, 492, 11, 56, "Text",ExpressionUUID->"1e2cf969-7d2c-4ffb-888c-923da44d7ad6"],
+Cell[20495, 555, 624, 17, 54, "DisplayFormula",ExpressionUUID->"9f900b2d-9596-411b-86a8-1bb91bfd0456"],
+Cell[21122, 574, 1380, 21, 166, "Text",ExpressionUUID->"bc17535d-c5e9-441f-a24f-cfd0dd10cc69"],
+Cell[22505, 597, 1408, 31, 70, "Text",ExpressionUUID->"74fdebbb-33d6-490d-8f2f-6fd986d085e9"],
+Cell[23916, 630, 958, 33, 70, "DisplayFormula",ExpressionUUID->"705f8423-252c-439d-b973-2892fef08e29"],
+Cell[24877, 665, 800, 12, 70, "Text",ExpressionUUID->"094f1ad0-cc49-4be9-94ba-fafec54e1ff6"],
+Cell[25680, 679, 424, 6, 70, "Text",ExpressionUUID->"55a9c517-1b07-4a00-a233-4c35e099590d"],
+Cell[26107, 687, 798, 24, 70, "DisplayFormula",ExpressionUUID->"78d6e7d6-8125-4f81-a8ef-aec348c74f77"]
+}, Open  ]]
+}
+]
+*)
+
